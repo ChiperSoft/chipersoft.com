@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<meta name="author" content="Jarvis Badgley">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Testing websites in IE7 / IE8 / IE9 on a Mac :: Jarvis Badgley</title>
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono">
+	<link rel="openid.server" href="http://openid.chipersoft.com/index.php">
+	<link rel="openid.delegate" href="http://openid.chipersoft.com/index.php">
+</head>
+<body>
+	<header class="navbar navbar-default navbar-static-top"><div class="container">
+		<img class="logo visible-xs" src="/images/dexter.png" alt="">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Jarvis Badgley</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/about.html">Who Am I</a></li>
+			<li><a href="/resume.html">Resume</a></li>
+		</ul>
+		<ul class="navbar-social">
+			<li><a href="mailto:www@chipersoft.com"              ><img src="/images/social/email.png" width="48" height="48" alt="Email"></a></li>
+			<li><a href="http://www.twitter.com/ChiperSoft"      ><img src="/images/social/twitter.png" width="48" height="48" alt="Twitter"></a></li>
+			<li><a href="http://github.com/ChiperSoft"           ><img src="/images/social/github.png" width="48" height="48" alt="Github"></a></li>
+			<li><a href="http://www.youtube.com/user/ChiperSoft" ><img src="/images/social/youtube.png" width="48" height="48" alt="Youtube"></a></li>
+			<li><a href="http://www.last.fm/user/ChiperSoft"     ><img src="/images/social/lastfm.png" width="48" height="48" alt="Last.fm"></a></li>
+			<li><a href="http://www.reddit.com/user/ChiperSoft"  ><img src="/images/social/reddit.png" width="48" height="48" alt="Reddit"></a></li>
+			<li><a href="http://news.ycombinator.com/user?id=ChiperSoft"><img src="/images/social/hackernews.png" width="48" height="48" alt="Hacker News"></a></li>
+			<li><a href="http://stackoverflow.com/users/110189/chipersoft"><img src="/images/social/stackoverflow.png" width="48" height="48" alt="StackOverflow"></a></li>
+			<li><a href="http://www.quora.com/Jarvis-Badgley"    ><img src="/images/social/quora.png" width="48" height="48" alt="Quora"></a></li>
+			<li><a href="http://www.facebook.com/ChiperSoft"     ><img src="/images/social/facebook.png" width="48" height="48" alt="Facebook"></a></li>
+			<li><a href="https://plus.google.com/111290008413204402077"><img src="/images/social/google.png" width="48" height="48" alt="Google Plus"></a></li>
+		</ul>
+	</div></header>
+	<div class="container content">
+		
+			<div class="row">
+				<div class="col-sm-8 article-body">
+		<article>
+			<div class="page-header">
+				<h1 class="post-title">
+				<a href="/p/Testing-websites-in-IE9-on-mac">Testing websites in IE7 / IE8 / IE9 on a Mac</a>
+					<small class="post-date">May 23rd, 2014</small>
+				</h1>
+			</div>
+			<div class="post-content"><p>Went looking for information on this today to link to someone and couldn&#39;t find anything recent, so I figured I&#39;d write one up myself.  Here&#39;s a simple process for getting a 100% legal copy of IE9 running on your mac using disk images provided by Microsoft themselves.</p>
+<ol>
+<li><p>Download and install a copy of <a href="http://www.virtualbox.org/">virtualbox</a>, it&#39;s a free virtualization program like VMWare or Parallels.  Make sure you have the command line utilities checked in the installer.</p>
+</li>
+<li><p>Download the official <a href="http://www.microsoft.com/download/en/details.aspx?id=11575">Microsoft Application Compatibility Virtual PC Image</a> for IE9.  As of this writing the latest versions are as of August 16th, 2011.  The IE9 image is a seven part self extracting RAR file.  Images are also available for IE7 and IE8.  This image contains a fully legal copy of Microsoft Windows 7, licensed for developer debugging use in a virtual machine only.</p>
+</li>
+<li><p>Use unrar (installed via macports or homebrew) or <a href="http://wakaba.c3.cx/s/apps/unarchiver.html">The Unarchiver</a> to extra the multipart archive.  This will result in two files: <code>Windows 7.vhd</code> and <code>Windows 7.vmc</code>.  You can discard the vmc file.</p>
+</li>
+<li><p>Open the terminal and <code>cd</code> to the directory you extracted the vhd file into.  Run the following command:</p>
+<p><code>VBoxManage clonehd &quot;Windows 7.vhd&quot; Windows_7_IE9.vdi</code></p>
+</li>
+<li><p>Move the resulting .vdi file into a safe location.  By default VirtualBox puts its disk images in a unique folder inside <code>~/VirtualBox VMs</code>, but I prefer them to be on a separate disk partition.</p>
+</li>
+<li><p>Launch VirtualBox and click the New button on the toolbar (or select New... from the Machine menu).  This will launch the new virtual machine wizard.  Name the machine however you want and select Windows 7 from the Operating System Version menu.</p>
+<p><img src="http://i.imgur.com/jMvhK.png" alt=""></p>
+</li>
+<li><p>VirtualBox will allocate 512MB by default, which in my experience is enough for basic web testing, you may wish to give it more.</p>
+<p><img src="http://i.imgur.com/jqvo4.png" alt=""></p>
+</li>
+<li><p>When prompted for the hard disk, choose &quot;Use existing hard disk&quot; and click on the browse icon to the right of the menu.  Find the Windows_7_IE9.vdi file that we created in step 4.  Click through the remaining dialog panes and finish the wizard.</p>
+<p><img src="http://i.imgur.com/Uv2R0.png" alt="">
+<img src="http://i.imgur.com/6YBXH.png" alt=""></p>
+</li>
+<li><p>Due to an incompatibility with VirtualBox and VirtualPC, this disk image will Bluescreen when you attempt to launch it, so there is one more thing that has to be changed to get it working.  Select the new virtual machine and click on the Settings button.  Switch to the Storage tab.  By default VirtualBox places the boot media on the SATA controller; you need to move it to the IDE controller.  </p>
+<p><img src="http://i.imgur.com/grn0R.png" alt=""></p>
+<p>Do this by selecting the IDE controller and choosing Add Hard Disk from the plus button menu.  Select the .vdi file from the list and click OK.  Now remove that same drive from the SATA Controller by selecting it and clicking the minus button.  Click OK.</p>
+</li>
+<li><p>Select your newly made Windows 7 virtual machine and click Start.</p>
+</li>
+<li><p>When you get to the windows login screen, choose Administrator.  The login password is &quot;Password1&quot;</p>
+</li>
+<li><p>Windows will tell you that the copy you are using is non-genuine. Microsoft does not issue valid keys with these images, as they are intended to be temporary, and their official stance is to just reset the disk image when the trial expires (seriously, it&#39;s in that link above).  </p>
+<p><img src="http://i.imgur.com/ayVcy.png" alt=""></p>
+<p>Click cancel on the activation dialog box so it takes you to the desktop.  Double click on the Command Prompt icon and type in the following:</p>
+<p><code>slmgr –rearm</code></p>
+<p>This command resets the genuine advantage countdown timer to 30 days so that it will stop bugging you every time you launch it.  Unfortunately, Windows Security Essentials will continue to bug you about it, so feel free to disable that.  A dialog will popup telling you to restart, but we don&#39;t want to do that yet.</p>
+</li>
+<li><p>Press the command key to get Windows to release your mouse, and choose &quot;Install Guest Additions&quot; from the Devices menu in Virtualbox.  Windows will popup an AutoPlay confirmation, click &quot;Run VBoxWindowsAdditions.exe&quot;.  An installer will launch, click through all the dialogs.  When Windows Security prompts for permission, click Install.  </p>
+<p><img src="http://i.imgur.com/8rKj9.png" alt=""></p>
+<p>Finally, when it asks to restart, let it.</p>
+</li>
+<li><p>The final step is optional, and that&#39;s to enable to auto-login feature so you don&#39;t have to enter the password every time you launch the machine.  <a href="http://channel9.msdn.com/Blogs/coolstuff/Tip-Auto-Login-Your-Windows-7-User-Account">This article on MSDN will show you how to do that.</a></p>
+</li>
+</ol>
+<p>Congratulations, you now have a 100% legal copy of IE9 on your Mac.  These disk images are valid for 3 months from the date they were made (The August 2011 images expire November 17, 2011).  You will need to repeat this process for the new images when they come out.</p>
+<p>If you need to configure Windows for any local virtualhosts, the file you need is <code>C:\Windows\System32\drivers\etc\hosts</code> (note, you need to be an Administrator to save the file), and the IP to forward to is 10.0.2.2 (which is also localhost).</p>
+<p>The August 2011 IE9 disk image also comes preinstalled with Google Chrome, Firefox 4, Adobe Flash 10.2, and a hand-full of other useful development tools.</p>
+</div>
+		</article>
+	</div>
+				<aside class="col-sm-4 col-md-3 col-md-offset-1 article-sidebar">
+				
+					<img class="logo hidden-xs" src="/images/dexter.png" alt="">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Previous Posts</h3>
+						</div>
+						<ul class="panel-body article-links">
+							
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
+							
+							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
+							
+							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
+							
+							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
+							
+							<li><a href="/p/toothbrushing">How changing what bathroom we kept the toothbrush in made me better at oral hygine</a> <span>January 4th, 2014</span></li>
+							
+							<li><a href="/p/phonelines">Landline Abandonment</a> <span>December 3rd, 2013</span></li>
+							
+							<li><a href="/p/MySQL-via-Memcache">Introduction to using MySQL as a NoSQL store via Memcache</a> <span>May 25th, 2013</span></li>
+							
+							<li><a href="/p/I-Promise-You-Will-Learn-Something">I Promise You&#x27;ll Learn Something</a> <span>April 15th, 2013</span></li>
+							
+						</ul>
+						<ul class="panel-body article-links collapse" id="more-links">
+							
+							<li><a href="/p/JurassicPark">In which I rave about Jurassic Park</a> <span>April 13th, 2013</span></li>
+							
+							<li><a href="/p/I-Dont-Care-About-Your-Culture">I Don&#x27;t Care About Your Culture</a> <span>March 29th, 2013</span></li>
+							
+							<li><a href="/p/Birch-Beers">In pursuit of the perfect Birch Beer</a> <span>August 31st, 2012</span></li>
+							
+							<li><a href="/p/Lets-make-a-language">Lets Make A Language</a> <span>July 10th, 2012</span></li>
+							
+							<li><a href="/p/TwitterMostFollowed">TwitterMostFollowed</a> <span>June 15th, 2012</span></li>
+							
+							<li><a href="/p/PHP-many-meanings-of-static">PHP, The many meanings of static.</a> <span>April 19th, 2012</span></li>
+							
+							<li><a href="/p/Keep-it-simple-SOLIDs">Keep it simple, SOLIDs!</a> <span>March 24th, 2012</span></li>
+							
+							<li><a href="/p/Nested-PHP-Output-Buffers">Nested PHP Output Buffers, or buffers within buffers</a> <span>March 23rd, 2012</span></li>
+							
+							<li><a href="/p/PHP-on-nginx-vs-apache">PHP on Nginx vs Apache.</a> <span>March 4th, 2012</span></li>
+							
+							<li><a href="/p/Setting-up-a-LAMP-server-ubuntu">Setting up a LAMP server with Ubuntu, Apache, MySQL, mod_php, phpMyAdmin and PrimalPHP</a> <span>March 3rd, 2012</span></li>
+							
+							<li><a href="/p/Setting-up-a-LEMP-server-ubuntu">Setting up a LEMP server with Ubuntu, Nginx, MySQL, PHP-FPM, phpMyAdmin and PrimalPHP</a> <span>March 2nd, 2012</span></li>
+							
+							<li><a href="/p/why-I-still-prefer-prototype">Why I STILL prefer Prototype over jQuery</a> <span>February 24th, 2012</span></li>
+							
+							<li><a href="/p/HTTP">HTTP</a> <span>February 24th, 2012</span></li>
+							
+							<li><a href="/p/Testing-iPad-web-app-layout">Testing iPad Web App Layouts</a> <span>February 22nd, 2012</span></li>
+							
+							<li><a href="/p/The-Old-Republic">The Old Republic</a> <span>January 16th, 2012</span></li>
+							
+							<li><a href="/p/In-the-Wake-of-the-Dark">In the Wake of the Dark</a> <span>September 9th, 2011</span></li>
+							
+							<li><a href="/p/Testing-websites-in-IE9-on-mac">Testing websites in IE7 / IE8 / IE9 on a Mac</a> <span>August 19th, 2011</span></li>
+							
+							<li><a href="/p/on-source-control">Source Control</a> <span>August 4th, 2011</span></li>
+							
+							<li><a href="/p/on-world-of-warcraft-and-breaks-taken">On World of Warcraft... and breaks taken.</a> <span>July 24th, 2011</span></li>
+							
+							<li><a href="/p/on-code-commenting">On Code Commenting, Documentation, and Modularization</a> <span>May 27th, 2011</span></li>
+							
+							<li><a href="/p/pinscroll">PinScroll - Easy document content marking on the scrollbar</a> <span>August 20th, 2010</span></li>
+							
+							<li><a href="/p/reddit-superhide">Reddit SuperHide Safari Extension</a> <span>June 14th, 2010</span></li>
+							
+							<li><a href="/p/redditchecker">RedditChecker Safari Extension</a> <span>June 9th, 2010</span></li>
+							
+						</ul>
+						<a href="#more-links" data-toggle="collapse" data-target="#more-links" class="more-toggle">View More</a>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Latest Projects</h3>
+						</div>
+						<ul class="panel-body project-links">
+							<li><a href="http://mash.li">Mash.li</a><span>A SoundCloud aggregate for finding music mashups</span></li>
+							<li><a href="https://github.com/ChiperSoft/quell">Quell</a><span>A no-frills active record implementation for node-mysql.</span></li>
+							<li><a href="https://github.com/ChiperSoft/pitstopjs">Pitstop</a><span>An express middleware for creating conditional groups of other middleware.</span></li>
+							<li><a href="https://github.com/ChiperSoft/Kalendae">Kalendae</a><span>A framework agnostic javascript date picker that just works.</span></li>
+						</ul>
+					</div>
+				
+				</aside>
+			</div>
+		
+	</div>
+	<hr>
+	<footer class="container">Copyright &copy;  2014 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.github.com">Generated</a> on 05/23/2014 at 19:20:05</footer>
+
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-4767790-2', 'chipersoft.com');
+	  ga('send', 'pageview');
+	</script>
+</body>
+</html>

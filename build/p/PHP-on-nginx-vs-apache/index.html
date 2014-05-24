@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<meta name="author" content="Jarvis Badgley">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PHP on Nginx vs Apache. :: Jarvis Badgley</title>
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono">
+	<link rel="openid.server" href="http://openid.chipersoft.com/index.php">
+	<link rel="openid.delegate" href="http://openid.chipersoft.com/index.php">
+</head>
+<body>
+	<header class="navbar navbar-default navbar-static-top"><div class="container">
+		<img class="logo visible-xs" src="/images/dexter.png" alt="">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Jarvis Badgley</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/about.html">Who Am I</a></li>
+			<li><a href="/resume.html">Resume</a></li>
+		</ul>
+		<ul class="navbar-social">
+			<li><a href="mailto:www@chipersoft.com"              ><img src="/images/social/email.png" width="48" height="48" alt="Email"></a></li>
+			<li><a href="http://www.twitter.com/ChiperSoft"      ><img src="/images/social/twitter.png" width="48" height="48" alt="Twitter"></a></li>
+			<li><a href="http://github.com/ChiperSoft"           ><img src="/images/social/github.png" width="48" height="48" alt="Github"></a></li>
+			<li><a href="http://www.youtube.com/user/ChiperSoft" ><img src="/images/social/youtube.png" width="48" height="48" alt="Youtube"></a></li>
+			<li><a href="http://www.last.fm/user/ChiperSoft"     ><img src="/images/social/lastfm.png" width="48" height="48" alt="Last.fm"></a></li>
+			<li><a href="http://www.reddit.com/user/ChiperSoft"  ><img src="/images/social/reddit.png" width="48" height="48" alt="Reddit"></a></li>
+			<li><a href="http://news.ycombinator.com/user?id=ChiperSoft"><img src="/images/social/hackernews.png" width="48" height="48" alt="Hacker News"></a></li>
+			<li><a href="http://stackoverflow.com/users/110189/chipersoft"><img src="/images/social/stackoverflow.png" width="48" height="48" alt="StackOverflow"></a></li>
+			<li><a href="http://www.quora.com/Jarvis-Badgley"    ><img src="/images/social/quora.png" width="48" height="48" alt="Quora"></a></li>
+			<li><a href="http://www.facebook.com/ChiperSoft"     ><img src="/images/social/facebook.png" width="48" height="48" alt="Facebook"></a></li>
+			<li><a href="https://plus.google.com/111290008413204402077"><img src="/images/social/google.png" width="48" height="48" alt="Google Plus"></a></li>
+		</ul>
+	</div></header>
+	<div class="container content">
+		
+			<div class="row">
+				<div class="col-sm-8 article-body">
+		<article>
+			<div class="page-header">
+				<h1 class="post-title">
+				<a href="/p/PHP-on-nginx-vs-apache">PHP on Nginx vs Apache.</a>
+					<small class="post-date">May 23rd, 2014</small>
+				</h1>
+			</div>
+			<div class="post-content"><p>I now have two different VirtualBox VMs built on Ubuntu 11.10 for hosting out PHP files.</p>
+<ul>
+<li><a href="http://chipersoft.com/view/521/Setting_up_a_LEMP_server">One build running Nginx 1.0.5</a>, using PHP-FPM to handle PHP requests via FastCGI.</li>
+<li><a href="http://chipersoft.com/view/522/Setting_up_a_LAMP_server">One build running Apache 2.2.20</a>, using mod_php to handle the same PHP requests.</li>
+</ul>
+<p>Both builds are running PHP 5.3.6-13 with suhosin.</p>
+<p>I wanted to test these two setups to see how much of a performance difference there would be between them.  To perform this test I built the following Node script:</p>
+<script src="https://gist.github.com/1968650.js?file=gistfile1.js"></script>
+
+<p>This script would let me hammer each server with a variable number of requests at once.  I ran the script on three urls on each build at different levels of near simultaneous requests.  At each level I ran the script five or six times and logged the mean time per request.</p>
+<p>Both servers were running my Primal framework.  I used three different URLs for testing.</p>
+<ol>
+<li><code>/LICENSE</code> is a static file on the server, PHP should never be invoked for it.</li>
+<li><code>/</code> is the site index, handled by Primal&#39;s routing.  The index file is generated from a couple different code includes, but no database access</li>
+<li><code>/login</code> takes a post request of a username and password.  It performs a select to find the user, and on successful login it performs and update to change the user&#39;s last_login value; two SQL queries.</li>
+</ol>
+<p>The tests were performed on a 2010 model MacBook Pro with a Core i5.  For both builds I ran the test immediately after a &quot;cold&quot; boot of the VM, with no other virtual machines running.  The figures below are the average time, in seconds, per request.</p>
+<pre><code>Apache Request                  10          20          50          100
+http://primal.lamp/LICENSE      0.003       0.0023      0.00175     0.00165
+http://primal.lamp/             0.0049      0.004       0.004       0.0043
+http://primal.lamp/login        0.22        0.233       0.235       0.24
+
+Nginx Request                   10          20          50          100
+http://www.primal.dev/LICENSE   0.0033      0.0055      0.0047      0.0045
+http://www.primal.dev/          0.008       0.0085      0.009       0.0091
+http://www.primal.dev/login     0.22        0.233       0.24        0.24
+</code></pre><p>These results surprised me, and honestly I&#39;m hoping someone can find a flaw in my testing procedure, because the figures just don&#39;t make sense to me.</p>
+<ol>
+<li>I expected the response time to increase as more load was placed on the server, but the opposite seemed to happen.</li>
+<li>Apache had a significant performance increase over nginx when hosting static files.</li>
+<li>mod_php processed a basic page generation twice as fast as the FastCGI delivered file.  Isn&#39;t the whole point of FPM supposed to be that it makes individual requests faster because it&#39;s not reloading PHP?</li>
+</ol>
+<p>Did I miss something, or did I just prove some people wrong?</p>
+<hr>
+<h1 id="update-1">Update 1</h1>
+<p>Some points were raised about the fact that the VMs were running on the same machine as the test, even though they were virtualized.  The topic of multiple cores also came up, as the VMs in the original test were configured for single cores, so I copied the VMs over to my desktop PC and made sure that virtualbox was configured to run both VMs with all four cores and 2GB of memory.  The host machine is a Core i5-650 overclocked to 3.5GHz running Windows 7.  I continued to run the test from my Mac.</p>
+<pre><code>Apache Request                  10          20          50          100
+http://primal.lamp/LICENSE      0.00256     0.00179     0.00117     0.00105
+http://primal.lamp/             0.00334     0.00237     0.00172     0.00160
+http://primal.lamp/login        0.0863      0.0869      0.0860      0.0878
+
+Nginx Request                   10          20          50          100
+http://www.primal.dev/LICENSE   0.006       0.00512     0.00459     0.00448
+http://www.primal.dev/          0.0071      0.00802     0.00896     0.00892
+http://www.primal.dev/login     0.0857      0.0906      0.0863      0.0879
+</code></pre><p>I&#39;ve installed jmeter and will be doing some testing with that.  Will return with my results.</p>
+<hr>
+<h1 id="update-2-jmeter-results">Update 2 - jMeter Results</h1>
+<p>I ran the following tests in jMeter.  All tests were done with a 5 second rampup time.</p>
+<ol>
+<li><p>/LICENSE, 1000 threads, 20 loops</p>
+<ul>
+<li>Nginx:  126,635 requests per minute, average response time 1ms, 1ms deviation</li>
+<li>Apache: 100,772 requests per minute, average response time 1ms, 0 deviation</li>
+</ul>
+</li>
+<li><p>/index, 500 threads, 10 loops</p>
+<ul>
+<li>Nginx:  50,116 requests per minute, avg 71ms response time, deviation of 45ms</li>
+<li>Apache: 58,083 requests per minute, avg 4ms response time, deviation of 7ms</li>
+</ul>
+</li>
+<li><p>/index, 50 threads, 10 loops</p>
+<ul>
+<li>Nginx:  6,059 requests per minute, avg 3ms response time, 0 deviation.</li>
+<li>Apache: 6,064 requests per minute, avg 3ms response time, 0 deviation</li>
+</ul>
+</li>
+<li><p>/login 500 threads, 10 loops.  MySQL did NOT like this test, results below were from the best of repeated attempts</p>
+<ul>
+<li>Nginx:  520 requests per minute, avg 34.8 seconds response time, deviation of 22 seconds.  Only 733 of the 5000 requests completed.</li>
+<li>Apache: 789 requests per minute, avg 28.8 seconds response time, deviation of 28.8 seconds.  Only 1287 of the 5000 requests completed.</li>
+</ul>
+</li>
+<li><p>/login 50 threads, 10 loops.</p>
+<ul>
+<li>Nginx:  686 requests per minute, avg 3.8 seconds response time, deviation of 977ms.</li>
+<li>Apache: 959 requests per minute, avg 2.6 seconds response time, deviation of 712ms.</li>
+</ul>
+</li>
+</ol>
+<p>On static files, nginx just barely managed to eek out a lead, and in standard PHP requests they were both fairly close, but on requests involving MySQL, apache had a clear lead.</p>
+<p>Now obviously this data is non-conclusive, and I make no claims about my competency at this kind of thing, but from where I&#39;m sitting I don&#39;t have any clear reason to switch to a LEMP stack from LAMP.  I expected much more drastic results.</p>
+</div>
+		</article>
+	</div>
+				<aside class="col-sm-4 col-md-3 col-md-offset-1 article-sidebar">
+				
+					<img class="logo hidden-xs" src="/images/dexter.png" alt="">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Previous Posts</h3>
+						</div>
+						<ul class="panel-body article-links">
+							
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
+							
+							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
+							
+							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
+							
+							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
+							
+							<li><a href="/p/toothbrushing">How changing what bathroom we kept the toothbrush in made me better at oral hygine</a> <span>January 4th, 2014</span></li>
+							
+							<li><a href="/p/phonelines">Landline Abandonment</a> <span>December 3rd, 2013</span></li>
+							
+							<li><a href="/p/MySQL-via-Memcache">Introduction to using MySQL as a NoSQL store via Memcache</a> <span>May 25th, 2013</span></li>
+							
+							<li><a href="/p/I-Promise-You-Will-Learn-Something">I Promise You&#x27;ll Learn Something</a> <span>April 15th, 2013</span></li>
+							
+						</ul>
+						<ul class="panel-body article-links collapse" id="more-links">
+							
+							<li><a href="/p/JurassicPark">In which I rave about Jurassic Park</a> <span>April 13th, 2013</span></li>
+							
+							<li><a href="/p/I-Dont-Care-About-Your-Culture">I Don&#x27;t Care About Your Culture</a> <span>March 29th, 2013</span></li>
+							
+							<li><a href="/p/Birch-Beers">In pursuit of the perfect Birch Beer</a> <span>August 31st, 2012</span></li>
+							
+							<li><a href="/p/Lets-make-a-language">Lets Make A Language</a> <span>July 10th, 2012</span></li>
+							
+							<li><a href="/p/TwitterMostFollowed">TwitterMostFollowed</a> <span>June 15th, 2012</span></li>
+							
+							<li><a href="/p/PHP-many-meanings-of-static">PHP, The many meanings of static.</a> <span>April 19th, 2012</span></li>
+							
+							<li><a href="/p/Keep-it-simple-SOLIDs">Keep it simple, SOLIDs!</a> <span>March 24th, 2012</span></li>
+							
+							<li><a href="/p/Nested-PHP-Output-Buffers">Nested PHP Output Buffers, or buffers within buffers</a> <span>March 23rd, 2012</span></li>
+							
+							<li><a href="/p/PHP-on-nginx-vs-apache">PHP on Nginx vs Apache.</a> <span>March 4th, 2012</span></li>
+							
+							<li><a href="/p/Setting-up-a-LAMP-server-ubuntu">Setting up a LAMP server with Ubuntu, Apache, MySQL, mod_php, phpMyAdmin and PrimalPHP</a> <span>March 3rd, 2012</span></li>
+							
+							<li><a href="/p/Setting-up-a-LEMP-server-ubuntu">Setting up a LEMP server with Ubuntu, Nginx, MySQL, PHP-FPM, phpMyAdmin and PrimalPHP</a> <span>March 2nd, 2012</span></li>
+							
+							<li><a href="/p/why-I-still-prefer-prototype">Why I STILL prefer Prototype over jQuery</a> <span>February 24th, 2012</span></li>
+							
+							<li><a href="/p/HTTP">HTTP</a> <span>February 24th, 2012</span></li>
+							
+							<li><a href="/p/Testing-iPad-web-app-layout">Testing iPad Web App Layouts</a> <span>February 22nd, 2012</span></li>
+							
+							<li><a href="/p/The-Old-Republic">The Old Republic</a> <span>January 16th, 2012</span></li>
+							
+							<li><a href="/p/In-the-Wake-of-the-Dark">In the Wake of the Dark</a> <span>September 9th, 2011</span></li>
+							
+							<li><a href="/p/Testing-websites-in-IE9-on-mac">Testing websites in IE7 / IE8 / IE9 on a Mac</a> <span>August 19th, 2011</span></li>
+							
+							<li><a href="/p/on-source-control">Source Control</a> <span>August 4th, 2011</span></li>
+							
+							<li><a href="/p/on-world-of-warcraft-and-breaks-taken">On World of Warcraft... and breaks taken.</a> <span>July 24th, 2011</span></li>
+							
+							<li><a href="/p/on-code-commenting">On Code Commenting, Documentation, and Modularization</a> <span>May 27th, 2011</span></li>
+							
+							<li><a href="/p/pinscroll">PinScroll - Easy document content marking on the scrollbar</a> <span>August 20th, 2010</span></li>
+							
+							<li><a href="/p/reddit-superhide">Reddit SuperHide Safari Extension</a> <span>June 14th, 2010</span></li>
+							
+							<li><a href="/p/redditchecker">RedditChecker Safari Extension</a> <span>June 9th, 2010</span></li>
+							
+						</ul>
+						<a href="#more-links" data-toggle="collapse" data-target="#more-links" class="more-toggle">View More</a>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Latest Projects</h3>
+						</div>
+						<ul class="panel-body project-links">
+							<li><a href="http://mash.li">Mash.li</a><span>A SoundCloud aggregate for finding music mashups</span></li>
+							<li><a href="https://github.com/ChiperSoft/quell">Quell</a><span>A no-frills active record implementation for node-mysql.</span></li>
+							<li><a href="https://github.com/ChiperSoft/pitstopjs">Pitstop</a><span>An express middleware for creating conditional groups of other middleware.</span></li>
+							<li><a href="https://github.com/ChiperSoft/Kalendae">Kalendae</a><span>A framework agnostic javascript date picker that just works.</span></li>
+						</ul>
+					</div>
+				
+				</aside>
+			</div>
+		
+	</div>
+	<hr>
+	<footer class="container">Copyright &copy;  2014 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.github.com">Generated</a> on 05/23/2014 at 19:20:05</footer>
+
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-4767790-2', 'chipersoft.com');
+	  ga('send', 'pageview');
+	</script>
+</body>
+</html>

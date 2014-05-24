@@ -1,0 +1,17 @@
+{{#extend "layout"}}
+
+	{{#content "article"}}
+	{{#with (first posts)}}
+		<article>
+			<div class="page-header">
+				<h2 class="post-title">
+					<a href="{{this.url}}">{{this.title}}</a>
+					<small class="post-date">{{date 'MMMM Do, YYYY' this.date}}</small>
+				</h2>
+			</div>
+			<div class="post-content">{{{this.contents}}}</div>
+		</article>
+	{{/with}}
+	{{/content}}
+
+{{/extend}}
