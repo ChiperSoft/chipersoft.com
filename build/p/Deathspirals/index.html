@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name="author" content="Jarvis Badgley">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>TwitterMostFollowed :: Jarvis Badgley</title>
+	<title>Death spirals. :: Jarvis Badgley</title>
 	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono">
@@ -44,16 +44,38 @@
 		<article>
 			<div class="page-header">
 				<h1 class="post-title">
-				<a href="/p/TwitterMostFollowed">TwitterMostFollowed</a>
+				<a href="/p/Deathspirals">Death spirals.</a>
 					<small class="post-date">June 3rd, 2014</small>
 				</h1>
 			</div>
-			<div class="post-content"><p>My wife asked me tonight if there was any way for her to find out the top 100 people followed by the people she follows on Twitter.  After a while searching for a service to do that, I decided to just write a script to do it myself.  I decided to write it in Node.js as a learning exercise.</p>
-<p>You need to have the <code>request</code>, <code>async</code> and <code>dirty</code> libraries installed via npm.</p>
-<script src="https://gist.github.com/2939809.js?file=gistfile1.js"></script>
+			<div class="post-content"><p>There&#39;s a phenomenon in Myrmecology called an Ant Mill, more colloquially known as the death spiral, where the old pheromone trails left behind by previous ants get confused with new trails being laid down.  Like a man lost in the desert, the ants start following their own scent and become trapped in a circle, unable to even see that there is another path to take.  They continue marching ever onward until they die of starvation.</p>
+<iframe width="750" height="480" src="//www.youtube.com/embed/nGlzoT0sLaM" frameborder="0" allowfullscreen></iframe>
 
-<p>Change the userid on line 42 to your own. It helps a lot if you fill in the oauth object details and uncomment lines 28 and 85, as that increases the twitter request cap from 150 to 350 requests.</p>
-<p>So what did I learn from this exercise?  That doing large amounts of I/O in node really sucks.  Also, twitter&#39;s rate limiting on REST requests seriously hamstrings development.  I had to cache request responses simply because otherwise I&#39;d get rate limited after just two runs and couldn&#39;t test again for a whole hour.</p>
+<hr>
+<p>When my mother and I moved to California in 1998, she went to the DMV to register for a CA drivers license.</p>
+<p>The CA DMV informed her that, in addition to her Michigan ID, she needed to have a Social Security card. She lost her Social Security card years ago, so she went to the Social Security office to file for a reprint, which, she learned, required a California drivers license first.</p>
+<p>It was only after showing numerous forms of ID and several pieces of mail at both addresses that they allowed for a reprint of her Social Security card, allowing her to get a state drivers license.</p>
+<hr>
+<p>Today I tried to login to Meetup to see when the next San Diego JS meetup was.  The login I used didn&#39;t work, so I tried logging in with my Facebook account, thinking maybe that&#39;s what I had used before.</p>
+<p>It turns out I hadn&#39;t, I just had the wrong email address. However, since Facebook wasn&#39;t linked to my existing account, Meetup created a new account for me using the information on Facebook.</p>
+<p>Realizing my mistake, I logged out, found the correct email address for my real Meetup account, and went to add my Facebook account to it.</p>
+<p>Failure. Since my Facebook account is now attached to a different account, I can&#39;t claim it.</p>
+<p>Ok, open up another browser and log back in via Facebook to detach the account.  Here&#39;s where things got silly.</p>
+<p>If you created a Meetup account via Facebook, you cannot detach Facebook because then you wouldn&#39;t be able to log in to the account any more.  Thankfully, Meetup provides a convenient link to delete your account.</p>
+<p>Deleting your account requires that you enter your password.  Because I created the Meetup account via Facebook, I never provided a password, so the form refused to let me delete my account.</p>
+<p>Ok, lets add a password to the account.  Sorry, changing your password requires entering the existing password (which doesn&#39;t exist).</p>
+<p>That&#39;s right, if you created your account by logging into facebook, you cannot delete the account.</p>
+<p>Thankfully, registering with Facebook DOES copy over the email address that Facebook has on file. I was able to use that in the Forgot My Password page to get it to reset the non-existent password and let me enter a new one, whereupon I could use the new password to delete the account, freeing up my Facebook login.</p>
+<p>Then, and only then, was I able to attach my Facebook account to my real Meetup account.</p>
+<p>Now, perhaps this wouldn&#39;t have happened if my Facebook account and my Meetup account were on the same email address.  It surely wouldn&#39;t have happened if I had linked my Facebook account earlier.  However, it absolutely wouldn&#39;t have happened if:</p>
+<ol>
+<li>Meetup had asked me to confirm that I wanted to create a new account with my Facebook login.</li>
+<li>Meetup had asked me to set a password when I created the account.</li>
+<li>Meetup had recognized that I didn&#39;t have a password when I tried to delete the account.</li>
+<li>Meetup had recognized that I didn&#39;t have a password when I went to the password change page.</li>
+<li>Meetup had allowed me to merge the two accounts when I tried to attach Facebook to my real account.</li>
+</ol>
+<p>After all, what&#39;s the point of using an OAuth provider if you don&#39;t trust it authoritatively.</p>
 </div>
 		</article>
 	</div>

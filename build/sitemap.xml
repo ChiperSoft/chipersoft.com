@@ -2,6 +2,11 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     
     <url>
+        <loc>http://chipersoft.com/p/Deathspirals</loc>
+        <lastmod>2014-06-02T00:00:00-07:00</lastmod>
+    </url>
+    
+    <url>
         <loc>http://chipersoft.com/p/backbonejs</loc>
         <lastmod>2014-05-23T00:00:00-07:00</lastmod>
     </url>
@@ -158,14 +163,14 @@
     
     <url>
         <loc>http://chipersoft.com/about.html</loc>
-        <lastmod>2014-05-23T19:37:38-07:00</lastmod>
+        <lastmod>2014-06-03T17:48:02-07:00</lastmod>
     </url>
     <url>
         <loc>http://chipersoft.com/</loc>
-        <lastmod>2014-05-23T19:37:38-07:00</lastmod>
+        <lastmod>2014-06-03T17:48:02-07:00</lastmod>
     </url>
     <url>
         <loc>http://chipersoft.com/old.html</loc>
-        <lastmod>2014-05-23T19:37:38-07:00</lastmod>
+        <lastmod>2014-06-03T17:48:02-07:00</lastmod>
     </url>
 </urlset>
