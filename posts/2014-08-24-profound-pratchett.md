@@ -42,6 +42,8 @@ Pratchett's [Night Watch](http://en.wikipedia.org/wiki/Night_Watch_(Discworld%29
 
 >No. The protest was over the price of bread, said Vimes’s inner voice. The *riot* was what happens when you have panicking people trapped between idiots on horseback and other idiots shouting “yeah, right!” and trying to push forward, and the whole thing in the charge of a fool advised by a maniac with a steel rule.
 
+The maniac with a steel rule, in this case, being St. Louis County Prosecuting Attorney, Robert McCulloch.
+
 Night Watch is on the surface a time travel story, but is really a book about what it means to be a police officer.  I had not realized just how cleverly the book was written until last week when [a link started going around](http://kottke.org/14/08/policing-by-consent) about the history of modern policing.  In 1829, the United Kingdom parliament passed into law the first [Metropolitan Police Act](http://en.wikipedia.org/wiki/Metropolitan_Police_Act_1829).  It established the structure and organization of the London police department as a formal governmental body, but also outlined [nine rules to govern the behavior of policemen](https://www.gov.uk/government/publications/policing-by-consent).
 
 Paramount to these rules was the common theme of policing by the consent of the community, co-operating with the public in order to secure law and order and attempting to use persuasion and reason to resolve disputes, rather than physical violence.  These are exactly the behaviors that Vimes (as John Keel) demonstrated in the book and taught to those under him.  Using these rules, Vimes expertly diffuses many tense situations in the book and manages to organize his local police department into a shining example of community cooperation.
