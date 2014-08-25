@@ -165,7 +165,7 @@ gulp.task('rss', ['index-posts'], function (cb) {
 
 	var feed = new RSS({
 		title: 'ChiperSoft: Jarvis Badgley',
-		feed_url: 'http://chipersoft.com/rss.xml',
+		feed_url: 'http://chipersoft.com/atom.xml',
 		site_url: 'http://chipersoft.com',
 		image_url: 'http://chipersoft.com/images/dexter.png',
 		// author: 'Jarvis Badgley'
