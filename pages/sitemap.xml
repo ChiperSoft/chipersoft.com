@@ -8,14 +8,14 @@
     {{/each}}
     <url>
         <loc>http://chipersoft.com/about.html</loc>
-        <lastmod>{{date 'YYYY-MM-DDTHH:mm:ssZ'}}</lastmod>
+        <lastmod>2014-01-01T00:00:00Z</lastmod>
     </url>
     <url>
         <loc>http://chipersoft.com/</loc>
-        <lastmod>{{date 'YYYY-MM-DDTHH:mm:ssZ'}}</lastmod>
+        <lastmod>2014-01-01T00:00:00Z</lastmod>
     </url>
     <url>
         <loc>http://chipersoft.com/old.html</loc>
-        <lastmod>{{date 'YYYY-MM-DDTHH:mm:ssZ'}}</lastmod>
+        <lastmod>2014-01-01T00:00:00Z</lastmod>
     </url>
 </urlset>
