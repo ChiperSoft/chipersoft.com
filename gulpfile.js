@@ -4,6 +4,7 @@ var assign = require('lodash-node/modern/objects/assign');
 var path = require('path');
 var fs = require('fs');
 var moment = require('moment');
+var RSS = require('rss');
 
 var gulp = require('gulp');
 var less = require('gulp-less');
@@ -159,6 +160,29 @@ gulp.task('index-posts', function () {
 		.pipe(gulp.dest('.'));
 });
 
+gulp.task('rss', ['index-posts'], function (cb) {
+	var postIndex = require('./posts.json');
+
+	var feed = new RSS({
+		title: 'ChiperSoft: Jarvis Badgley',
+		feed_url: 'http://chipersoft.com/rss.xml',
+		site_url: 'http://chipersoft.com',
+		image_url: 'http://chipersoft.com/images/dexter.png',
+		// author: 'Jarvis Badgley'
+	});
+
+	postIndex.forEach(function (post) {
+		feed.item({
+			title: post.title,
+			date: post.date,
+			description: post.content,
+			url: 'http://chipersoft.com'+post.url
+		});
+	});
+
+	fs.writeFile(__dirname + '/build/atom.xml', feed.xml(), cb);
+});
+
 gulp.task('pages', ['pages-hbs', 'pages-md']);
 
 gulp.task('pages-hbs', ['index-posts', 'hbs-partials'], function () {
@@ -240,7 +264,7 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('build', ['less', 'index-posts', 'pages', 'posts', 'aliases', 'files']);
+gulp.task('build', ['less', 'index-posts', 'rss', 'pages', 'posts', 'aliases', 'files']);
 
 gulp.task('default', ['clean'], function (cb) {
 	gulp.start('build', function () {cb();});
