@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name="author" content="Jarvis Badgley">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>On public education. :: Jarvis Badgley</title>
+	<title>You Don&#x27;t Know Inheritance :: Jarvis Badgley</title>
 	<link rel='alternate' type='application/atom+xml' title='Atom 0.3' href='https://chipersoft.com/atom.xml'>
 	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300' rel='stylesheet' type='text/css'>
@@ -45,28 +45,28 @@
 		<article>
 			<div class="page-header">
 				<h1 class="post-title">
-				<a href="/p/public-education">On public education.</a>
-					<small class="post-date">February 14th, 2014</small>
+				<a href="/p/inheritance">You Don&#x27;t Know Inheritance</a>
+					<small class="post-date">September 11th, 2014</small>
 				</h1>
 			</div>
-			<div class="post-content"><p><em>In response to <a href="http://devblog.avdi.org/2014/02/10/the-passion-gospel/">http://devblog.avdi.org/2014/02/10/the-passion-gospel/</a></em></p>
+			<div class="post-content"><p>Recently I discovered <a href="http://twitter.com/getify">Kyle Simpson&#39;s (@getify)</a> spectacular book series, <a href="http://youdontknowjs.com">You Don&#39;t Know JS</a>. It&#39;s a sequence of books being written entirely on github and physically published by O&#39;Reilly. The books are licensed CC-NC-ND and free to read online, but you should buy them anyway just because they&#39;re really good.  That said, I have an issue of semantics that&#39;s been bugging me, and I need to get it off my chest.</p>
+<p>In <a href="https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&amp;%20object%20prototypes/ch5.md#class-functions">chapter 5</a> of &quot;<code>this</code> &amp; Prototypes&quot;, Kyle states the following fact:</p>
 <blockquote>
-<p>Still another objection I received went like this: “I’m not passionate about the job, but I’m passionate about learning“. In this case, it may be that my background colors my opinions. I was homeschooled. Among the other homeschooled kids I grew up with, a distaste for learning was generally regarded as a “public schooled” malady. A hunger for knowledge was considered normal, and learning itself was regarded as something you ordinarily did for fun every day.</p>
-<p>We don’t call someone who eats three square meals a day “passionate about eating”, and similarly I don’t see the point of using a superlative as strong as “passionate” for something that’s as natural as breathing. I want and expect to learn something new every day. That’s not passion, it’s just a healthy appetite. I’d rather identify the lack of this natural impulse as what it is: a disorder. But maybe that’s just me.</p>
+<p>In class-oriented languages, multiple copies (aka, &quot;instances&quot;) of a class can be made, like stamping something out from a mold. As we saw in Chapter 4, this happens because the process of instantiating (or inheriting from) a class means, &quot;copy the behavior plan from that class into a physical object&quot;, and this is done again for each new instance.</p>
+<p>But in JavaScript, there are no such copy-actions performed. You don&#39;t create multiple instances of a class. You can create multiple objects that [[Prototype]] link to a common object. But by default, no copying occurs, and thus these objects don&#39;t end up totally separate and disconnected from each other, but rather, quite linked.</p>
 </blockquote>
-<p>I too was homeschooled as a child, and you really hit the nail on the head about public school (and even private schools) fostering a distaste for learning. Every person I&#39;ve met who was home schooled absolutely loved learning new things, and when you put them amongst public schooled peers it makes them stand out as nerds and geeks.</p>
-<p>However, I feel that labeling the disinterest that the majority of people demonstrate as a &quot;disorder&quot; fosters the wrong reaction. Yes, it&#39;s a negative side effect of the social structures that schools foster among children, and its horrible, but it&#39;s also become the status quo.</p>
-<hr>
+<p>Further on in this chapter, under <a href="https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&amp;%20object%20prototypes/ch5.md#whats-in-a-name">&quot;What&#39;s In A Name&quot;</a> he uses this to re-enforce this point:</p>
 <blockquote>
-<p>That&#39;s a pretty ugly blanket statement about public schools. First off, there are people everywhere that love to learn no matter where they&#39;ve gone to public school. A lot may depend on the social status of the student or where their school is in the country/world.</p>
-<p>I&#39;m sure there are plenty of home school student who DON&#39;T enjoy learning, you just haven&#39;t met them yet.</p>
+<p>This mechanism is often called &quot;prototypal inheritance&quot; (we&#39;ll explore the code in detail shortly), which is commonly said to be the dynamic-language version of &quot;classical inheritance&quot;. It&#39;s an attempt to piggy-back on the common understanding of what &quot;inheritance&quot; means in the class-oriented world, but tweak (read: pave over) the understood semantics, to fit dynamic scripting.</p>
+<p>The word &quot;inheritance&quot; has a very strong meaning (see Chapter 4), with plenty of mental precedent. Merely adding &quot;prototypal&quot; in front to distinguish the actually nearly opposite behavior in JavaScript has left in its wake nearly two decades of mirey confusion.</p>
+<p>[...]</p>
+<p><strong>&quot;Inheritance&quot; implies a copy operation</strong>, and JavaScript doesn&#39;t copy object properties (natively, by default). Instead, JS creates a link between two objects, where one object can essentially delegate property/function access to another object. &quot;Delegation&quot; (see Chapter 6) is a much more accurate term for JavaScript&#39;s object-linking mechanism.</p>
 </blockquote>
-<p>You&#39;re right, my anecdotal data is biased by my tendency to only associate with those who are equally intellectually interested. There probably are plenty of homeschooled children who don&#39;t enjoy learning, particularly among those who were homeschooled for religious reasons rather than educational reasons. Unfortunately, there hasn&#39;t been any case study on the subject that is devoid of bias (they&#39;re always either sponsored by homeschooling groups or teachers associations).</p>
-<p>And yes, of course the public school system still produces people who love to learn, but not as a majority. Not even as a major fraction. The popular culture and colloquialisms of the United States demonstrates this clear as day (I should identify that I&#39;m referring to the US educational system, as was Avdi, I assume).</p>
-<p>Look at television. Educational institutions such as The Discovery Channel and The History Channel now feature more reality entertainment than educational programs. When&#39;s the last time you heard TLC called The Learning Channel? SyFy had so little science in their fiction that they dropped it from their name entirely. PBS, the last bastion of educational TV, is so lowly regarded that public officials consider it a financial burden.</p>
-<p>The only intellectual celebrities our culture has, got there through commercialism. We pay collective billions to professional sports athletes, but the closest thing we have to a high paid all-star intellectual is Ken Jennings (or possibly Bill Nye, but I doubt he&#39;s as rich as Ken).</p>
-<p>This is not a culture that favors learning.  If intellectualism was the norm, &quot;nerd&quot; would not be derogatory. </p>
-<p>Now, of course schools aren&#39;t the only contributing factor, but it&#39;s where children spend half of their waking day during the most impressionable period of their lives. The only stronger influence than that is their home life. We can&#39;t change their home life, but we sure as hell can change the schools.</p>
+<p>(Emphasis mine) Kyle spends all of chapter four building up to this point, repeating time and again that classical inheritance involves duplication of properties. Half of the book is all setup for this statement of opinion that the term &quot;prototypical inheritance&quot; is a misnomer.  Much like Crockford&#39;s demonstrated bias in JavaScript: The Good Parts, Kyle has used the book to express his opinion that people have been misrepresenting the behavior of JavaScript.  There&#39;s just one problem with that...</p>
+<p><strong>The word &quot;inheritance&quot; does not actually imply a copy operation.</strong></p>
+<p><a href="http://en.wiktionary.org/wiki/inheritance#Etymology">The historical meaning</a> of the word refers to an heir of an estate; the bequeathing of a portion or whole of an ancestor&#39;s physical property to their descendants.  When you inherit a house, no-one duplicates the original house. When you inherit money, no one gives you a copy of the money. To quote Kyle himself, it is a &quot;deferral&quot; of the material goods. This is the oldest definition dating back to the 15th century, and it perfectly describes the type of inheritance used in JavaScript.  Prototypical children receive the exact properties of their parents, right down to the memory address.</p>
+<p>Now, one could argue that Kyle is referring to inheritance as the transmission of genetic traits. This definition has only come into use in the last century and isn&#39;t even listed in <a href="http://www.merriam-webster.com/dictionary/inheritance">Merriam-Webster&#39;s main definition</a> (if you scroll down the page it shows up under the Medical dictionary, but says nothing of duplication). <a href="http://www.oxforddictionaries.com/us/definition/american_english/inherit">The oxford definition of inherit</a> does include genetic traits in the main definition, but also makes no mention of duplication.  Genetic inheritance is not, in fact, a perfect duplication of traits. Both ova and spermatozoa only contain half of the parent&#39;s chromosomes, and due to epigenetic drift, that which the child receives is rarely a perfect copy.</p>
+<p>Therefore, &quot;prototypical inheritance&quot; is in fact the more syntactically accurate term.</p>
 </div>
 		</article>
 	</div>
