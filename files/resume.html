@@ -50,6 +50,11 @@
 			color: #666;
 			font-weight: normal;
 		}
+		h2 strong {
+			color: #999;
+			font-size: 0.8em;
+			font-weight: 400;
+		}
 		p {
 			margin: 0 0 10px 0;
 		}
@@ -75,7 +80,7 @@
 			font-family: 'Open Sans', 'Helvetica Neue', Sans-Serif;
 			font-size: 13px;
 			color: #333;
-			line-height: 18px;
+			line-height: 17px;
 			margin-bottom: 15px;
 		}
 
@@ -88,6 +93,10 @@
 		#summary p, #contact-info p {
 			margin-left:15px;
 
+		}
+
+		#experience p + h2 {
+			margin-top: 20px;
 		}
 
 		dl {
@@ -107,7 +116,7 @@
 			border-left: 1px solid #999;
 			padding: 1px 0 1px 26px;
 			margin-left:110px;
-			margin-bottom:18px;
+			margin-bottom:15px;
 		}
 
 		dd h2 {
@@ -160,7 +169,7 @@
 			width:auto;
 		}
 	</style>
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:200,300,400,500,600,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:200,400,500,600,700' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 </head>
 
@@ -192,7 +201,7 @@
 
 		<dl>
 			<dt>Skills</dt>
-			<dd>
+			<dd id="skills">
 				<h2>Programming Languages, Concepts &amp; Software</h2>
 				<ul class="skill-tree">
 					<li><strong>JavaScript</strong><span>18 Years</span><span>&#10029; &#10029; &#10029; &#10029; &#10029;</span></li>
@@ -208,8 +217,8 @@
 			</dd>
 
 			<dt>Open Source Projects</dt>
-			<dd>
-				<h2>Queryize <em><a href="http://queryizejs.com">http://queryizejs.com</a></em></h2>
+			<dd id="oss">
+				<h2>Queryize <strong>Lead Dev</strong> <em><a href="http://queryizejs.com">http://queryizejs.com</a></em></h2>
 				<p>
 					Queryize is a chainable query builder for MySQL on NodeJS. Built to serve as a lightweight alternative to full ORM
 					stacks, Queryize makes it easy to construct complex queries programatically, while using bound parameters for proper
@@ -217,7 +226,7 @@
 					source code itself.
 				</p>
 
-				<h2>Kalendae <em><a href="http://kalendaejs.com">http://kalendaejs.com</a></em></h2>
+				<h2>Kalendae <strong>Lead Dev</strong> <em><a href="http://kalendaejs.com">http://kalendaejs.com</a></em></h2>
 				<p>
 					Kalendae is a JavaScript date picker library written out of frustration with all other date pickers. The
 					library is entirely self-contained and does not depend on any other DOM manipulation libraries such as
@@ -225,7 +234,7 @@
 					fully skinnable through CSS.
 				</p>
 
-				<h2>Mash.li <em><a href="http://mash.li">http://mash.li</a></em></h2>
+				<h2>Mash.li <strong>Creator</strong> <em><a href="http://mash.li">http://mash.li</a></em></h2>
 				<p>
 					Mash.li is a content aggregate site built on top of the SoundCloud API. It scrapes the SoundCloud system
 					for new tracks tagged as music mashups, and then queues them for regular release.  Each day the site picks
@@ -237,14 +246,14 @@
 					loads. The entire codebase is made available as open source via GitHub.
 				</p>
 
-				<h2>ChiperSoft.com <em><a href="https://github.com/ChiperSoft/chipersoft.com">https://github.com/ChiperSoft/chipersoft.com</a></em></h2>
+				<h2>ChiperSoft.com <strong>Owner</strong> <em><a href="https://github.com/ChiperSoft/chipersoft.com">https://github.com/ChiperSoft/chipersoft.com</a></em></h2>
 				<p>
 					My own tech blog is a static site built using a custom written gulp.js process.  Multiple gulp plugins work
 					in congress to build the markdown, less and handlebars template files that make up the source material,
 					compiling them all together into static content served by GitHub Pages.
 				</p>
 
-				<h2>Dox <em><a href="https://github.com/tj/dox">https://github.com/tj/dox</a></em></h2>
+				<h2>Dox <strong>Contributor</strong> <em><a href="https://github.com/tj/dox">https://github.com/tj/dox</a></em></h2>
 				<p>
 					Dox is a JSDoc parsing library built by TJ Holowaychuk which reads JavaScript source files and outputs a JSON
 					structure representing the contents of the comments contained inside.
@@ -255,16 +264,12 @@
 					I then petitioned the project's current maintainer to merge this changed, closing 10 pull requests and 4 issues.
 					This comprised the bulk of the 0.5.0 release of the library.
 				</p>
-				<p>
-
-				</p>
-
 			</dd>
 
 			<div class="pagebreak"></div>
 
 			<dt>Experience</dt>
-			<dd>
+			<dd id="experience">
 				<h2>Valuation Vision <em>Senior Engineer, Technology Consultant - October 2013 to Present</em></h2>
 				<p>
 					I was hired by the V2 development team to help with application scaling and architectural concerns as the
@@ -311,6 +316,12 @@
 					<li>Responsible for testing all components and systems prior to shipment to customers. </li>
 					<li>Worked with salesmen to fulfill customerʼs needs and expectations.</li>
 				</ul>
+				<p>
+					While working at Abtech I wrote a desktop application for rapid processing of available inventory. The app took input from barcode
+					scanners and processed it into csv files that could be later merged and rapid checked against our inventory database. This app
+					replaced a complicated process of entering serial numbers into Excel spreadsheets, increasing the efficiency of our auditing process
+					by 30%.
+				</p>
 
 				<h2>WebOS.com<em> Front-end Developer- Columbia, MD - 2000 to 2001</em></h2>
 				<p>
