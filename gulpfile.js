@@ -1,6 +1,6 @@
 var through = require('through2');
 
-var assign = require('lodash-node/modern/objects/assign');
+var assign = require('lodash-node/modern/object/assign');
 var path = require('path');
 var fs = require('fs');
 var moment = require('moment');
@@ -253,7 +253,7 @@ gulp.task('less', function () {
 gulp.task('watch', function() {
 	gulp.watch('./less/**/*.less', ['less']);
 	gulp.watch('./pages/**/*', ['pages']);
-	gulp.watch('./posts/**/*.md', ['posts']);
+	gulp.watch('./posts/**/*.md', ['posts', 'pages']);
 	gulp.watch('./templates/**/*.html', ['pages', 'posts']);
 	gulp.watch('./files/**/*', ['files']);
 
