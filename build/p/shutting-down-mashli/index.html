@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name="author" content="Jarvis Badgley">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>An introduction to Backbone.js, as annotated source code. :: Jarvis Badgley</title>
+	<title>Shutting Down Mash.li :: Jarvis Badgley</title>
 	<link rel='alternate' type='application/atom+xml' title='Atom 0.3' href='https://chipersoft.com/atom.xml'>
 	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300' rel='stylesheet' type='text/css'>
@@ -43,27 +43,17 @@
 				<div class="col-sm-8 article-body">		<article>
 			<div class="page-header">
 				<h1 class="post-title">
-				<a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a>
-					<small class="post-date">May 23rd, 2014</small>
+				<a href="/p/shutting-down-mashli">Shutting Down Mash.li</a>
+					<small class="post-date">February 11th, 2015</small>
 				</h1>
 			</div>
-			<div class="post-content"><p>The following is a segment from the first in (hopefully) a series of training pieces written in the form of annotated source code.  This is an experimental educational medium for me, and one that I&#39;m enjoying a lot, despite it taking quite a bit of effort to produce.  It seems fitting that Backbone would be the first topic to cover in this way, since the format was created by the people at DocumentCloud, who created Backbone and Underscore.</p>
-<p>You can find the complete guide at <a href="http://chipersoft.com/intro-to-backbone/">http://chipersoft.com/intro-to-backbone/</a></p>
-<hr>
-<blockquote>
-<h3 id="what-is-backbone-">WHAT IS BACKBONE?</h3>
-<p>Backbone is a JavaScript library that provides various tools to assist in the organization of front-end programming code. It provides constructs for structuring your code into distinct data models, presentational views and execution controllers. This organizational pattern is referred to commonly as MVC.</p>
-<p>Backbone meets the Wikipedia definition of a Software Framework:</p>
-<ul>
-<li>It provides Inversion of Control by way of a mediator/observer system for inter-module communication</li>
-<li>It provides default behavior which you may lean on or completely ignore</li>
-<li>It is full extensible by way of overriding publicly exposed components</li>
-<li>It need not be modified itself to perform its duties.</li>
-</ul>
-<p>Backbone does not, however, dictate how you organize your files, how those files are loaded onto the page, or what other libraries you wish to use in conjunction with Backbone. Backbone does not require exclusivity and can be used alongside any other frameworks. Backbone is un-opinionated about how much of its toolset you take advantage of.</p>
-<p>Backbone is a client-side front-end framework. While some of its pieces can be used in Node.js, it is designed for use in the browser.</p>
-</blockquote>
-<p><strong><a href="http://chipersoft.com/intro-to-backbone/">Read More...</a></strong></p>
+			<div class="post-content"><p>This week I will be shutting down the <a href="http://mash.li">mash.li</a> website.</p>
+<p>So far I have spent $100 running the site. This was the cost of operating a 1GB droplet on ocean digital for the entire life of the project. Currently there is one more month of operations left on the account. I&#39;m not convinced that it is worth it for me to add more money to the account to keep it running.</p>
+<p>For one, the site has largely been a failure.  I was not able to create a search algorithm capable of consistently picking out good tracks. In fact, I wasn&#39;t even able to reach a 50% success.  I had hoped that user interaction would compensate for that, but as of yet that has also been a failure.</p>
+<p>Out of 6259 tracks indexed on the site, only 42 received votes, and only 14 received more than one vote.  According to google analytics, the site received 180 visitors since last december. Of those, 74 were analytics spam bots, at least 32 weren&#39;t browsers at all, and only 38 were using a non-IE browser.</p>
+<p>So at best there were only 50 real visitors in three months, none of which voted on tracks.</p>
+<p>The final deciding factor comes in the form of an API change in soundcloud itself.  On March 2nd, SoundCloud will be changing the way results in their API are paginated.  This will break my scraping script.  I could certainly update that script, but that will mean making a new deployment of the site.  I haven&#39;t deployed new code in more than six months, and while I have occasionally updated the codebase for dependency changes (especially in Express 4), I really don&#39;t feel like taking the time to make sure that everything still works.</p>
+<p>The site was a fun learning project, and I managed to create some really good frontend code that I&#39;ll be reusing in the future, but its time has passed.  I&#39;ll be uploading a full dump of the database to the code repo, for anyone who wants to try running the site on their own machines.</p>
 </div>
 		</article>
 </div>

@@ -39,119 +39,68 @@
 		</ul>
 	</div></header>
 	<div class="container content">
-		
 			<div class="row">
-				<div class="col-sm-8 article-body">
-	
-		<article>
+				<div class="col-sm-8 article-body">		<article>
 			<div class="page-header">
 				<h2 class="post-title">
-					<a href="/p/inheritance">You Don&#x27;t Know Inheritance</a>
-					<small class="post-date">September 11th, 2014</small>
+					<a href="/p/shutting-down-mashli">Shutting Down Mash.li</a>
+					<small class="post-date">February 11th, 2015</small>
 				</h2>
 			</div>
-			<div class="post-content"><p>Recently I discovered <a href="http://twitter.com/getify">Kyle Simpson&#39;s (@getify)</a> spectacular book series, <a href="http://youdontknowjs.com">You Don&#39;t Know JS</a>. It&#39;s a sequence of books being written entirely on github and physically published by O&#39;Reilly. The books are licensed CC-NC-ND and free to read online, but you should buy them anyway just because they&#39;re really good.  That said, I have an issue of semantics that&#39;s been bugging me, and I need to get it off my chest.</p>
-<p>In <a href="https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&amp;%20object%20prototypes/ch5.md#class-functions">chapter 5</a> of &quot;<code>this</code> &amp; Prototypes&quot;, Kyle states the following fact:</p>
-<blockquote>
-<p>In class-oriented languages, multiple copies (aka, &quot;instances&quot;) of a class can be made, like stamping something out from a mold. As we saw in Chapter 4, this happens because the process of instantiating (or inheriting from) a class means, &quot;copy the behavior plan from that class into a physical object&quot;, and this is done again for each new instance.</p>
-<p>But in JavaScript, there are no such copy-actions performed. You don&#39;t create multiple instances of a class. You can create multiple objects that [[Prototype]] link to a common object. But by default, no copying occurs, and thus these objects don&#39;t end up totally separate and disconnected from each other, but rather, quite linked.</p>
-</blockquote>
-<p>Further on in this chapter, under <a href="https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&amp;%20object%20prototypes/ch5.md#whats-in-a-name">&quot;What&#39;s In A Name&quot;</a> he uses this to re-enforce this point:</p>
-<blockquote>
-<p>This mechanism is often called &quot;prototypal inheritance&quot; (we&#39;ll explore the code in detail shortly), which is commonly said to be the dynamic-language version of &quot;classical inheritance&quot;. It&#39;s an attempt to piggy-back on the common understanding of what &quot;inheritance&quot; means in the class-oriented world, but tweak (read: pave over) the understood semantics, to fit dynamic scripting.</p>
-<p>The word &quot;inheritance&quot; has a very strong meaning (see Chapter 4), with plenty of mental precedent. Merely adding &quot;prototypal&quot; in front to distinguish the actually nearly opposite behavior in JavaScript has left in its wake nearly two decades of mirey confusion.</p>
-<p>[...]</p>
-<p><strong>&quot;Inheritance&quot; implies a copy operation</strong>, and JavaScript doesn&#39;t copy object properties (natively, by default). Instead, JS creates a link between two objects, where one object can essentially delegate property/function access to another object. &quot;Delegation&quot; (see Chapter 6) is a much more accurate term for JavaScript&#39;s object-linking mechanism.</p>
-</blockquote>
-<p>(Emphasis mine) Kyle spends all of chapter four building up to this point, repeating time and again that classical inheritance involves duplication of properties. Half of the book is all setup for this statement of opinion that the term &quot;prototypical inheritance&quot; is a misnomer.  Much like Crockford&#39;s demonstrated bias in JavaScript: The Good Parts, Kyle has used the book to express his opinion that people have been misrepresenting the behavior of JavaScript.  There&#39;s just one problem with that...</p>
-<p><strong>The word &quot;inheritance&quot; does not actually imply a copy operation.</strong></p>
-<p><a href="http://en.wiktionary.org/wiki/inheritance#Etymology">The historical meaning</a> of the word refers to an heir of an estate; the bequeathing of a portion or whole of an ancestor&#39;s physical property to their descendants.  When you inherit a house, no-one duplicates the original house. When you inherit money, no one gives you a copy of the money. To quote Kyle himself, it is a &quot;deferral&quot; of the material goods. This is the oldest definition dating back to the 15th century, and it perfectly describes the type of inheritance used in JavaScript.  Prototypical children receive the exact properties of their parents, right down to the memory address.</p>
-<p>Now, one could argue that Kyle is referring to inheritance as the transmission of genetic traits. This definition has only come into use in the last century and isn&#39;t even listed in <a href="http://www.merriam-webster.com/dictionary/inheritance">Merriam-Webster&#39;s main definition</a> (if you scroll down the page it shows up under the Medical dictionary, but says nothing of duplication). <a href="http://www.oxforddictionaries.com/us/definition/american_english/inherit">The oxford definition of inherit</a> does include genetic traits in the main definition, but also makes no mention of duplication.  Genetic inheritance is not, in fact, a perfect duplication of traits. Both ova and spermatozoa only contain half of the parent&#39;s chromosomes, and due to epigenetic drift, that which the child receives is rarely a perfect copy.</p>
-<p>Therefore, &quot;prototypical inheritance&quot; is in fact the more syntactically accurate term.</p>
+			<div class="post-content"><p>This week I will be shutting down the <a href="http://mash.li">mash.li</a> website.</p>
+<p>So far I have spent $100 running the site. This was the cost of operating a 1GB droplet on ocean digital for the entire life of the project. Currently there is one more month of operations left on the account. I&#39;m not convinced that it is worth it for me to add more money to the account to keep it running.</p>
+<p>For one, the site has largely been a failure.  I was not able to create a search algorithm capable of consistently picking out good tracks. In fact, I wasn&#39;t even able to reach a 50% success.  I had hoped that user interaction would compensate for that, but as of yet that has also been a failure.</p>
+<p>Out of 6259 tracks indexed on the site, only 42 received votes, and only 14 received more than one vote.  According to google analytics, the site received 180 visitors since last december. Of those, 74 were analytics spam bots, at least 32 weren&#39;t browsers at all, and only 38 were using a non-IE browser.</p>
+<p>So at best there were only 50 real visitors in three months, none of which voted on tracks.</p>
+<p>The final deciding factor comes in the form of an API change in soundcloud itself.  On March 2nd, SoundCloud will be changing the way results in their API are paginated.  This will break my scraping script.  I could certainly update that script, but that will mean making a new deployment of the site.  I haven&#39;t deployed new code in more than six months, and while I have occasionally updated the codebase for dependency changes (especially in Express 4), I really don&#39;t feel like taking the time to make sure that everything still works.</p>
+<p>The site was a fun learning project, and I managed to create some really good frontend code that I&#39;ll be reusing in the future, but its time has passed.  I&#39;ll be uploading a full dump of the database to the code repo, for anyone who wants to try running the site on their own machines.</p>
 </div>
 		</article>
-	
-	</div>
+</div>
 				<aside class="col-sm-4 col-md-3 col-md-offset-1 article-sidebar">
-				
 					<img class="logo hidden-xs" src="/images/dexter.png" alt="">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
-							
+							<li><a href="/p/shutting-down-mashli">Shutting Down Mash.li</a> <span>February 11th, 2015</span></li>
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
-							
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
-							
 							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
-							
 							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
-							
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
-							
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
-							
 							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
-							
-							<li><a href="/p/toothbrushing">How changing what bathroom we kept the toothbrush in made me better at oral hygine</a> <span>January 4th, 2014</span></li>
-							
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
-							
+							<li><a href="/p/toothbrushing">How changing what bathroom we kept the toothbrush in made me better at oral hygine</a> <span>January 4th, 2014</span></li>
 							<li><a href="/p/phonelines">Landline Abandonment</a> <span>December 3rd, 2013</span></li>
-							
 							<li><a href="/p/MySQL-via-Memcache">Introduction to using MySQL as a NoSQL store via Memcache</a> <span>May 25th, 2013</span></li>
-							
 							<li><a href="/p/I-Promise-You-Will-Learn-Something">I Promise You&#x27;ll Learn Something</a> <span>April 15th, 2013</span></li>
-							
 							<li><a href="/p/JurassicPark">In which I rave about Jurassic Park</a> <span>April 13th, 2013</span></li>
-							
 							<li><a href="/p/I-Dont-Care-About-Your-Culture">I Don&#x27;t Care About Your Culture</a> <span>March 29th, 2013</span></li>
-							
 							<li><a href="/p/Birch-Beers">In pursuit of the perfect Birch Beer</a> <span>August 31st, 2012</span></li>
-							
 							<li><a href="/p/Lets-make-a-language">Lets Make A Language</a> <span>July 10th, 2012</span></li>
-							
 							<li><a href="/p/TwitterMostFollowed">TwitterMostFollowed</a> <span>June 15th, 2012</span></li>
-							
 							<li><a href="/p/PHP-many-meanings-of-static">PHP, The many meanings of static.</a> <span>April 19th, 2012</span></li>
-							
 							<li><a href="/p/Keep-it-simple-SOLIDs">Keep it simple, SOLIDs!</a> <span>March 24th, 2012</span></li>
-							
 							<li><a href="/p/Nested-PHP-Output-Buffers">Nested PHP Output Buffers, or buffers within buffers</a> <span>March 23rd, 2012</span></li>
-							
 							<li><a href="/p/PHP-on-nginx-vs-apache">PHP on Nginx vs Apache.</a> <span>March 4th, 2012</span></li>
-							
 							<li><a href="/p/Setting-up-a-LAMP-server-ubuntu">Setting up a LAMP server with Ubuntu, Apache, MySQL, mod_php, phpMyAdmin and PrimalPHP</a> <span>March 3rd, 2012</span></li>
-							
 							<li><a href="/p/Setting-up-a-LEMP-server-ubuntu">Setting up a LEMP server with Ubuntu, Nginx, MySQL, PHP-FPM, phpMyAdmin and PrimalPHP</a> <span>March 2nd, 2012</span></li>
-							
 							<li><a href="/p/why-I-still-prefer-prototype">Why I STILL prefer Prototype over jQuery</a> <span>February 24th, 2012</span></li>
-							
 							<li><a href="/p/HTTP">HTTP</a> <span>February 24th, 2012</span></li>
-							
 							<li><a href="/p/Testing-iPad-web-app-layout">Testing iPad Web App Layouts</a> <span>February 22nd, 2012</span></li>
-							
 							<li><a href="/p/The-Old-Republic">The Old Republic</a> <span>January 16th, 2012</span></li>
-							
 							<li><a href="/p/In-the-Wake-of-the-Dark">In the Wake of the Dark</a> <span>September 9th, 2011</span></li>
-							
 							<li><a href="/p/Testing-websites-in-IE9-on-mac">Testing websites in IE7 / IE8 / IE9 on a Mac</a> <span>August 19th, 2011</span></li>
-							
 							<li><a href="/p/on-source-control">Source Control</a> <span>August 4th, 2011</span></li>
-							
 							<li><a href="/p/on-world-of-warcraft-and-breaks-taken">On World of Warcraft... and breaks taken.</a> <span>July 24th, 2011</span></li>
-							
 							<li><a href="/p/on-code-commenting">On Code Commenting, Documentation, and Modularization</a> <span>May 27th, 2011</span></li>
-							
 							<li><a href="/p/pinscroll">PinScroll - Easy document content marking on the scrollbar</a> <span>August 20th, 2010</span></li>
-							
 							<li><a href="/p/reddit-superhide">Reddit SuperHide Safari Extension</a> <span>June 14th, 2010</span></li>
-							
 							<li><a href="/p/redditchecker">RedditChecker Safari Extension</a> <span>June 9th, 2010</span></li>
-							
 						</ul>
 						<a href="#more-links" data-toggle="collapse" data-target="#more-links" class="more-toggle">View More</a>
 					</div>
@@ -167,13 +116,11 @@
 							<li><a href="https://kalendaejs.com">Kalendae</a><span>A framework agnostic javascript date picker that just works.</span></li>
 						</ul>
 					</div>
-				
 				</aside>
 			</div>
-		
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy;  2015 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 01/07/2015 at 10:05:11 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy;  2015 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 02/11/2015 at 10:46:37 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
