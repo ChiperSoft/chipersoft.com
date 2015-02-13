@@ -2,7 +2,7 @@
 title: Shutting Down Mash.li
 ---
 
-This week I will be shutting down the [mash.li](http://mash.li) website.
+This week I will be shutting down the mash.li website.
 
 So far I have spent $100 running the site. This was the cost of operating a 1GB droplet on ocean digital for the entire life of the project. Currently there is one more month of operations left on the account. I'm not convinced that it is worth it for me to add more money to the account to keep it running.
 
