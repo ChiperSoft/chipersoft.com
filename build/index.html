@@ -43,17 +43,56 @@
 				<div class="col-sm-8 article-body">		<article>
 			<div class="page-header">
 				<h2 class="post-title">
-					<a href="/p/shutting-down-mashli">Shutting Down Mash.li</a>
-					<small class="post-date">February 11th, 2015</small>
+					<a href="/p/ideal-team">My Ideal Tech Team</a>
+					<small class="post-date">May 1st, 2015</small>
 				</h2>
 			</div>
-			<div class="post-content"><p>This week I will be shutting down the mash.li website.</p>
-<p>So far I have spent $100 running the site. This was the cost of operating a 1GB droplet on ocean digital for the entire life of the project. Currently there is one more month of operations left on the account. I&#39;m not convinced that it is worth it for me to add more money to the account to keep it running.</p>
-<p>For one, the site has largely been a failure.  I was not able to create a search algorithm capable of consistently picking out good tracks. In fact, I wasn&#39;t even able to reach a 50% success.  I had hoped that user interaction would compensate for that, but as of yet that has also been a failure.</p>
-<p>Out of 6259 tracks indexed on the site, only 42 received votes, and only 14 received more than one vote.  According to google analytics, the site received 180 visitors since last december. Of those, 74 were analytics spam bots, at least 32 weren&#39;t browsers at all, and only 38 were using a non-IE browser.</p>
-<p>So at best there were only 50 real visitors in three months, none of which voted on tracks.</p>
-<p>The final deciding factor comes in the form of an API change in soundcloud itself.  On March 2nd, SoundCloud will be changing the way results in their API are paginated.  This will break my scraping script.  I could certainly update that script, but that will mean making a new deployment of the site.  I haven&#39;t deployed new code in more than six months, and while I have occasionally updated the codebase for dependency changes (especially in Express 4), I really don&#39;t feel like taking the time to make sure that everything still works.</p>
-<p>The site was a fun learning project, and I managed to create some really good frontend code that I&#39;ll be reusing in the future, but its time has passed.  I&#39;ll be uploading a full dump of the database to the code repo, for anyone who wants to try running the site on their own machines.</p>
+			<div class="post-content"><p>This what I consider to be the perfect software development team for creating products for the web.</p>
+<h2 id="people">People</h2>
+<ul>
+<li><p><strong>1 Product Manager and/or 1 Project Manager</strong><br>These could be two people who manage together, or one person who fills both roles. One should be the product owner with the vision for where the project needs to go. One should be responsible for keeping the team on task, resolving conflicts, and providing the engineers with everything they need to do their jobs well.</p>
+</li>
+<li><p><strong>1 UX Engineer / Designer</strong><br>This person drives the overall appearance of the application. They provide either mockups or markup for the front-end appearance of the application as part of each major unit (aka, story) of work.</p>
+</li>
+<li><p><strong>1 Lead Engineer / Architect</strong><br>This person is responsible for the structuring and maintenance of the code being written. They should be spending the majority of their time overseeing the code being written by the other developers, and creating the foundations that the other developers will build against. They should be the most broadly experienced member on the team, with knowledge of the full stack, and they should be the first person writing code on the project. They should be highly pragmatic and open to outside opinions, not afraid to change their mind on best solutions, but also be confident with their choices.</p>
+</li>
+<li><p><strong>1-2 Senior Engineers*</strong><br>The senior engineers should be the Lead&#39;s left and right hands. Their primary job is to build the systems that the junior developers don&#39;t have the experience or knowledge to properly construct, and to teach the junior developers. They should be comfortable working in both sides of the stack, even if they specialize in one area.  Seniors should be opinionated, but willing to defer to the Lead&#39;s judgement.</p>
+</li>
+<li><p><strong>1-3 Junior Engineers</strong><br>The junior developers will be the most opinionated and the most specialized, but least experienced.  Ideally you want a diversity of opinions here, but that shouldn&#39;t keep you from hiring good people.</p>
+</li>
+<li><p><strong>1-2 QA Engineers</strong></p>
+</li>
+</ul>
+<p>Any more than this and the team starts to experience communication issues. Fewer than this and you will either have some people pulling too much weight, or parts of your infrastructure will be hurting.</p>
+<p>This should be the entire team for the project being developed, not a vertically sliced sub-team of a project group working in the same codebase. Vertical slices <em>always</em> result in code confusion and dependency jams between teams.  If a project is too large for a team of this size then it should be divided into smaller distinctly separate project teams (such as separate services layers, or separate sub-applications).</p>
+<p>If this team is formed within an existing organization, at least half of the developers <em>and the manager</em> should have been previously part of that organization. This is to ensure that the product meets existing standards within the company, and to avoid duplication of mistakes from previous company projects.  <strong>This is vital for greenfield rebuilds.</strong></p>
+<h2 id="organization">Organization</h2>
+<ul>
+<li><p><strong>Fully remote</strong><br>Even if some of the members are in the same office, all communication should be done online.  This keeps everyone on the same level and avoids accidental lapses in discussion.</p>
+</li>
+<li><p><strong>Kanban, not Scrum.</strong><br>Product Manager and UX Designer create tickets in the backlog, ordered by priority. Engineers pull tickets out of the backlog as they complete tasks, according to their availability and experience. <em>No sprints.</em></p>
+</li>
+<li><p><strong>Bi-weekly Update Meetings, not standups</strong><br>These are not status updates, these meetings are not for the managers. The purpose of these meetings should be to describe the code that has been contributed since the last meeting and to discuss the direction of code to be written in the next few days. Note, these are also not code reviews, descriptions should be general, not specific. Code should only be presented if a detail needs to be discussed.</p>
+</li>
+<li><p><strong>Semi-weekly Backlog Grooming</strong><br>Entire team meets for a few hours to review the backlog (over lunch if possible). Tickets added since the last meeting get sized, prioritized and fleshed out with details. Some tickets get pre-assigned if it covers an area that certain people are more familiar with.</p>
+</li>
+<li><p><strong>Ticket Workflow:</strong>   </p>
+<ol>
+<li>Backlog</li>
+<li>In Progress</li>
+<li>Pending Code Review</li>
+<li>Ready For QA</li>
+<li>Completed</li>
+<li>Deployed</li>
+</ol>
+<p>Movements between processes should result in automated git merges, if possible</p>
+</li>
+<li><p><strong>Github w/ Pull Requests</strong>
+Git-flow style workflow.</p>
+</li>
+</ul>
+<hr>
+<p><em>I&#39;ll probably edit this post a few times as I think of new things</em></p>
 </div>
 		</article>
 </div>
@@ -64,6 +103,7 @@
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
+							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
 							<li><a href="/p/shutting-down-mashli">Shutting Down Mash.li</a> <span>February 11th, 2015</span></li>
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
@@ -71,9 +111,9 @@
 							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
-							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
 							<li><a href="/p/toothbrushing">How changing what bathroom we kept the toothbrush in made me better at oral hygine</a> <span>January 4th, 2014</span></li>
 							<li><a href="/p/phonelines">Landline Abandonment</a> <span>December 3rd, 2013</span></li>
 							<li><a href="/p/MySQL-via-Memcache">Introduction to using MySQL as a NoSQL store via Memcache</a> <span>May 25th, 2013</span></li>
@@ -119,7 +159,7 @@
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy;  2015 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 02/12/2015 at 16:56:50 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy;  2015 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 05/01/2015 at 14:27:23 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
