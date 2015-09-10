@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "I Promise You'll Learn Something"
+draft: true
 ---
 
 **The example code in this file uses [when.js](https://github.com/cujojs/when), but the concepts described should apply to all implementations of the [Promises/A+](http://promises-aplus.github.io/promises-spec/) specification.**
