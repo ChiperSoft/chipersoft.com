@@ -61,6 +61,11 @@ If this team is formed within an existing organization, at least half of the dev
 - **Github w/ Pull Requests**   
   Git-flow style workflow. Every PR gets reviewed by at least two other teammates before acceptance. PRs should be connected to the CI process for automated testing.
 
+- **Slack for team communication, Screenhero for pairing, Talky.io for video**   
+  Slack is a no brainer, even in fully local teams Slack is critical to workflows. Screenhero was bought by Slack a few years ago and works _wonderfully_ for pair programming and even just voice calls. Talky.io has worked excellently for video conversations every time I've used it, and it supports screen sharing if needed.
+
+  You may be asking why I would not suggest Google Hangouts.  I've been using hangouts for years, and I'd like to say it's an old reliable, but it isn't. Hangouts constantly has problems where it just inexplicably fails to work. The codecs that it uses for video and audio are awful, and if you're running on wifi it frequently fails entirely. Plus it is a massive CPU and memory hog.
+
 ---
 
 *I'll probably edit this post a few times as I think of new things*
