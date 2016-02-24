@@ -29,7 +29,7 @@ This should be the entire team for the project being developed, not a vertically
 
 If this team is formed within an existing organization, at least half of the developers *and the manager* should have been previously part of that organization. This is to ensure that the product meets existing standards within the company, and to avoid duplication of mistakes from previous company projects.  **This is vital for greenfield rebuilds.**
 
-## Organization
+## Organization and Tools
 
 - **Fully remote**   
   Even if some of the members are in the same office, all communication should be done online.  This keeps everyone on the same level and avoids accidental lapses in discussion.
@@ -53,8 +53,13 @@ If this team is formed within an existing organization, at least half of the dev
   
   Movements between processes should result in automated git merges, if possible
 
-- **Github w/ Pull Requests**
-  Git-flow style workflow.
+- **CI Process:**   
+  At a minimum there should be some kind of automated testing suite running for every release, and test failures should block releases to any environment.
+
+  Travis or Codeship (Jenkins can DIAF, Drone seems to be more trouble than it's worth).
+
+- **Github w/ Pull Requests**   
+  Git-flow style workflow. Every PR gets reviewed by at least two other teammates before acceptance. PRs should be connected to the CI process for automated testing.
 
 ---
 
