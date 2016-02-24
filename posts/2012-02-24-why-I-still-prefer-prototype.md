@@ -4,6 +4,8 @@ title: "Why I STILL prefer Prototype over jQuery"
 alias: [/view/510, /view/510/Why_I_prefer_Prototype_over_jQuery, /view/510/Why_I_STILL_prefer_Prototype_over_jQuery]
 ---
 
+> **Update, February 24th, 2016**: Since I wrote this version of this post my opinions on the topic have waned a bit. I no longer use Prototype in my web development, and have by and large accepted jQuery for most things DOM related. As the JS ecosystem has pushed towards modules and components, libraries which affect the entire runtime are less and less useful, and in the meanwhile most of Prototype's tooling has found its way into ES6 and ES7. I still feel that all my points and criticisms in this article are valid, but I have long since given up the fight for Prototype and I recommend against using it.
+
 This is the second draft of an essay that began as [a response on Reddit](http://www.reddit.com/r/webdev/comments/gzum1/what_javascript_plugins_do_you_use/c1rjpap?context=3) for why I prefer the Prototype.js + Scriptaculous.js (Protaculous) combination infavor of the much more popular jQuery library.  The original version of this essay was posted on April 29th, 2011.  Since then I've learned a lot both about Javascript in general and about jQuery, and I felt that the text needed a refresher.  This is a work of opinion and far from definitive, it's just why I personally find Prototype to be more conducive to building large web apps than jQuery.
 
 Before I start hashing out details, lets discuss the two fundamental differences between jQuery and Prototype.
