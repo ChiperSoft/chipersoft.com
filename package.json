@@ -4,6 +4,10 @@
   "description": "The gulp static site generator code for chipersoft.com",
   "author": "Jarvis Badgley <chiper@chipersoft.com> (http://chipersoft.com/)",
   "license": "CC-NC-SA",
+  "scripts": {
+    "build": "gulp",
+    "watch": "gulp watch"
+  },
   "dependencies": {
     "bootstrap": "https://github.com/twbs/bootstrap/archive/v3.3.2.tar.gz",
     "gulp": "^3.8.11",
