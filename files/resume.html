@@ -96,7 +96,11 @@
 		}
 
 		#experience p + h2 {
-			margin-top: 20px;
+			margin-top: 18px;
+		}
+
+		#experience p {
+			line-height: 17px;
 		}
 
 		dl {
@@ -205,14 +209,16 @@
 				<h2>Programming Languages, Concepts &amp; Software</h2>
 				<ul class="skill-tree">
 					<li><strong>JavaScript</strong><span>20 Years</span><span>&#10029; &#10029; &#10029; &#10029; &#10029;</span></li>
-					<li><strong>Node.js</strong><span>3 Years</span><span>&#10029; &#10029; &#10029; &#10029; &#10029;</span></li>
+					<li><strong>NodeJS</strong><span>3 Years</span><span>&#10029; &#10029; &#10029; &#10029; &#10029;</span></li>
 					<li><strong>HTML &amp; CSS</strong><span>20+ Years</span><span>&#10029; &#10029; &#10029; &#10029; &#10029;</span></li>
 					<li><strong>LESS / SCSS</strong><span>2 Years</span><span>&#10029; &#10029; &#10029; &#10029; &#10025;</span></li>
 					<li><strong>PHP</strong><span>13 Years</span><span>&#10029; &#10029; &#10029; &#10029; &#10025;</span></li>
 					<li><strong>MySQL</strong><span>10 Years</span><span>&#10029; &#10029; &#10029; &#10029; &#10025;</span></li>
-					<li><strong>MongoDB</strong><span>&lt; 1 Year</span><span>&#10029; &#10029; &#10025; &#10025; &#10025;</span></li>
-					<li><strong>Git / SVN</strong><span>6 Years</span><span>&#10029; &#10029; &#10029; &#10025; &#10025;</span></li>
-					<li><strong>Selenium</strong><span>1 Years</span><span>&#10029; &#10029; &#10025; &#10025; &#10025;</span></li>
+					<li><strong>Git / SVN</strong><span>7 Years</span><span>&#10029; &#10029; &#10029; &#10029; &#10025;</span></li>
+					<li><strong>Selenium</strong><span>1 Year</span><span>&#10029; &#10029; &#10025; &#10025; &#10025;</span></li>
+					<li><strong>Redis</strong><span>2 Years</span><span>&#10029; &#10029; &#10025; &#10025; &#10025;</span></li>
+					<li><strong>MongoDB</strong><span>&lt; 1 Year</span><span>&#10029; &#10025; &#10025; &#10025; &#10025;</span></li>
+					<li><strong>RabbitMQ</strong><span>&lt; 1 Year</span><span>&#10029; &#10025; &#10025; &#10025; &#10025;</span></li>
 				</ul>
 
 			</dd>
@@ -235,20 +241,6 @@
 					fully skinnable through CSS.
 				</p>
 
-				<h2>Mash.li <strong>Creator</strong> <em><a href="https://github.com/ChiperSoft/mash.li">https://github.com/ChiperSoft/mash.li</a></em></h2>
-				<p>
-					Mash.li was a content aggregate site built on top of the SoundCloud API. It scraped the SoundCloud system
-					for new tracks tagged as music mashups, and then queued them for regular release.  Each day the site picked
-					ten tracks at random from the queue and added them to the top of the list, where visitors could listen to them.
-				</p>
-				<p>
-					Mash.li was written 100% in JavaScript on a NodeJS backend with a RequireJS, Backbone &amp; Handlebars driven
-					front-end. The project made extensive use of Grunt tooling to manage front-end optimization for fast page
-					loads. The entire codebase is made available as open source via GitHub. I chose to shut down the mash.li
-					website after one year when the domain name and hosting came up for renewal and I determined that the site
-					had failed to gain any regular visitors.
-				</p>
-
 				<h2>ChiperSoft.com <strong>Owner</strong> <em><a href="https://github.com/ChiperSoft/chipersoft.com">https://github.com/ChiperSoft/chipersoft.com</a></em></h2>
 				<p>
 					My own tech blog is a static site built using a custom written gulp.js process.  Multiple gulp plugins work
@@ -263,6 +255,17 @@
 					of the Dox project after the previous maintainer found himself too busy with other projects to give it the attention
 					it required.
 				</p>
+
+				<h2>Taut.us <strong>Creator</strong> <em><a href="https://github.com/ChiperSoft/taut">https://github.com/ChiperSoft/taut</a></em></h2>
+				<p>
+					In early 2016 I explored creating a web driven IRC client structured in the same manner as the Slack team
+					communication service. The goal was to create an IRC client that would be as easy and pleasurable to use as
+					Slack in order to encourage open communities to use public protocols instead of a siloed forum. The application
+					was built in a multi-tiered architecture in order to enable easier scaling and redundancy. I chose to built it around
+					the Freenode IRC network as a single gateway in order to simplify the user experience. Unfortunately privacy requirements
+					by the Freenode network required a restructuring of my data management, and the project stalled. Bugs and a lack of available
+					time led me to shutdown the site after 10 months.
+				</p>
 			</dd>
 
 			<div class="pagebreak"></div>
@@ -271,9 +274,15 @@
 			<dd id="experience">
 				<h2>Shutterstock <em>Software Engineer - July 2015 to Present</em></h2>
 				<p>
-					Fullstack developer on the content review team, maintaining the internal applications used to review new
-					content submitted for sale. This involves front-end JS development in Backbone and React front-ends build
-					on top of a Service Oriented Architecture of NodeJS and MySQL.
+					Fullstack developer on the content operations team, maintaining the internal applications used to review new
+					content submitted for sale and manage existing content in Shutterstock's library of stock images and video.
+					This involves front-end JS development in Backbone and React front-ends built on top of a Service Oriented
+					Architecture of NodeJS and MySQL.
+				</p>
+				<p>
+					While working at Shutterstock I built and launched three new API services, two RabbitMQ workers, created a
+					MySQL database library that is now used by four different teams, constructed a Selenium driven mid-level
+					integration	test suite, and helped to maintain two NodeJS powered web apps.
 				</p>
 
 				<h2>Valuation Vision <em>Senior Engineer, Technology Consultant - October 2013 to July 2015</em></h2>
@@ -284,7 +293,7 @@
 				</p>
 				<p>
 					I was instrumental in efforts to modernize and clean up the codebase, introducing the use of Backbone and Handlebars
-					to simplify our front-end logic, and adding Node.js into our backend development stack in order to drive real-time
+					to simplify our front-end logic, and adding NodeJS into our back-end development stack in order to drive real-time
 					pieces of the application, including a websocket powered real-time order pipeline.  I also introduced the team to
 					d3.js for creating dynamic visualizations of our application data, and trained my teammates in its use.
 				</p>
