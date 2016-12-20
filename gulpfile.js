@@ -11,13 +11,38 @@ var less = require('gulp-less');
 
 var minifyCSS = require('gulp-minify-css');
 var frontmatter = require('gulp-front-matter');
-var markdown = require('gulp-markdown');
 var clean = require('gulp-clean');
 var gutil = require('gulp-util');
 
 var handlebars = require('handlebars');
 require('helper-hoard').load(handlebars);
 
+var hljs   = require('highlight.js');
+var md     = require('markdown-it')({
+	html: true,
+	linkify: true,
+	typographer: true,
+	highlight: function highlight (str, lang) {
+		if (lang && hljs.getLanguage(lang)) {
+			try {
+				return hljs.highlight(lang, str).value;
+			} catch (__) {}
+		}
+
+		return ''; // use external default escaping
+	}
+}).use(require('markdown-it-anchor'))
+
+
+function markdown () {
+	return through.obj(function (file, enc, next) {
+		var contents = md.render(file.contents.toString('utf8'));
+
+		file.contents = new Buffer(contents);
+		this.push(file);
+		next();
+	})
+}
 
 function postMetadata () {
 	return through.obj(function (file, enc, next) {
