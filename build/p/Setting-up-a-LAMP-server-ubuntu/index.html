@@ -47,48 +47,56 @@
 					<small class="post-date">March 3rd, 2012</small>
 				</h1>
 			</div>
-			<div class="post-content"><p>To properly test the LEMP configuration that I built <a href="http://chipersoft.com/view/521/Setting_up_a_LEMP_server">in the previous article built</a>, I need an equally built LAMP (Ubuntu, Apache, MySQL, mod_php) configuration.  These are the steps I followed to achieve that end.  Most of this is identical to setting up the other machine, and there are hundreds of guides online about how to install Apache+PHP on ubuntu, so I&#39;m going to breeze through some of these.</p>
+			<div class="post-content"><p>To properly test the LEMP configuration that I built <a href="http://chipersoft.com/view/521/Setting_up_a_LEMP_server">in the previous article built</a>, I need an equally built LAMP (Ubuntu, Apache, MySQL, mod_php) configuration.  These are the steps I followed to achieve that end.  Most of this is identical to setting up the other machine, and there are hundreds of guides online about how to install Apache+PHP on ubuntu, so I’m going to breeze through some of these.</p>
 <h2 id="stage-1-installation">Stage 1 - Installation</h2>
-<p>As before, my first step was to install Ubuntu Server 11.10 and into a virtualbox VM. This is fairly straight forward and virtualbox walks you through the process, so I&#39;ll just assume anyone reading this can figure it out.  I configured virtualbox to let this VM get an IP directly from the local network, rather than NAT my Mac&#39;s address.  This would make it easier to access the VM&#39;s server from my mac, since I could just add the virtualhost to my /etc/hosts file.  It also allows me to access the VM from any computer in the house.</p>
-<p>Everything that has to be performed must be done with administrator privileges.  Many guides tell you to use <code>su</code>, but by default Ubuntu 11.10 does not configure a root account password, so <code>su</code> doesn&#39;t work.  Instead I started with:</p>
+<p>As before, my first step was to install Ubuntu Server 11.10 and into a virtualbox VM. This is fairly straight forward and virtualbox walks you through the process, so I’ll just assume anyone reading this can figure it out.  I configured virtualbox to let this VM get an IP directly from the local network, rather than NAT my Mac’s address.  This would make it easier to access the VM’s server from my mac, since I could just add the virtualhost to my /etc/hosts file.  It also allows me to access the VM from any computer in the house.</p>
+<p>Everything that has to be performed must be done with administrator privileges.  Many guides tell you to use <code>su</code>, but by default Ubuntu 11.10 does not configure a root account password, so <code>su</code> doesn’t work.  Instead I started with:</p>
 <pre><code>$ sudo bash
-</code></pre><p>Before we start installing it&#39;s good to make sure all our package definitions are current and the installed software is up-to-date:</p>
+</code></pre>
+<p>Before we start installing it’s good to make sure all our package definitions are current and the installed software is up-to-date:</p>
 <pre><code>$ apt-get update
 $ apt-get upgrade
-</code></pre><p>Once that&#39;s finished I installed a few utilities I knew I would be needing in the process, and then set to installing Apache, MySQL, PHP, and any php modules that I needed, following any relevant prompts as they came up.</p>
+</code></pre>
+<p>Once that’s finished I installed a few utilities I knew I would be needing in the process, and then set to installing Apache, MySQL, PHP, and any php modules that I needed, following any relevant prompts as they came up.</p>
 <pre><code>$ apt-get install curl unzip
 $ apt-get install apache2
 $ apt-get install mysql-server mysql-client
 $ mysql_secure_installation
 $ apt-get install php5 php5-mysql php5-suhosin php-pear php5-curl php5-gd php5-imagick php5-mcrypt php5-memcache php5-xdebug php-apc
-</code></pre><p>I then used curl to verify that the server was working</p>
+</code></pre>
+<p>I then used curl to verify that the server was working</p>
 <pre><code>$ curl http://localhost/
 &lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;
 &lt;p&gt;This is the default web page for this server.&lt;/p&gt;
 &lt;p&gt;The web server software is running but no content has been added, yet.&lt;/p&gt;
 &lt;/body&gt;&lt;/html&gt;
-</code></pre><p>By default the Ubuntu packages do not enable Apache&#39;s mod_rewrite module, so we have to do that.</p>
+</code></pre>
+<p>By default the Ubuntu packages do not enable Apache’s mod_rewrite module, so we have to do that.</p>
 <pre><code>$ ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
-</code></pre><h2 id="stage-2-configuration">Stage 2 - Configuration</h2>
+</code></pre>
+<h2 id="stage-2-configuration">Stage 2 - Configuration</h2>
 <pre><code>$ mkdir -p /srv/www/primal.lamp/www
 $ mkdir -p /srv/www/primal.lamp/log
-$ echo &#39;&lt;?php phpinfo() ?&gt;&#39; &gt; /srv/www/primal.lamp/www/index.php
+$ echo '&lt;?php phpinfo() ?&gt;' &gt; /srv/www/primal.lamp/www/index.php
 $ pico /etc/nginx/sites-available/primal.lamp
-</code></pre><p>Into this configuration file I pasted the following:</p>
+</code></pre>
+<p>Into this configuration file I pasted the following:</p>
 <script src="https://gist.github.com/1968422.js"></script>
-
 <p>File saved, I now have to enable it.</p>
 <pre><code>$ ln -s /etc/apache2/sites-available/primal.lamp /etc/apache2/sites-enabled/primal.lamp
-</code></pre><p>Since mod_php lets me pass my php.ini overrides directly, I don&#39;t need to alter the php.ini file, so we&#39;re ready restart Apache and start serving files.</p>
+</code></pre>
+<p>Since mod_php lets me pass my php.ini overrides directly, I don’t need to alter the php.ini file, so we’re ready restart Apache and start serving files.</p>
 <pre><code>$ /etc/init.d/apache2 restart.
-</code></pre><p>If all is good, going to <a href="http://primal.lamp/">http://primal.lamp/</a> should display the phpinfo output.</p>
+</code></pre>
+<p>If all is good, going to <a href="http://primal.lamp/">http://primal.lamp/</a> should display the phpinfo output.</p>
 <h2 id="stage-3-getting-primal-running">Stage 3 - Getting Primal Running</h2>
 <p>Everything done above was performed as root, so /srv needs to be made accessible to my user account (chiper).</p>
 <pre><code>$ groupadd developer
 $ chown -R :developer /srv
 $ chmod -R g+w /srv
 $ usermod -g developer chiper
-</code></pre><p>Now I log out of the server completely and log back in to let the group changes take affect.  I then FTP&#39;d the compiled Primal collection into the hosting directory and use unzip to extract it.</p>
+</code></pre>
+<p>Now I log out of the server completely and log back in to let the group changes take affect.  I then FTP’d the compiled Primal collection into the hosting directory and use unzip to extract it.</p>
 <pre><code>$ cd /srv/www/primal.lamp/www/
 $ unzip Primal.Compiled.zip
 $ ls -la
@@ -107,14 +115,18 @@ drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 js
 -rw-r--r-- 1 chiper developer 55863 2012-02-27 21:25 Primal.Compiled.zip
 drwxr-xr-x 2 chiper developer  4096 2012-02-27 21:25 readme
 drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 views
-</code></pre><p>(Note that I deleted the index.php file we created during setup). Connecting to <a href="http://primal.lamp/">http://primal.lamp/</a> now gives me the Primal default confirmation page.</p>
+</code></pre>
+<p>(Note that I deleted the index.php file we created during setup). Connecting to <a href="http://primal.lamp/">http://primal.lamp/</a> now gives me the Primal default confirmation page.</p>
 <h2 id="stage-4-installing-phpmyadmin">Stage 4 - Installing phpMyAdmin</h2>
 <pre><code>$ sudo apt-get install phpmyadmin
-</code></pre><p>Follow the prompts. Do NOT choose the apache2 auto-configure.  When finished, symlink the system level install into our host directory.</p>
+</code></pre>
+<p>Follow the prompts. Do NOT choose the apache2 auto-configure.  When finished, symlink the system level install into our host directory.</p>
 <pre><code>$ ln -s /usr/share/phpmyadmin/ /srv/www/primal.lamp/www/myadmin
-</code></pre><p>Now we need to alter suhosin to be compatible with phpMyAdmin</p>
+</code></pre>
+<p>Now we need to alter suhosin to be compatible with phpMyAdmin</p>
 <pre><code>$ sudo pico /etc/php5/conf.d/suhosin.ini
-</code></pre><p>Uncomment and alter the following lines:</p>
+</code></pre>
+<p>Uncomment and alter the following lines:</p>
 <pre><code>suhosin.get.max_value_length = 1024
 suhosin.post.max_array_index_length = 256
 suhosin.post.max_totalname_length = 8192
@@ -123,36 +135,42 @@ suhosin.request.max_array_index_length = 256
 suhosin.request.max_totalname_length = 8192
 suhosin.request.max_vars = 2048
 suhosin.sql.bailout_on_error = off
-</code></pre><p>You may need to restart Apache for this to take affect.</p>
+</code></pre>
+<p>You may need to restart Apache for this to take affect.</p>
 <p>Now I apply my own phpMyAdmin preferences.</p>
 <pre><code>$ sudo pico /etc/phpmyadmin/config.inc.php
-</code></pre><p>Since I used a blank password for my mysql root, I need to enable support for it by uncommenting the following:</p>
-<pre><code>$cfg[&#39;Servers&#39;][$i][&#39;AllowNoPassword&#39;] = TRUE;
-</code></pre><p>Then, at the bottom of the file I add the following lines:</p>
-<pre><code>$cfg[&#39;SuhosinDisableWarning&#39;] = true;   //disable the suhosin warning, since we&#39;ve fixed it.
-$cfg[&#39;ThemeDefault&#39;] = &#39;original&#39;;      //get rid of that ugly-ass pmahomme theme.
-$cfg[&#39;AjaxEnable&#39;] = false;             //disable ajax requests, since they don&#39;t give any browser status while running
-$cfg[&#39;LongtextDoubleTextarea&#39;] = false; //don&#39;t need HUGE text areas on longtext fields.
-$cfg[&#39;MaxRows&#39;] = 50;                   //change the default row display count
-$cfg[&#39;PropertiesIconic&#39;] = true;        //icon only row action links
-$cfg[&#39;DefaultTabTable&#39;] = &#39;tbl_properties_structure.php&#39;; // action for clicking table name is to edit the structure
-$cfg[&#39;LeftDefaultTabTable&#39;] = &#39;sql.php&#39;; //action for clicking the mini-icon is to browse
-$cfg[&#39;Export&#39;][&#39;method&#39;] = &#39;custom-no-form&#39;; //disable the &quot;quick&quot; export feature.
-$cfg[&#39;Export&#39;][&#39;sql_drop_table&#39;] = true; //add DROP TABLE IF EXISTS to SQL table structure exports
-</code></pre><p>Save the file and load up <a href="http://primal.test/myadmin/index.php">http://primal.test/myadmin/index.php</a></p>
+</code></pre>
+<p>Since I used a blank password for my mysql root, I need to enable support for it by uncommenting the following:</p>
+<pre><code>$cfg['Servers'][$i]['AllowNoPassword'] = TRUE;
+</code></pre>
+<p>Then, at the bottom of the file I add the following lines:</p>
+<pre><code>$cfg['SuhosinDisableWarning'] = true;   //disable the suhosin warning, since we've fixed it.
+$cfg['ThemeDefault'] = 'original';      //get rid of that ugly-ass pmahomme theme.
+$cfg['AjaxEnable'] = false;             //disable ajax requests, since they don't give any browser status while running
+$cfg['LongtextDoubleTextarea'] = false; //don't need HUGE text areas on longtext fields.
+$cfg['MaxRows'] = 50;                   //change the default row display count
+$cfg['PropertiesIconic'] = true;        //icon only row action links
+$cfg['DefaultTabTable'] = 'tbl_properties_structure.php'; // action for clicking table name is to edit the structure
+$cfg['LeftDefaultTabTable'] = 'sql.php'; //action for clicking the mini-icon is to browse
+$cfg['Export']['method'] = 'custom-no-form'; //disable the &quot;quick&quot; export feature.
+$cfg['Export']['sql_drop_table'] = true; //add DROP TABLE IF EXISTS to SQL table structure exports
+</code></pre>
+<p>Save the file and load up <a href="http://primal.test/myadmin/index.php">http://primal.test/myadmin/index.php</a></p>
 <h2 id="stage-5-configure-primal">Stage 5 - Configure Primal</h2>
 <p>As with the LEMP build, I used phpMyAdmin to create a new mysql user named primal with its own database.  From there I loaded the Primal.Visitor table schema, so I had a user to test database access with.</p>
 <pre><code>$ pico /srv/www/primal.dev/www/config.php
-</code></pre><p>From here I altered the <code>Connection::AddLink</code> call like so:</p>
+</code></pre>
+<p>From here I altered the <code>Connection::AddLink</code> call like so:</p>
 <pre><code>Connection::AddLink(array(
-        &#39;method&#39;        =&gt;Connection::METHOD_MYSQL,
-        &#39;database&#39;      =&gt;&#39;primal&#39;,
-        &#39;host&#39;          =&gt;&#39;localhost&#39;,
-        &#39;username&#39;      =&gt;&#39;primal&#39;,
-        &#39;password&#39;      =&gt;&#39;primal&#39;,
+        'method'        =&gt;Connection::METHOD_MYSQL,
+        'database'      =&gt;'primal',
+        'host'          =&gt;'localhost',
+        'username'      =&gt;'primal',
+        'password'      =&gt;'primal',
 ));
-</code></pre><h2 id="finished">Finished</h2>
-<p>That&#39;s it, Primal is now running on a LAMP stack.</p>
+</code></pre>
+<h2 id="finished">Finished</h2>
+<p>That’s it, Primal is now running on a LAMP stack.</p>
 </div>
 		</article>
 </div>
@@ -163,6 +181,7 @@ $cfg[&#39;Export&#39;][&#39;sql_drop_table&#39;] = true; //add DROP TABLE IF EXI
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
 							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
 							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
 							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
@@ -170,9 +189,9 @@ $cfg[&#39;Export&#39;][&#39;sql_drop_table&#39;] = true; //add DROP TABLE IF EXI
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
 							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
-							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
 							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
@@ -220,7 +239,7 @@ $cfg[&#39;Export&#39;][&#39;sql_drop_table&#39;] = true; //add DROP TABLE IF EXI
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 05/16/2016 at 10:40:55 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 12/20/2016 at 11:48:58 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>

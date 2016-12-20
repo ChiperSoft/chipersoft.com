@@ -48,39 +48,49 @@
 				</h1>
 			</div>
 			<div class="post-content"><p>New in MySQL 5.6 is support for interacting with a table as a raw key/value store, bypassing the SQL parser and make direct reads and writes to and from tables without the overhead of domain specific language.  This direct access affords significant performance gains and makes it much easier to use MySQL as a document store.  This is accessed via an interface most PHP developers are familiar with, Memcache.</p>
-<h3 id="installing-mysql-5-6-on-ubuntu-12-04-64bit">Installing MySQL 5.6 on Ubuntu 12.04 64bit</h3>
+<h3 id="installing-mysql-56-on-ubuntu-1204-64bit">Installing MySQL 5.6 on Ubuntu 12.04 64bit</h3>
 <blockquote>
 <p>If you have vagrant installed you can skip over the installation step by cloning my premade vagrant/chef repo, which will get you right up to enabling the memcache plugin.</p>
+</blockquote>
+<blockquote>
 <p><a href="https://github.com/ChiperSoft/mysql56-playground">https://github.com/ChiperSoft/mysql56-playground</a></p>
 </blockquote>
-<p>At the time of writing this article there are no pre-existing apt packages to install MySQL 5.6, so to get a development environment up and running we will need to install it manually using the debian package that Oracle has provided (you will need a different package for 32bit).  I&#39;m assuming at this point that you already have a working Ubuntu Server setup.  Additionally, all these commands must be run as an administrator, either via sudo or as root directly.</p>
+<p>At the time of writing this article there are no pre-existing apt packages to install MySQL 5.6, so to get a development environment up and running we will need to install it manually using the debian package that Oracle has provided (you will need a different package for 32bit).  I’m assuming at this point that you already have a working Ubuntu Server setup.  Additionally, all these commands must be run as an administrator, either via sudo or as root directly.</p>
 <p>The debian package lacks any of the system configuration elements that we will need, so to save us a lot of effort lets install MySQL 5.5 first.  We will also need LibAIO, an Asynchronous I/O library used by 5.6.</p>
 <pre><code>$ apt-get install mysql-server-5.5 mysql-client-5.5 libaio1
-</code></pre><p>Once this is done, download the 5.6 package, install it and set the correct account permissions.  We&#39;re also removing the new server&#39;s conf file (note, I&#39;m not positive this is needed, but it was in the chef recipe I got this from).</p>
+</code></pre>
+<p>Once this is done, download the 5.6 package, install it and set the correct account permissions.  We’re also removing the new server’s conf file (note, I’m not positive this is needed, but it was in the chef recipe I got this from).</p>
 <pre><code>$ wget http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.10-debian6.0-x86_64.deb
 $ dpkg -i mysql-5.6.10-debian6.0-x86_64.deb
 $ chown -R mysql /opt/mysql/server-5.6/
 $ chgrp -R mysql /opt/mysql/server-5.6/
 $ rm /opt/mysql/server-5.6/my.cnf
-</code></pre><p>We&#39;re setting up this service as <code>mysql.server</code>, so lets copy in the init.d settings.</p>
+</code></pre>
+<p>We’re setting up this service as <code>mysql.server</code>, so lets copy in the init.d settings.</p>
 <pre><code>$ cp /opt/mysql/server-5.6/support-files/mysql.server /etc/init.d/mysql.server
 $ update-rc.d mysql.server defaults
-</code></pre><p>Now we can remove the old 5.5 server.</p>
+</code></pre>
+<p>Now we can remove the old 5.5 server.</p>
 <pre><code>$ service mysql stop
 $ apt-get remove mysql-server mysql-server-5.5 mysql-server-core-5.5
-</code></pre><p>The debian package expects my.cnf to be in /etc, so we need to move the existing file and then update it with the new locations.</p>
+</code></pre>
+<p>The debian package expects my.cnf to be in /etc, so we need to move the existing file and then update it with the new locations.</p>
 <pre><code>$ mv /etc/mysql/my.cnf /etc/my.cnf
 $ nano /etc/my.cnf
-</code></pre><p>Alter the following options:</p>
+</code></pre>
+<p>Alter the following options:</p>
 <pre><code>$ basedir = /opt/mysql/server-5.6
-$ lc-messages-dir    = /opt/mysql/server-5.6/share
-</code></pre><p>Now run the setup script and set the execute permissions before starting the server:</p>
+$ lc-messages-dir	= /opt/mysql/server-5.6/share
+</code></pre>
+<p>Now run the setup script and set the execute permissions before starting the server:</p>
 <pre><code>$ /opt/mysql/server-5.6/scripts/mysql_install_db --user=mysql --datadir=/var/lib/mysql
 $ chmod 0744 /var/lib/mysql
 $ service mysql.server start
-</code></pre><p>Assuming all went well and good, you should now be able to connect to the server.</p>
+</code></pre>
+<p>Assuming all went well and good, you should now be able to connect to the server.</p>
 <pre><code>$ mysql -u root -p
-</code></pre><p>From inside the MySQL shell:</p>
+</code></pre>
+<p>From inside the MySQL shell:</p>
 <pre><code>mysql&gt; select version();
 +-----------+
 | version() |
@@ -88,11 +98,13 @@ $ service mysql.server start
 | 5.6.10    |
 +-----------+
 1 row in set (0.00 sec)
-</code></pre><p>However at this point the memcache plugin is not yet enabled.</p>
-<h3 id="enabling-the-memcache-interface-">Enabling the Memcache interface.</h3>
+</code></pre>
+<p>However at this point the memcache plugin is not yet enabled.</p>
+<h3 id="enabling-the-memcache-interface">Enabling the Memcache interface.</h3>
 <p>Before we can enable the interface we need to create the configuration tables that the plugin will use.  Back at the terminal:</p>
 <pre><code>$ mysql -u root -p &lt; /opt/mysql/server-5.6/share/innodb_memcached_config.sql
-</code></pre><p>This creates a new database named <code>innodb_memcache</code> containing three tables.  The first, <code>cache_policies</code>, controls the behavior of the memcache plugin, but isn&#39;t important at the moment.  The second, <code>config_options</code>, contains some basic settings that the plugin uses when parsing the memcache requests.</p>
+</code></pre>
+<p>This creates a new database named <code>innodb_memcache</code> containing three tables.  The first, <code>cache_policies</code>, controls the behavior of the memcache plugin, but isn’t important at the moment.  The second, <code>config_options</code>, contains some basic settings that the plugin uses when parsing the memcache requests.</p>
 <ul>
 <li><strong>separator</strong> is the delimiter used for splitting values up into multiple columns. In this install it defaults to a pipe (|) but some packages may use a comma.</li>
 <li><strong>table_map_delimiter</strong> is used to split a container name from the key name when requesting directly from a specific table.</li>
@@ -106,7 +118,8 @@ mysql&gt; select * from innodb_memcache.containers;
 | aaa  | test      | demo_test | c1          | c2            | c3    | c4         | c5                 | PRIMARY                |
 +------+-----------+-----------+-------------+---------------+-------+------------+--------------------+------------------------+
 1 row in set (0.00 sec)
-</code></pre><p>It also creates a demo_test table in the test database.</p>
+</code></pre>
+<p>It also creates a demo_test table in the test database.</p>
 <pre><code>mysql&gt; select * from test.demo_test;
 +----+--------------+------+------+------+
 | c1 | c2           | c3   | c4   | c5   |
@@ -114,55 +127,63 @@ mysql&gt; select * from innodb_memcache.containers;
 | AA | HELLO, HELLO |    8 |    0 |    0 |
 +----+--------------+------+------+------+
 1 row in set (0.00 sec)
-</code></pre><p>Because of the limited range of accessibility that a key/value system provides, InnoDB does not expose all tables to the memcache plugin. You must create containers to map a table&#39;s values into a structure that memcache can support.  This is the purpose of the <code>containers</code> table.  The container columns do as follows:</p>
+</code></pre>
+<p>Because of the limited range of accessibility that a key/value system provides, InnoDB does not expose all tables to the memcache plugin. You must create containers to map a table’s values into a structure that memcache can support.  This is the purpose of the <code>containers</code> table.  The container columns do as follows:</p>
 <ul>
 <li><strong>name</strong>: This is the name that will be used inside memcache to refer to the collection.  If a collection named <code>default</code> exists then the plugin will always use that collection upon initial connect, otherwise it defaults to the first entry in the table.</li>
 <li><strong>db_schema</strong>: Database name</li>
 <li><strong>db_table</strong>: Table name</li>
-<li><strong>key_columns</strong>: The column to use for the key lookup. Don&#39;t let the plural name fool you, currently this only takes a single column.</li>
+<li><strong>key_columns</strong>: The column to use for the key lookup. Don’t let the plural name fool you, currently this only takes a single column.</li>
 <li><strong>value_columns</strong>: The column or columns that data will be pulled from and stored to. This is where the separator configuration comes in. Multiple column names can be defined by combining them with the separator value.  Example: firstname|lastname would pull data from both a firstname and lastname column.</li>
 <li><strong>flags</strong>: The column to store memcache flags in, an integer used to mark rows for memcache operations. If multiple columns are defined in <code>value_columns</code> then the flag column will be used for memcache <code>incr</code> operations.  This column is optional for basic get/set operations, but is needed for full memcache compliance.</li>
 <li><strong>cas_column</strong> and <strong>expire_time_column</strong>: These two columns are used for storing memcache compare-and-swap and expiration values. According to the official docs, these are rarely needed and can be left NULL unless you want full memcache compliance.</li>
-<li><strong>unique_idx_name_on_key</strong>: The name of the index to use for the key column. It <em>must</em> be a UNIQUE index, and it is recommended that you use the primary key for the table. You can simply use &quot;PRIMARY&quot; in that case. I do not recommend using an auto incrementing index, as you cannot insert to an auto incremented key.</li>
+<li><strong>unique_idx_name_on_key</strong>: The name of the index to use for the key column. It <em>must</em> be a UNIQUE index, and it is recommended that you use the primary key for the table. You can simply use “PRIMARY” in that case. I do not recommend using an auto incrementing index, as you cannot insert to an auto incremented key.</li>
 </ul>
 <p>Changes to the containers table require restarting the server (or at least the plugin) for change to full take effect, so before we enable the plugin lets create a new table and container to experiment with.</p>
 <pre><code>mysql&gt; CREATE TABLE `test`.`users` (
-  `user_id` varchar(32) NOT NULL DEFAULT &#39;&#39;,
+  `user_id` varchar(32) NOT NULL DEFAULT '',
   `first` varchar(100) DEFAULT NULL,
   `last` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB
-</code></pre><p>Currently we don&#39;t have a <code>default</code> container, so we&#39;ll use that as the name for the new container.</p>
+</code></pre>
+<p>Currently we don’t have a <code>default</code> container, so we’ll use that as the name for the new container.</p>
 <pre><code>mysql&gt; INSERT INTO `containers` (`name`, `db_schema`, `db_table`, `key_columns`, `value_columns`, `unique_idx_name_on_key`)
-VALUES (&#39;default&#39;, &#39;test&#39;, &#39;users&#39;, &#39;user_id&#39;, &#39;first|last&#39;, &#39;PRIMARY&#39;);
-</code></pre><p>Now we&#39;re ready to turn on the plugin.</p>
-<pre><code>mysql&gt; INSTALL PLUGIN daemon_memcached SONAME &#39;libmemcached.so&#39;;
+VALUES ('default', 'test', 'users', 'user_id', 'first|last', 'PRIMARY');
+</code></pre>
+<p>Now we’re ready to turn on the plugin.</p>
+<pre><code>mysql&gt; INSTALL PLUGIN daemon_memcached SONAME 'libmemcached.so';
 mysql&gt; SHOW plugins;
-</code></pre><p>You&#39;ll get a huge list of plugins, but near the bottom you should see:</p>
+</code></pre>
+<p>You’ll get a huge list of plugins, but near the bottom you should see:</p>
 <pre><code>| daemon_memcached           | ACTIVE   | DAEMON             | libmemcached.so | GPL     |
-</code></pre><p>Exit back out to the shell and run:</p>
+</code></pre>
+<p>Exit back out to the shell and run:</p>
 <pre><code>$ sudo netstat -tap
 Active Internet connections (servers and established)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
 tcp        0      0 localhost:mysql         *:*                     LISTEN      3167/mysqld     
 tcp        0      0 *:11211                 *:*                     LISTEN      3167/mysqld     
-</code></pre><p>Note that mysql is listening on port 11211 now. This is the memcache interface up and running.</p>
-<h3 id="testing-the-interface-">Testing the interface.</h3>
-<p>We could create some code here, but it&#39;s much simpler to just connect directly and issue some commands.</p>
+</code></pre>
+<p>Note that mysql is listening on port 11211 now. This is the memcache interface up and running.</p>
+<h3 id="testing-the-interface">Testing the interface.</h3>
+<p>We could create some code here, but it’s much simpler to just connect directly and issue some commands.</p>
 <pre><code>$ telnet localhost 11211
 Trying 127.0.0.1...
 Connected to localhost.
-Escape character is &#39;^]&#39;.
-</code></pre><p>Lets store a value.</p>
+Escape character is '^]'.
+</code></pre>
+<p>Lets store a value.</p>
 <pre><code>set foo 0 0 14
 Jarvis|Badgley
 STORED
-</code></pre><ul>
+</code></pre>
+<ul>
 <li><code>set</code> tells memcache that we want to store a value,</li>
 <li><code>foo</code> is the key to store it under</li>
 <li>The first <code>0</code> is the flags to use</li>
 <li>The second <code>0</code> is the expiration TTL</li>
-<li>The <code>14</code> tells it the length of the string that we&#39;re going to store.</li>
+<li>The <code>14</code> tells it the length of the string that we’re going to store.</li>
 <li><code>Jarvis|Badgley</code> is our value to store.</li>
 </ul>
 <p>Because we defined two columns in our container definition, we can split the two values with a pipe to send them to the respective columns.  <strong>Note</strong>: I have not found any information indicating how to escape a character to avoid a false column separation, so be aware of the need to avoid having the delimiter character in your stored data.</p>
@@ -170,7 +191,8 @@ STORED
 VALUE foo 0 14
 Jarvis|Badgley
 END
-</code></pre><p>Now if we query mysql we can see our value stored in the table:</p>
+</code></pre>
+<p>Now if we query mysql we can see our value stored in the table:</p>
 <pre><code>mysql&gt; select * from `test`.`users`;
 +-----+--------+---------+
 | id  | first  | last    |
@@ -178,12 +200,14 @@ END
 | foo | Jarvis | Badgley |
 +-----+--------+---------+
 1 row in set (0.00 sec)
-</code></pre><p>The memcache interface also supports directly addressing a specific container.  We still have our <code>aaa</code> container defined from the test table that the setup created, which has a value under the key &quot;AA&quot;.  You can address a specific container by prefixing its name with @@, and placing a period between the container name and the key name.</p>
+</code></pre>
+<p>The memcache interface also supports directly addressing a specific container.  We still have our <code>aaa</code> container defined from the test table that the setup created, which has a value under the key “AA”.  You can address a specific container by prefixing its name with @@, and placing a period between the container name and the key name.</p>
 <pre><code>get @@aaa.AA
 VALUE @@aaa.AA 8 12
 HELLO, HELLO
 END
-</code></pre><p>The <code>table_map_delimiter</code> configuration value that I mentioned earlier controls what character is used to separate the container name from the key name.</p>
+</code></pre>
+<p>The <code>table_map_delimiter</code> configuration value that I mentioned earlier controls what character is used to separate the container name from the key name.</p>
 <p>You can also switch containers for all future requests by performing a get on just the prefixed container name.</p>
 <pre><code>get @aaa
 END
@@ -191,28 +215,32 @@ get AA
 VALUE AA 8 12
 HELLO, HELLO
 END
-</code></pre><p>The connection will continue to use that container until you change it or disconnect, much like the USE command in SQL.</p>
+</code></pre>
+<p>The connection will continue to use that container until you change it or disconnect, much like the USE command in SQL.</p>
 <p>Now lets exit out of the memcache connection and get some simple PHP code working.  Press control-] and enter to return to the telnet prompt.</p>
 <pre><code>^]
 
 telnet&gt; quit
 Connection closed.
-</code></pre><h3 id="connecting-with-php">Connecting with PHP</h3>
-<p>I&#39;ve installed php5-cli with the php5-memcache module, so lets make a basic bit of code.</p>
+</code></pre>
+<h3 id="connecting-with-php">Connecting with PHP</h3>
+<p>I’ve installed php5-cli with the php5-memcache module, so lets make a basic bit of code.</p>
 <pre><code>&lt;?php
 $memcache = new Memcache;
-if (!$memcache-&gt;connect(&#39;localhost&#39;, 11211)) throw new Exception(&quot;Could not connect&quot;);
+if (!$memcache-&gt;connect('localhost', 11211)) throw new Exception(&quot;Could not connect&quot;);
 
-if (!$memcache-&gt;set(&#39;bar&#39;, &#39;John|Smith&#39;)) throw new Exception(&quot;Could not store value&quot;);
+if (!$memcache-&gt;set('bar', 'John|Smith')) throw new Exception(&quot;Could not store value&quot;);
 
-$memcache-&gt;get(&#39;@@aaa&#39;); //switch containers
-$result = $memcache-&gt;get(&#39;AA&#39;);
+$memcache-&gt;get('@@aaa'); //switch containers
+$result = $memcache-&gt;get('AA');
 
 var_dump($result);
-</code></pre><p>And now we run it from the shell:</p>
+</code></pre>
+<p>And now we run it from the shell:</p>
 <pre><code>$ php -f memcache.php 
 string(12) &quot;HELLO, HELLO&quot;
-</code></pre><p>And inside MySQL we can now see our new &quot;bar&quot; value stored.</p>
+</code></pre>
+<p>And inside MySQL we can now see our new “bar” value stored.</p>
 <pre><code>mysql&gt; select * from test.users;
 +-----+--------+---------+
 | id  | first  | last    |
@@ -221,8 +249,9 @@ string(12) &quot;HELLO, HELLO&quot;
 | foo | Jarvis | Badgley |
 +-----+--------+---------+
 2 rows in set (0.00 sec)
-</code></pre><h2 id="conclusion">Conclusion</h2>
-<p>The feature is still young and has a few problems.  For example, data written to the memcache interface goes into a memory buffer before becoming available via the standard mysql interface.  Sometimes it would take several seconds before I could see my changes from one side appear on the other side, in both directions.  This also occurs when changing the container configuration, which is why I recommend restarting mysql after doing so.  The configuration of containers is also not very friendly, and you receive no indication why something is setup wrong, or sometimes even IF it is setup wrong, you simply can&#39;t access your data via memcache, or the memcache writes end up going into a different table.</p>
+</code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>The feature is still young and has a few problems.  For example, data written to the memcache interface goes into a memory buffer before becoming available via the standard mysql interface.  Sometimes it would take several seconds before I could see my changes from one side appear on the other side, in both directions.  This also occurs when changing the container configuration, which is why I recommend restarting mysql after doing so.  The configuration of containers is also not very friendly, and you receive no indication why something is setup wrong, or sometimes even IF it is setup wrong, you simply can’t access your data via memcache, or the memcache writes end up going into a different table.</p>
 <p>There is no doubt in my mind that this new interface is going to be a massive boon to scalability.  In my next post I will show how you can use this interface to create a multi-columned data object model.</p>
 <h3 id="references">References</h3>
 <ul>
@@ -242,6 +271,7 @@ string(12) &quot;HELLO, HELLO&quot;
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
 							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
 							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
 							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
@@ -249,9 +279,9 @@ string(12) &quot;HELLO, HELLO&quot;
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
 							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
-							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
 							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
@@ -299,7 +329,7 @@ string(12) &quot;HELLO, HELLO&quot;
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 05/16/2016 at 10:40:55 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 12/20/2016 at 11:48:58 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>

@@ -47,26 +47,26 @@
 					<small class="post-date">July 10th, 2012</small>
 				</h1>
 			</div>
-			<div class="post-content"><p>Jeff Atwood says that people need to stop bitching about how bad PHP is and actually product something to replace it.  Here&#39;s the problem with that statement tho, the people who complain about PHP already think they already have a better replacement.  If you ask them what language to use instead, odds are they&#39;ll tell you Ruby, Python, or Node.js.  If they&#39;re Enterprise developers they&#39;ll probably say Java or .NET.  All five of these answers completely miss the point.  They are viewing web programming from a programming perspective.</p>
-<p>Programmers are not the people who made PHP the kingpin of the web that it is today.  If your biggest problems with PHP all stem from the fact that the language doesn&#39;t behave like the languages you learned in college, you are not PHP&#39;s target audience.  You do not have the niche that PHP fills, and that makes you completely unqualified to create something that could replace it.</p>
-<p>My first programming language was JavaScript, it&#39;s the language that I learned the basics of programming in.  Unlike seemingly a lot of people, I&#39;ve never had any problems understanding how JS works.  I don&#39;t see what the hell is so weird about prototypical inheritance (sure, classes are easier, but it&#39;s not all <strong>that</strong>  different).  I&#39;ve never had problems with data types or comparisons going awry.  I&#39;ve never found navigating the DOM to be all that awful (yes, it could be a lot easier, but it&#39;s a tree structure, it&#39;s really not that complicated).  I&#39;ve been making websites since 1994, and I&#39;ve never found any of the web technologies to be confusing.</p>
-<p>My second language was AppleScript, my third language was REALbasic.  I dabbled with Pascal and FORTAN a bit in high school, and then I went to college.  I learned C, I learned Java, I learned Assembly.  I learned how arrays, linked lists, binary sorts and other rudimentary data structures are done.  I learned how network stacks and transfer protocols work.  I learned how to do GUI programming in Windows using C++.  I learned how to do GUI programming on the Mac in Objective-C.  I learned how to write servlets.  I&#39;ve written both servers and clients for dozens of protocols in multiple languages.  </p>
-<p>Then, I learned PHP, and I learned that don&#39;t want to deal with any of that shit ever again.  I don&#39;t want to handle memory management, juggle pointers or convert data types.  I don&#39;t want to handle http requests or manage a daemon.  I don&#39;t want to try to abstract my data on to a templating language that bears no similarity to the rest of my code.  I don&#39;t want to be constrained into a pre-defined file structure, or a framework built by someone I&#39;ve never met.  Separation of business and presentation logic is always important, but if I want to spit out some HTML from within an object, I don&#39;t want to have to create a string and pass it to some response gateway.  If I&#39;ve got a page that&#39;s mostly static content wrapped in a template, I like being able to just toss in a couple includes around normal HTML.  I like being able to say <code>if ($value)</code> and not worry about if the value is undefined, an empty string, a 0, or a string containing a 0.  </p>
+			<div class="post-content"><p>Jeff Atwood says that people need to stop bitching about how bad PHP is and actually product something to replace it.  Here’s the problem with that statement tho, the people who complain about PHP already think they already have a better replacement.  If you ask them what language to use instead, odds are they’ll tell you Ruby, Python, or Node.js.  If they’re Enterprise developers they’ll probably say Java or .NET.  All five of these answers completely miss the point.  They are viewing web programming from a programming perspective.</p>
+<p>Programmers are not the people who made PHP the kingpin of the web that it is today.  If your biggest problems with PHP all stem from the fact that the language doesn’t behave like the languages you learned in college, you are not PHP’s target audience.  You do not have the niche that PHP fills, and that makes you completely unqualified to create something that could replace it.</p>
+<p>My first programming language was JavaScript, it’s the language that I learned the basics of programming in.  Unlike seemingly a lot of people, I’ve never had any problems understanding how JS works.  I don’t see what the hell is so weird about prototypical inheritance (sure, classes are easier, but it’s not all <strong>that</strong>  different).  I’ve never had problems with data types or comparisons going awry.  I’ve never found navigating the DOM to be all that awful (yes, it could be a lot easier, but it’s a tree structure, it’s really not that complicated).  I’ve been making websites since 1994, and I’ve never found any of the web technologies to be confusing.</p>
+<p>My second language was AppleScript, my third language was REALbasic.  I dabbled with Pascal and FORTAN a bit in high school, and then I went to college.  I learned C, I learned Java, I learned Assembly.  I learned how arrays, linked lists, binary sorts and other rudimentary data structures are done.  I learned how network stacks and transfer protocols work.  I learned how to do GUI programming in Windows using C++.  I learned how to do GUI programming on the Mac in Objective-C.  I learned how to write servlets.  I’ve written both servers and clients for dozens of protocols in multiple languages.</p>
+<p>Then, I learned PHP, and I learned that don’t want to deal with any of that shit ever again.  I don’t want to handle memory management, juggle pointers or convert data types.  I don’t want to handle http requests or manage a daemon.  I don’t want to try to abstract my data on to a templating language that bears no similarity to the rest of my code.  I don’t want to be constrained into a pre-defined file structure, or a framework built by someone I’ve never met.  Separation of business and presentation logic is always important, but if I want to spit out some HTML from within an object, I don’t want to have to create a string and pass it to some response gateway.  If I’ve got a page that’s mostly static content wrapped in a template, I like being able to just toss in a couple includes around normal HTML.  I like being able to say <code>if ($value)</code> and not worry about if the value is undefined, an empty string, a 0, or a string containing a 0.</p>
 <p>Last year I learned Python, looked into Ruby and dabbled with CoffeeScript.  From them I learned that I hate languages with significant whitespace (tho I should have known that from my experience with Pascal).  I regularly use Node for testing API calls and writing basic maintenance scripts.  From it I learned that I hate having to manage my own event loop.</p>
-<p>In short, I just want to make web apps, quickly and efficiently, and under my own terms.  I am exactly the nitch that PHP is built to fill, and I feel like that puts me in an ideal position to design a language that could replace it; because, yes, it does need to be replaced.  I will be the first to admit that PHP has 15 years of cruft still dragging behind it, and the only way to clean it out will be to start over.  The standard toolkit wasn&#39;t designed, it was cobbled together by bits and pieces of C code.  OOP was added half way into PHP&#39;s lifespan, it&#39;s taken 8 years to get it right, and there&#39;s still things that need fixing.  None of these things can be improved without completely gutting the language, breaking all backwards compatibility, and under the current regime that will never happen.</p>
-<p>The only option is to build a new language entirely.  Alas, I lack neither the experience or the knowledge to implement even a language parser, much less a JIT bytecode compiler.  That, however, doesn&#39;t keep me from designing what I believe such a language should be.  Perhaps someone who <em>does</em> have this experience will find this document and use it as a roadmap to build such a language.  I shall call this language...</p>
+<p>In short, I just want to make web apps, quickly and efficiently, and under my own terms.  I am exactly the nitch that PHP is built to fill, and I feel like that puts me in an ideal position to design a language that could replace it; because, yes, it does need to be replaced.  I will be the first to admit that PHP has 15 years of cruft still dragging behind it, and the only way to clean it out will be to start over.  The standard toolkit wasn’t designed, it was cobbled together by bits and pieces of C code.  OOP was added half way into PHP’s lifespan, it’s taken 8 years to get it right, and there’s still things that need fixing.  None of these things can be improved without completely gutting the language, breaking all backwards compatibility, and under the current regime that will never happen.</p>
+<p>The only option is to build a new language entirely.  Alas, I lack neither the experience or the knowledge to implement even a language parser, much less a JIT bytecode compiler.  That, however, doesn’t keep me from designing what I believe such a language should be.  Perhaps someone who <em>does</em> have this experience will find this document and use it as a roadmap to build such a language.  I shall call this language…</p>
 <h2 id="w">W</h2>
-<p>Why W?  For &quot;Web&quot;, obviously.  Also, because it seems that every language needs a moniker with under four characters, and the letter W doesn&#39;t appear to be taken.</p>
-<p>First lets start with the basics, the very foundation.  What has made PHP the single most popular language for server side development?  Some people will tell you it&#39;s that it&#39;s extremely easy to deploy.  This is not a cause, it is an effect, it is the result of the runtime blending so well with Apache, and there being so many hosting companies supporting it.  This is also used as a reason, but again we are looking at effect instead of causation. If you go back 15 years ago PHP was barely getting started, the most popular languages for server side applications were Perl, Java and C.  The reason we have so many PHP hosts today is because there are so many PHP developers who need hosting.  So why are there so many PHP developers?</p>
-<p>It all starts with a simple command: <code>&lt;?php include &#39;header.html&#39;; ?&gt;</code>.  You&#39;ve got a static website, every single page on the site needs to have the same header and footer HTML, and it gets really frustrating copying and pasting all that boilerplate to every single page, especially if you need to alter it after a dozen or more pages have been made.  Tools were invented to help with this sort of thing – Dreamweaver has an excellent templating system that handles the automatic insertion and updating of templates, for example – but these tools cannot match the simplicity of a single line at the top and bottom of the page.</p>
-<p>I would wager that <em>at least</em> half of all PHP developers started with this one simple task, of automatically including a chunk of HTML inline with a chunk of other HTML.  They didn&#39;t have to create a full application stack, they didn&#39;t have to move their code into a cgi-bin folder, they probably didn&#39;t even have to change any server configuration.  All they had to do was change the filename from <code>.html</code> to <code>.php</code>, and suddenly their lives were significantly easier.  Next they added a <code>date()</code> call to the footer to make sure the copyright was current.  After that they built a basic POST form submit that handled contact emails.  They started performing primitive CMS tasks by reading in from static data files.  Eventually they found some example code for how to connect to a database and created a basic news feed.</p>
+<p>Why W?  For “Web”, obviously.  Also, because it seems that every language needs a moniker with under four characters, and the letter W doesn’t appear to be taken.</p>
+<p>First lets start with the basics, the very foundation.  What has made PHP the single most popular language for server side development?  Some people will tell you it’s that it’s extremely easy to deploy.  This is not a cause, it is an effect, it is the result of the runtime blending so well with Apache, and there being so many hosting companies supporting it.  This is also used as a reason, but again we are looking at effect instead of causation. If you go back 15 years ago PHP was barely getting started, the most popular languages for server side applications were Perl, Java and C.  The reason we have so many PHP hosts today is because there are so many PHP developers who need hosting.  So why are there so many PHP developers?</p>
+<p>It all starts with a simple command: <code>&lt;?php include 'header.html'; ?&gt;</code>.  You’ve got a static website, every single page on the site needs to have the same header and footer HTML, and it gets really frustrating copying and pasting all that boilerplate to every single page, especially if you need to alter it after a dozen or more pages have been made.  Tools were invented to help with this sort of thing – Dreamweaver has an excellent templating system that handles the automatic insertion and updating of templates, for example – but these tools cannot match the simplicity of a single line at the top and bottom of the page.</p>
+<p>I would wager that <em>at least</em> half of all PHP developers started with this one simple task, of automatically including a chunk of HTML inline with a chunk of other HTML.  They didn’t have to create a full application stack, they didn’t have to move their code into a cgi-bin folder, they probably didn’t even have to change any server configuration.  All they had to do was change the filename from <code>.html</code> to <code>.php</code>, and suddenly their lives were significantly easier.  Next they added a <code>date()</code> call to the footer to make sure the copyright was current.  After that they built a basic POST form submit that handled contact emails.  They started performing primitive CMS tasks by reading in from static data files.  Eventually they found some example code for how to connect to a database and created a basic news feed.</p>
 <p>This is the single most important feature that any PHP replacement <strong>must</strong> have.  Coding purists loath it, MVC zealots cry out in pain over it, and every poor PHP newbie who has stumbled into a discussion forum quickly finds themselves abused for it, but without it PHP would never have become the juggernaut that it is today.</p>
-<h3 id="w-must-">W must...</h3>
+<h3 id="w-must">W must…</h3>
 <ul>
-<li>...be embeddable within html.</li>
-<li>...be usable alongside static assets without any other framework or configuration beyond installation of the runtime</li>
-<li>...be pluggable into the existing major web servers (Apache, nginx, lighttp, IIS)</li>
-<li>...be able to include entire chunks of html or code directly into the execution thread</li>
+<li>…be embeddable within html.</li>
+<li>…be usable alongside static assets without any other framework or configuration beyond installation of the runtime</li>
+<li>…be pluggable into the existing major web servers (Apache, nginx, lighttp, IIS)</li>
+<li>…be able to include entire chunks of html or code directly into the execution thread</li>
 </ul>
 <p>Engine</p>
 <ul>
@@ -74,17 +74,17 @@
 <li>Configuration file is json.  Any page can load in a new config to be merged on top of existing config settings, but it must be loaded at the start of the request.</li>
 <li>Must have a standard toolkit that is as complete as PHPs</li>
 <li>Needs autoloading</li>
-<li>Should be event driven, but that eventing should be handled at the runtime level, not forced upon the developer.  There is nothing wrong with halting the current execution thread while an I/O operation completes.  The majority of my I/O operations will be collecting data to output, so I don&#39;t have anything to do until those operations are done, anyway.  Give me a way to fire off chunks of code outside of the current execution stack and keep my I/O functions</li>
+<li>Should be event driven, but that eventing should be handled at the runtime level, not forced upon the developer.  There is nothing wrong with halting the current execution thread while an I/O operation completes.  The majority of my I/O operations will be collecting data to output, so I don’t have anything to do until those operations are done, anyway.  Give me a way to fire off chunks of code outside of the current execution stack and keep my I/O functions</li>
 </ul>
 <p>Syntax:</p>
 <ul>
-<li>No significant whitespace, it doesn&#39;t work when embedded in html</li>
+<li>No significant whitespace, it doesn’t work when embedded in html</li>
 <li>Uses prototypical inheritance, but has class keyword to allow usage in a classical manner</li>
 <li>Object wrapped literals (strings, numbers, arrays), same as JS.</li>
 <li>Period denotes member reference, same as JS</li>
 <li>Fixed point decimal type built in (default over floats?)</li>
 <li>Semi-colons required</li>
-<li>Code contained inside &lt;? ?&gt; blocks, same as PHP.  May be omitted if certain file extension.</li>
+<li>Code contained inside <? ?> blocks, same as PHP.  May be omitted if certain file extension.</li>
 </ul>
 <p>Functions</p>
 <ul>
@@ -110,9 +110,9 @@
 </ul>
 <p>Strings</p>
 <ul>
-<li>Uses python&#39;s string indexing (ie string_var[-4, 2] for substrings)</li>
+<li>Uses python’s string indexing (ie string_var[-4, 2] for substrings)</li>
 <li>Unique operator for string concatenation, recommend two character ($ or @?)</li>
-<li>&#39;&#39; for string literals, &quot;&quot; for string templating using {variable} syntax.</li>
+<li>‘’ for string literals, “” for string templating using {variable} syntax.</li>
 </ul>
 </div>
 		</article>
@@ -124,6 +124,7 @@
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
 							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
 							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
 							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
@@ -131,9 +132,9 @@
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
 							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
-							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
 							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
@@ -181,7 +182,7 @@
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 05/16/2016 at 10:40:55 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 12/20/2016 at 11:48:58 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>

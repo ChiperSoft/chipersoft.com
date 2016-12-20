@@ -47,49 +47,68 @@
 					<small class="post-date">August 19th, 2011</small>
 				</h1>
 			</div>
-			<div class="post-content"><p>Went looking for information on this today to link to someone and couldn&#39;t find anything recent, so I figured I&#39;d write one up myself.  Here&#39;s a simple process for getting a 100% legal copy of IE9 running on your mac using disk images provided by Microsoft themselves.</p>
+			<div class="post-content"><p>Went looking for information on this today to link to someone and couldn’t find anything recent, so I figured I’d write one up myself.  Here’s a simple process for getting a 100% legal copy of IE9 running on your mac using disk images provided by Microsoft themselves.</p>
 <ol>
-<li><p>Download and install a copy of <a href="http://www.virtualbox.org/">virtualbox</a>, it&#39;s a free virtualization program like VMWare or Parallels.  Make sure you have the command line utilities checked in the installer.</p>
+<li>
+<p>Download and install a copy of <a href="http://www.virtualbox.org/">virtualbox</a>, it’s a free virtualization program like VMWare or Parallels.  Make sure you have the command line utilities checked in the installer.</p>
 </li>
-<li><p>Download the official <a href="http://www.microsoft.com/download/en/details.aspx?id=11575">Microsoft Application Compatibility Virtual PC Image</a> for IE9.  As of this writing the latest versions are as of August 16th, 2011.  The IE9 image is a seven part self extracting RAR file.  Images are also available for IE7 and IE8.  This image contains a fully legal copy of Microsoft Windows 7, licensed for developer debugging use in a virtual machine only.</p>
+<li>
+<p>Download the official <a href="http://www.microsoft.com/download/en/details.aspx?id=11575">Microsoft Application Compatibility Virtual PC Image</a> for IE9.  As of this writing the latest versions are as of August 16th, 2011.  The IE9 image is a seven part self extracting RAR file.  Images are also available for IE7 and IE8.  This image contains a fully legal copy of Microsoft Windows 7, licensed for developer debugging use in a virtual machine only.</p>
 </li>
-<li><p>Use unrar (installed via macports or homebrew) or <a href="http://wakaba.c3.cx/s/apps/unarchiver.html">The Unarchiver</a> to extra the multipart archive.  This will result in two files: <code>Windows 7.vhd</code> and <code>Windows 7.vmc</code>.  You can discard the vmc file.</p>
+<li>
+<p>Use unrar (installed via macports or homebrew) or <a href="http://wakaba.c3.cx/s/apps/unarchiver.html">The Unarchiver</a> to extra the multipart archive.  This will result in two files: <code>Windows 7.vhd</code> and <code>Windows 7.vmc</code>.  You can discard the vmc file.</p>
 </li>
-<li><p>Open the terminal and <code>cd</code> to the directory you extracted the vhd file into.  Run the following command:</p>
+<li>
+<p>Open the terminal and <code>cd</code> to the directory you extracted the vhd file into.  Run the following command:</p>
+</li>
+</ol>
 <p><code>VBoxManage clonehd &quot;Windows 7.vhd&quot; Windows_7_IE9.vdi</code></p>
+<ol start="5">
+<li>
+<p>Move the resulting .vdi file into a safe location.  By default VirtualBox puts its disk images in a unique folder inside <code>~/VirtualBox VMs</code>, but I prefer them to be on a separate disk partition.</p>
 </li>
-<li><p>Move the resulting .vdi file into a safe location.  By default VirtualBox puts its disk images in a unique folder inside <code>~/VirtualBox VMs</code>, but I prefer them to be on a separate disk partition.</p>
+<li>
+<p>Launch VirtualBox and click the New button on the toolbar (or select New… from the Machine menu).  This will launch the new virtual machine wizard.  Name the machine however you want and select Windows 7 from the Operating System Version menu.</p>
 </li>
-<li><p>Launch VirtualBox and click the New button on the toolbar (or select New... from the Machine menu).  This will launch the new virtual machine wizard.  Name the machine however you want and select Windows 7 from the Operating System Version menu.</p>
+</ol>
 <p><img src="http://i.imgur.com/jMvhK.png" alt=""></p>
-</li>
-<li><p>VirtualBox will allocate 512MB by default, which in my experience is enough for basic web testing, you may wish to give it more.</p>
+<ol start="7">
+<li>VirtualBox will allocate 512MB by default, which in my experience is enough for basic web testing, you may wish to give it more.</li>
+</ol>
 <p><img src="http://i.imgur.com/jqvo4.png" alt=""></p>
-</li>
-<li><p>When prompted for the hard disk, choose &quot;Use existing hard disk&quot; and click on the browse icon to the right of the menu.  Find the Windows_7_IE9.vdi file that we created in step 4.  Click through the remaining dialog panes and finish the wizard.</p>
+<ol start="8">
+<li>When prompted for the hard disk, choose “Use existing hard disk” and click on the browse icon to the right of the menu.  Find the Windows_7_IE9.vdi file that we created in step 4.  Click through the remaining dialog panes and finish the wizard.</li>
+</ol>
 <p><img src="http://i.imgur.com/Uv2R0.png" alt="">
 <img src="http://i.imgur.com/6YBXH.png" alt=""></p>
-</li>
-<li><p>Due to an incompatibility with VirtualBox and VirtualPC, this disk image will Bluescreen when you attempt to launch it, so there is one more thing that has to be changed to get it working.  Select the new virtual machine and click on the Settings button.  Switch to the Storage tab.  By default VirtualBox places the boot media on the SATA controller; you need to move it to the IDE controller.  </p>
+<ol start="9">
+<li>Due to an incompatibility with VirtualBox and VirtualPC, this disk image will Bluescreen when you attempt to launch it, so there is one more thing that has to be changed to get it working.  Select the new virtual machine and click on the Settings button.  Switch to the Storage tab.  By default VirtualBox places the boot media on the SATA controller; you need to move it to the IDE controller.</li>
+</ol>
 <p><img src="http://i.imgur.com/grn0R.png" alt=""></p>
 <p>Do this by selecting the IDE controller and choosing Add Hard Disk from the plus button menu.  Select the .vdi file from the list and click OK.  Now remove that same drive from the SATA Controller by selecting it and clicking the minus button.  Click OK.</p>
+<ol start="10">
+<li>
+<p>Select your newly made Windows 7 virtual machine and click Start.</p>
 </li>
-<li><p>Select your newly made Windows 7 virtual machine and click Start.</p>
+<li>
+<p>When you get to the windows login screen, choose Administrator.  The login password is “Password1”</p>
 </li>
-<li><p>When you get to the windows login screen, choose Administrator.  The login password is &quot;Password1&quot;</p>
+<li>
+<p>Windows will tell you that the copy you are using is non-genuine. Microsoft does not issue valid keys with these images, as they are intended to be temporary, and their official stance is to just reset the disk image when the trial expires (seriously, it’s in that link above).</p>
 </li>
-<li><p>Windows will tell you that the copy you are using is non-genuine. Microsoft does not issue valid keys with these images, as they are intended to be temporary, and their official stance is to just reset the disk image when the trial expires (seriously, it&#39;s in that link above).  </p>
+</ol>
 <p><img src="http://i.imgur.com/ayVcy.png" alt=""></p>
 <p>Click cancel on the activation dialog box so it takes you to the desktop.  Double click on the Command Prompt icon and type in the following:</p>
-<p><code>slmgr –rearm</code></p>
-<p>This command resets the genuine advantage countdown timer to 30 days so that it will stop bugging you every time you launch it.  Unfortunately, Windows Security Essentials will continue to bug you about it, so feel free to disable that.  A dialog will popup telling you to restart, but we don&#39;t want to do that yet.</p>
-</li>
-<li><p>Press the command key to get Windows to release your mouse, and choose &quot;Install Guest Additions&quot; from the Devices menu in Virtualbox.  Windows will popup an AutoPlay confirmation, click &quot;Run VBoxWindowsAdditions.exe&quot;.  An installer will launch, click through all the dialogs.  When Windows Security prompts for permission, click Install.  </p>
+<pre><code>`slmgr –rearm`
+</code></pre>
+<p>This command resets the genuine advantage countdown timer to 30 days so that it will stop bugging you every time you launch it.  Unfortunately, Windows Security Essentials will continue to bug you about it, so feel free to disable that.  A dialog will popup telling you to restart, but we don’t want to do that yet.</p>
+<ol start="13">
+<li>Press the command key to get Windows to release your mouse, and choose “Install Guest Additions” from the Devices menu in Virtualbox.  Windows will popup an AutoPlay confirmation, click “Run VBoxWindowsAdditions.exe”.  An installer will launch, click through all the dialogs.  When Windows Security prompts for permission, click Install.</li>
+</ol>
 <p><img src="http://i.imgur.com/8rKj9.png" alt=""></p>
 <p>Finally, when it asks to restart, let it.</p>
-</li>
-<li><p>The final step is optional, and that&#39;s to enable to auto-login feature so you don&#39;t have to enter the password every time you launch the machine.  <a href="http://channel9.msdn.com/Blogs/coolstuff/Tip-Auto-Login-Your-Windows-7-User-Account">This article on MSDN will show you how to do that.</a></p>
-</li>
+<ol start="14">
+<li>The final step is optional, and that’s to enable to auto-login feature so you don’t have to enter the password every time you launch the machine.  <a href="http://channel9.msdn.com/Blogs/coolstuff/Tip-Auto-Login-Your-Windows-7-User-Account">This article on MSDN will show you how to do that.</a></li>
 </ol>
 <p>Congratulations, you now have a 100% legal copy of IE9 on your Mac.  These disk images are valid for 3 months from the date they were made (The August 2011 images expire November 17, 2011).  You will need to repeat this process for the new images when they come out.</p>
 <p>If you need to configure Windows for any local virtualhosts, the file you need is <code>C:\Windows\System32\drivers\etc\hosts</code> (note, you need to be an Administrator to save the file), and the IP to forward to is 10.0.2.2 (which is also localhost).</p>
@@ -104,6 +123,7 @@
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
 							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
 							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
 							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
@@ -111,9 +131,9 @@
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
 							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
-							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
 							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
@@ -161,7 +181,7 @@
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 05/16/2016 at 10:40:55 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 12/20/2016 at 11:48:58 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>

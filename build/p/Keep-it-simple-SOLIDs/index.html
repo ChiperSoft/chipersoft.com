@@ -47,8 +47,8 @@
 					<small class="post-date">March 24th, 2012</small>
 				</h1>
 			</div>
-			<div class="post-content"><p>There&#39;s been a lot of attention in the PHP blogosphere lately about class design; a lot of focus on improving the structure of classes to facilitate testing and easier maintenance.  This is good, people should be paying attention to how they build their classes; I know just as well as anyone that nothing is worse than going back to an old project to add new functionality and realizing that your class structure simply wont facilitate it.</p>
-<p>One of the buzzwords that I&#39;ve seen tossed around lately is SOLID:</p>
+			<div class="post-content"><p>There’s been a lot of attention in the PHP blogosphere lately about class design; a lot of focus on improving the structure of classes to facilitate testing and easier maintenance.  This is good, people should be paying attention to how they build their classes; I know just as well as anyone that nothing is worse than going back to an old project to add new functionality and realizing that your class structure simply wont facilitate it.</p>
+<p>One of the buzzwords that I’ve seen tossed around lately is SOLID:</p>
 <ol>
 <li><strong>S</strong>ingle responsibility</li>
 <li><strong>O</strong>pen-closed Principle</li>
@@ -56,22 +56,23 @@
 <li><strong>I</strong>nterface Segregation</li>
 <li><strong>D</strong>ependency Inversion</li>
 </ol>
-<p>Much like MVC, SOLID defines a set of rules and guidelines for code design which help to keep things more organized.  And, just like MVC, the principles that SOLID teaches are excellent things to know, everyone should be educated on them and they should be kept forefront in ones mind while developing.  However, just like with MVC, sometimes I think people focus so much on the ideals and academic elements of these concepts, that they forget that ideal code isn&#39;t, ironically, always ideal.</p>
-<p>The example I&#39;m currently thinking of is <a href="http://www.freeklijten.nl/home/2012/03/23/SOLID-The-S-is-for-Single-responsibility">a post made yesterday by Freek Lijten</a>, where he explains how the first tenet of SOLID is applied.  He takes the concept of an Active Record – a data model capable of saving and recalling its state to and from the database – and shows how, under the SOLID guidelines, it should be split up into three separate disparate classes.</p>
+<p>Much like MVC, SOLID defines a set of rules and guidelines for code design which help to keep things more organized.  And, just like MVC, the principles that SOLID teaches are excellent things to know, everyone should be educated on them and they should be kept forefront in ones mind while developing.  However, just like with MVC, sometimes I think people focus so much on the ideals and academic elements of these concepts, that they forget that ideal code isn’t, ironically, always ideal.</p>
+<p>The example I’m currently thinking of is <a href="http://www.freeklijten.nl/home/2012/03/23/SOLID-The-S-is-for-Single-responsibility">a post made yesterday by Freek Lijten</a>, where he explains how the first tenet of SOLID is applied.  He takes the concept of an Active Record – a data model capable of saving and recalling its state to and from the database – and shows how, under the SOLID guidelines, it should be split up into three separate disparate classes.</p>
 <ol>
 <li>One to hold the state</li>
 <li>One to compare the state</li>
 <li>One to save and load the state.</li>
 </ol>
-<p>I get it, the idea is the separate unique functionality, but there&#39;s some serious problems here.  </p>
+<p>I get it, the idea is the separate unique functionality, but there’s some serious problems here.</p>
 <h3 id="problem-1-longer-implementation">Problem 1: Longer Implementation</h3>
-<p>The entire reason the concept of an Active Record was created was to save time in implementation.  Active Records make it so that you don&#39;t have to write extra code to preserve something, you just call <code>$data-&gt;save()</code> and be done with it.  Under Freek&#39;s example, the following:</p>
+<p>The entire reason the concept of an Active Record was created was to save time in implementation.  Active Records make it so that you don’t have to write extra code to preserve something, you just call <code>$data-&gt;save()</code> and be done with it.  Under Freek’s example, the following:</p>
 <pre><code>$a = new Bike(2);
 $b = new Bike(4);
 if (!$a-&gt;isEqual($b)) {
     $a-&gt;save();
 }
-</code></pre><p>Becomes:</p>
+</code></pre>
+<p>Becomes:</p>
 <pre><code>$a = new Bike(2);
 $b = new Bike(4);
 $comp = new BikeComparator();
@@ -79,25 +80,26 @@ if (!$comp-&gt;BikeComparator($a, $b) {
     $repo = new BikeRepository();
     $repo-&gt;save($a);
 }
-</code></pre><p>You&#39;ve now written almost 30% more code and am taking three times as much memory to perform the same task as before.  On top of this, the code is now more complex to read.  You&#39;ve taken logic that should have been part of the class, and shifted it into the implementation, all in the name of making the classes easier to maintain.  Well what good is maintainable classes when you&#39;ve gotta do more to use the classes?</p>
+</code></pre>
+<p>You’ve now written almost 30% more code and am taking three times as much memory to perform the same task as before.  On top of this, the code is now more complex to read.  You’ve taken logic that should have been part of the class, and shifted it into the implementation, all in the name of making the classes easier to maintain.  Well what good is maintainable classes when you’ve gotta do more to use the classes?</p>
 <p>What am I more likely to be doing, modifying the classes, or using them?  Where is the bulk of my time going to be?  For most developers, that time will be spent in the glue, linking classes together.  Creating classes is fun, but lets never forget that we need to use them.</p>
 <h3 id="problem-2-pick-a-paradigm">Problem 2: Pick a paradigm</h3>
-<p>As I see it, you&#39;re either doing OOP, or you&#39;re doing Functional Programming.  Freek&#39;s example is, to me, functional programming trying to disguise itself as OOP.  The whole point of having a member function on an object is to alter the state of that object.  Both <code>BikeComparator</code> and <code>BikeRepository</code> are stateless objects, they take up memory and add disk I/O purely for the sake of organizing code.  Why are we creating this hybrid of OOP and FP?</p>
-<p>Furthermore, if you&#39;re going to use this functional approach, what do you even need the Bike class for in the first place?  Just use an array!</p>
+<p>As I see it, you’re either doing OOP, or you’re doing Functional Programming.  Freek’s example is, to me, functional programming trying to disguise itself as OOP.  The whole point of having a member function on an object is to alter the state of that object.  Both <code>BikeComparator</code> and <code>BikeRepository</code> are stateless objects, they take up memory and add disk I/O purely for the sake of organizing code.  Why are we creating this hybrid of OOP and FP?</p>
+<p>Furthermore, if you’re going to use this functional approach, what do you even need the Bike class for in the first place?  Just use an array!</p>
 <h3 id="problem-3-the-steak-sandwich-is-now-a-steak-with-side-dishes">Problem 3: The Steak Sandwich is now a Steak with Side Dishes</h3>
-<p>What Freek has created is no longer an Active Record, it&#39;s three completely different systems that are dependent on one another, but the only connection between them is the word &quot;Bike&quot; in their name.  Out of the context of their implementation each class contains no relation, in code.  One would have to rely on comments within the class files to identify how the three classes relate to one another.  </p>
-<p>What happen if three months from now a new developer takes over the project and needs to compare two Bikes, but doesn&#39;t know that <code>BikeComparator</code> exists?  Unless Bike.php has a comment somewhere telling him to look for <code>BikeComparator</code>, he&#39;s gonna assume he needs to write a new comparison function.</p>
-<h3 id="problem-4-why-can-t-i-hold-all-these-classes-">Problem 4: Why can&#39;t I hold all these classes?</h3>
-<p>Extending this Single Responsibility pattern even further, one would be forced to create a class for every task that might ever be associated with the Bike.  Is the bike in motion?  Do we need to turn the handle bars?  Apply the breaks?  There&#39;s three more classes you&#39;d have to make, just to add a single function to the base object.</p>
+<p>What Freek has created is no longer an Active Record, it’s three completely different systems that are dependent on one another, but the only connection between them is the word “Bike” in their name.  Out of the context of their implementation each class contains no relation, in code.  One would have to rely on comments within the class files to identify how the three classes relate to one another.</p>
+<p>What happen if three months from now a new developer takes over the project and needs to compare two Bikes, but doesn’t know that <code>BikeComparator</code> exists?  Unless Bike.php has a comment somewhere telling him to look for <code>BikeComparator</code>, he’s gonna assume he needs to write a new comparison function.</p>
+<h3 id="problem-4-why-cant-i-hold-all-these-classes">Problem 4: Why can’t I hold all these classes?</h3>
+<p>Extending this Single Responsibility pattern even further, one would be forced to create a class for every task that might ever be associated with the Bike.  Is the bike in motion?  Do we need to turn the handle bars?  Apply the breaks?  There’s three more classes you’d have to make, just to add a single function to the base object.</p>
 <p>Why are we even using OOP when every task gets a new object?</p>
-<h2 id="so-what-">So what?</h2>
-<p>Some will probably say I&#39;m nitpicking, that I&#39;m over-analyzing an example.  Well, sure I probably am, but examples are what new developers use to comprehend the concepts they&#39;re being told, and teaching restraint is just as important as teaching the initial application.  This is the sort of thing that results in the MVC zealots who tear into people on public forums because they didn&#39;t put their business logic in a separate file from presentation code, or because they use linear includes instead of wrapping everything in a class.</p>
-<p>A few months ago someone posted a password hashing library to Reddit.  This library contained no fewer than 12 classes, each in their own individual file, for a task that can be accomplished with <a href="https://github.com/ChiperSoft/Primal.Visitor/blob/master/classes/Primal/SaltedHash.php">less than fifty lines of code</a>.  When I asked the author why he made such a simple task into something so overly complicated, he said that&#39;s just the way they write code where he works.</p>
+<p>##So what?</p>
+<p>Some will probably say I’m nitpicking, that I’m over-analyzing an example.  Well, sure I probably am, but examples are what new developers use to comprehend the concepts they’re being told, and teaching restraint is just as important as teaching the initial application.  This is the sort of thing that results in the MVC zealots who tear into people on public forums because they didn’t put their business logic in a separate file from presentation code, or because they use linear includes instead of wrapping everything in a class.</p>
+<p>A few months ago someone posted a password hashing library to Reddit.  This library contained no fewer than 12 classes, each in their own individual file, for a task that can be accomplished with <a href="https://github.com/ChiperSoft/Primal.Visitor/blob/master/classes/Primal/SaltedHash.php">less than fifty lines of code</a>.  When I asked the author why he made such a simple task into something so overly complicated, he said that’s just the way they write code where he works.</p>
 <blockquote>
-<p>Maybe I&#39;ve been spending too much time around Enterprise devs.</p>
+<p>Maybe I’ve been spending too much time around Enterprise devs.</p>
 </blockquote>
 <p>His project was the perfect example of what people who strictly follow SOLID produce, code that has become less maintainable, simply because nobody knows where the functionality they need to change is at, and less useful because nobody knows what part of the codebase does what they need.</p>
-<p>But, hey, what do I know, I&#39;ve only been doing this for nine years.</p>
+<p>But, hey, what do I know, I’ve only been doing this for nine years.</p>
 </div>
 		</article>
 </div>
@@ -108,6 +110,7 @@ if (!$comp-&gt;BikeComparator($a, $b) {
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
 							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
 							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
 							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
@@ -115,9 +118,9 @@ if (!$comp-&gt;BikeComparator($a, $b) {
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
 							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
-							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
 							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
@@ -165,7 +168,7 @@ if (!$comp-&gt;BikeComparator($a, $b) {
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 05/16/2016 at 10:40:55 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 12/20/2016 at 11:48:58 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>

@@ -50,10 +50,9 @@
 			<div class="post-content"><p>The term <code>static</code> has a lot of different uses in PHP.  It can change the accesibility of a function, alter the scope of a variable, and change what class a statement refers to.  This post will attempt to explain the different uses by way of examples.  Please note that this is not a complaint article, it is intended to be informative for those learning PHP.</p>
 <p>Since all three use cases pertain to classes, lets first have a brief explanation of class behavior in PHP.  The following is an example of a PHP class that employs all three uses of the static keyword.  This example will be referenced thru-ought the article.</p>
 <script src="https://gist.github.com/2423482.js"></script>
-
 <h3 id="conventions">Conventions</h3>
-<p>Common PHP convention is to use the term &quot;class&quot; when referencing the uninstantiated base structure, and &quot;object&quot; when referring to an instance of that structure.  The above class would be instanced as an object by calling <code>new Foo()</code>.  PHP does not differentiate between functions and methods, and the terms are used interchangeably in most documentation. For the purposes of this article we will stick to the term &quot;function&quot;.</p>
-<p>The term &quot;member&quot; describes any variable or function that is accessible as part of an instanced object.  Static properties and functions are never referred to as members.</p>
+<p>Common PHP convention is to use the term “class” when referencing the uninstantiated base structure, and “object” when referring to an instance of that structure.  The above class would be instanced as an object by calling <code>new Foo()</code>.  PHP does not differentiate between functions and methods, and the terms are used interchangeably in most documentation. For the purposes of this article we will stick to the term “function”.</p>
+<p>The term “member” describes any variable or function that is accessible as part of an instanced object.  Static properties and functions are never referred to as members.</p>
 <h3 id="visibility">Visibility</h3>
 <p>Please note that all of the functions and properties defined above are publicly visible.  PHP provides three levels of visibility:</p>
 <ol>
@@ -63,9 +62,10 @@
 </ol>
 <p>Visibility is defined by putting <code>public</code>, <code>private</code>, or <code>protected</code> before the property or class definition.  The keyword <code>var</code> can also be used in place of <code>public</code>.  Best practice is to explicitly identify functions and properties as being public, but any function defined without visibility is assumed to be public, as is any static property.</p>
 <h2 id="functions">Functions</h2>
-<p>Class functions, by default, are always member functions, and therefore only accessible on an instanced object (technically they can be accessed statically, but it&#39;s a bad idea, and will cause an error in <code>E_STRICT</code> mode).  Functions defined with the <code>static</code> keyword, as on line 11 of the example, exist not as member functions, but as directly accessible elements of the class itself, accessed using the double-colon operator like so:</p>
+<p>Class functions, by default, are always member functions, and therefore only accessible on an instanced object (technically they can be accessed statically, but it’s a bad idea, and will cause an error in <code>E_STRICT</code> mode).  Functions defined with the <code>static</code> keyword, as on line 11 of the example, exist not as member functions, but as directly accessible elements of the class itself, accessed using the double-colon operator like so:</p>
 <pre><code>Foo::staticFunction();
-</code></pre><p>Why would you want to do this, you ask?  Well, lets say you have a standalone function which just takes some input, processes it, and returns output.  There is no saved state for this function, once it&#39;s done all local variables are expunged.  As a member function, calling this from external code requires first creating an instance of the object it belongs to.  This is not only cumbersome (as you have to first create the object), but it also takes up memory that isn&#39;t needed.  Static functions are also very handy when using the singleton code pattern, as they provide an access point for fetching the singleton object without having to first create a singleton factory.</p>
+</code></pre>
+<p>Why would you want to do this, you ask?  Well, lets say you have a standalone function which just takes some input, processes it, and returns output.  There is no saved state for this function, once it’s done all local variables are expunged.  As a member function, calling this from external code requires first creating an instance of the object it belongs to.  This is not only cumbersome (as you have to first create the object), but it also takes up memory that isn’t needed.  Static functions are also very handy when using the singleton code pattern, as they provide an access point for fetching the singleton object without having to first create a singleton factory.</p>
 <blockquote>
 <p>Note: There is a camp of PHP developers that believe that static functions are evil and should never be used.  Their argument to this affect is that, because static functions can be called literally from anywhere in the codebase, then they are in fact a pollution of the global namespace.  This author is not of this mindset and feels that static functions are an invaluable tool when used in a stateless manner.  It is, of course, up to you the developer to choose which school of thought you prefer.</p>
 </blockquote>
@@ -73,25 +73,28 @@
 <p>Lines 3 and 5 of the example demonstrate the use of member properties and static properties, respectively.  A member property does not exist until the object is instantiated, and will cease to exist when the object goes out of scope and is destroyed.  In normal operation this property would be accessed like so.</p>
 <pre><code>$blah = new Foo();
 $blah-&gt;memberProperty = 7;
-</code></pre><p>Static properties, however, will always retain their state until the end of the request and never go out of scope.  Some example use cases are:</p>
+</code></pre>
+<p>Static properties, however, will always retain their state until the end of the request and never go out of scope.  Some example use cases are:</p>
 <ul>
 <li>Storing the current instance in a singleton pattern</li>
 <li>Storing a collection of values that never changes and needs to be accessed by multiple instances</li>
 <li>Caching unchanging data loaded from an external source (such as a database or http request)</li>
 </ul>
 <p>As static properties do take up memory that is never released, it is best practice to use them sparingly and only in situations where a value must be stored for a long duration.  Static properties do not retain their contents across requests or multiple executions.</p>
-<h2 id="now-hear-this-">Now hear <code>$this</code></h2>
+<h2 id="now-hear">Now hear <code>$this</code></h2>
 <p>In some languages class functions execute within the scope of the entire object, with object properties directly accessible by their names.  PHP is not one of those languages, functions execute with their own scope and must directly reference their siblings as member elements.  This is done using the <code>$this</code> variable, which is present by default in the scope of every member function.  Attempting to reference <code>$this</code> from a non-member function will result in a PHP runtime error.</p>
 <p>Line 16 of the example demonstrates the use of <code>$this</code> to interact with a member property.  Calling a member function works in an identical manner:</p>
 <pre><code>$this-&gt;exampleD();
-</code></pre><p><code>$this</code> is one of four total methods for accessing the current object.</p>
-<h2 id="find-your-parent-">Find your <code>parent</code></h2>
+</code></pre>
+<p><code>$this</code> is one of four total methods for accessing the current object.</p>
+<h2 id="find-your">Find your <code>parent</code></h2>
 <p>Lets say that we were to create a subclass of Foo named Bar, and in that class we defined a new copy of <code>memberFunction()</code>.  To access the original version of memberFunction we would make use of the <code>parent</code> keyword.  In all cases, <code>parent</code> refers to the parent class directly, and calls functions on this class are invoked with the scope of the calling class.  The syntax for performing this is:</p>
 <pre><code>parent::memberFunction();
-</code></pre><p>This is true regardless of if the function is or is not static.</p>
-<h2 id="playing-with-my-self-">Playing with my <code>self</code></h2>
+</code></pre>
+<p>This is true regardless of if the function is or is not static.</p>
+<h2 id="playing-with-my">Playing with my <code>self</code></h2>
 <p>The <code>self</code> keyword always refers directly to the <em>class</em> you are currently within.  <code>self</code> is used to reach static properties and functions (ex: <code>self::$staticProperty</code> or <code>self::staticFunction()</code>), or for creating a new instance of the class (<code>$o = new self();</code>).</p>
-<p>The <code>self</code> property <em>always</em> refers to the class it is used in, regardless of if the function using it was invoked as that class, or as a subclass.  This posed many problems, since it basically meant that no parent class could address a subclass&#39; static properties.  This was finally corrected in PHP 5.3 with the addition of Late Static Binding, which brings us to the second usage of the <code>static</code> keyword.</p>
+<p>The <code>self</code> property <em>always</em> refers to the class it is used in, regardless of if the function using it was invoked as that class, or as a subclass.  This posed many problems, since it basically meant that no parent class could address a subclass’ static properties.  This was finally corrected in PHP 5.3 with the addition of Late Static Binding, which brings us to the second usage of the <code>static</code> keyword.</p>
 <h2 id="static-class-referencing">Static class referencing</h2>
 <p>As of 5.3.0, anywhere you use the <code>self</code> keyword can now be replaced with <code>static</code>:</p>
 <ul>
@@ -99,7 +102,7 @@ $blah-&gt;memberProperty = 7;
 <li><code>new static()</code></li>
 <li><code>static::$staticProperty</code></li>
 </ul>
-<p>Whenever this is executed, PHP will return the subclass where the call stack originated at.  So if <code>Bar</code> calls a function that exists in <code>Foo</code>, and <code>Foo</code> calls another function on Foo, <code>static</code> will always reference <code>Bar</code>.  </p>
+<p>Whenever this is executed, PHP will return the subclass where the call stack originated at.  So if <code>Bar</code> calls a function that exists in <code>Foo</code>, and <code>Foo</code> calls another function on Foo, <code>static</code> will always reference <code>Bar</code>.</p>
 <p>Please note that in versions of PHP prior to 5.3, this will result in a syntax error.</p>
 <h2 id="function-level-static-scoping">Function Level Static Scoping</h2>
 <p>The third and final use of the <code>static</code> keyword is for creating static variables, as shown on line 20 of the example class.  This behaves exactly like any other local variable, except that the contents are not lost when the function completes.  The variable will retain its value the next time the function is called, providing you with a value that can only be accessed by that function.</p>
@@ -122,6 +125,7 @@ $blah-&gt;memberProperty = 7;
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
 							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
 							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
 							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
@@ -129,9 +133,9 @@ $blah-&gt;memberProperty = 7;
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
 							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
-							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
 							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
@@ -179,7 +183,7 @@ $blah-&gt;memberProperty = 7;
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 05/16/2016 at 10:40:55 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 12/20/2016 at 11:48:58 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>

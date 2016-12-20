@@ -47,25 +47,27 @@
 					<small class="post-date">March 23rd, 2012</small>
 				</h1>
 			</div>
-			<div class="post-content"><p>One of PHP&#39;s core features (although some call it a weakness) is that all code resides within a natural HTML document. Thusly, anything echoed by PHP and anything outside of the <code>&lt;?php ?&gt;</code> tag gets sent to the browser.  Well sometimes you don&#39;t WANT everything to be immediately sent to the browser, such as when you&#39;re parsing a PHP based template that needs to go into an email.  This is where the <a href="http://www.php.net/manual/en/ref.outcontrol.php">output buffer functions</a> become useful.</p>
-<p>Calling <a href="http://www.php.net/manual/en/function.ob-start.php"><code>ob_start()</code></a> at any point in your code will create an output buffer, and anything that is outputted from that point on will be stored in that buffer.  You can then send the buffer&#39;s contents to a variable, clear the contents entirely, and/or send them to the browser.  You can even use the output buffer to <a href="http://www.php.net/manual/en/function.ob-gzhandler.php">gzip the page contents</a>.</p>
-<p>One of the things that the documentation doesn&#39;t really cover, however, is what happens if you create a buffer while already inside a buffer.  My google searches to this affect didn&#39;t return anything useful, so I ran the following test:</p>
-<pre><code>echo &#39;1&#39;;
+			<div class="post-content"><p>One of PHP’s core features (although some call it a weakness) is that all code resides within a natural HTML document. Thusly, anything echoed by PHP and anything outside of the <code>&lt;?php ?&gt;</code> tag gets sent to the browser.  Well sometimes you don’t WANT everything to be immediately sent to the browser, such as when you’re parsing a PHP based template that needs to go into an email.  This is where the <a href="http://www.php.net/manual/en/ref.outcontrol.php">output buffer functions</a> become useful.</p>
+<p>Calling <a href="http://www.php.net/manual/en/function.ob-start.php"><code>ob_start()</code></a> at any point in your code will create an output buffer, and anything that is outputted from that point on will be stored in that buffer.  You can then send the buffer’s contents to a variable, clear the contents entirely, and/or send them to the browser.  You can even use the output buffer to <a href="http://www.php.net/manual/en/function.ob-gzhandler.php">gzip the page contents</a>.</p>
+<p>One of the things that the documentation doesn’t really cover, however, is what happens if you create a buffer while already inside a buffer.  My google searches to this affect didn’t return anything useful, so I ran the following test:</p>
+<pre><code>echo '1';
 ob_start();
-    echo &#39;2&#39;;
-    ob_start();
-        echo &#39;3&#39;;
-    $var_b = ob_get_clean();
-    echo &#39;4&#39;;
+	echo '2';
+	ob_start();
+		echo '3';
+	$var_b = ob_get_clean();
+	echo '4';
 $var_a = ob_get_clean();
-echo &#39;5&#39;;
+echo '5';
 
 echo &quot;\n&quot;,$var_a,&quot;\n&quot;,$var_b;
-</code></pre><p>And received these results:</p>
+</code></pre>
+<p>And received these results:</p>
 <pre><code>15
 24
 3
-</code></pre><p>My conclusions: output buffers are stacked.  When you call <code>ob_start()</code>, a buffer is pushed onto the stack, and when you call <code>ob_end_clean()</code>, <code>ob_end_flush()</code>, or <code>ob_get_clean()</code> the buffer is popped back off of that stack.  Only the top most buffer receives code output.</p>
+</code></pre>
+<p>My conclusions: output buffers are stacked.  When you call <code>ob_start()</code>, a buffer is pushed onto the stack, and when you call <code>ob_end_clean()</code>, <code>ob_end_flush()</code>, or <code>ob_get_clean()</code> the buffer is popped back off of that stack.  Only the top most buffer receives code output.</p>
 </div>
 		</article>
 </div>
@@ -76,6 +78,7 @@ echo &quot;\n&quot;,$var_a,&quot;\n&quot;,$var_b;
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
 							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
 							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
 							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
@@ -83,9 +86,9 @@ echo &quot;\n&quot;,$var_a,&quot;\n&quot;,$var_b;
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
 							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
-							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
 							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
@@ -133,7 +136,7 @@ echo &quot;\n&quot;,$var_a,&quot;\n&quot;,$var_b;
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 05/16/2016 at 10:40:55 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 12/20/2016 at 11:48:58 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>

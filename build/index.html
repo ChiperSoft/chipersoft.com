@@ -43,25 +43,75 @@
 				<div class="col-sm-8 article-body">		<article>
 			<div class="page-header">
 				<h2 class="post-title">
-					<a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a>
-					<small class="post-date">May 16th, 2016</small>
+					<a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a>
+					<small class="post-date">December 20th, 2016</small>
 				</h2>
 			</div>
-			<div class="post-content"><p>There&#39;s a saying in the PHP community: Every developer should build two and a half frameworks.</p>
-<ol>
-<li>The first is a learning exercise of the PHP runtime, understanding how pieces move and connect.</li>
-<li>The second is an application of their new knowledge to fix the flaws in their first approach.</li>
-<li><p>The third is a project aborted because they have realized their wheel looks just like everyone else&#39;s wheels and they&#39;re better off just using the existing tools out there.</p>
-<p><strong>OR</strong></p>
-<p>The third is where they reach enlightenment and stop using frameworks entirely because they now know how to pick and choose the pieces they actually need for the project they&#39;re working on.</p>
-</li>
-</ol>
-<p>All PHP frameworks are actually boilerplates, so I find this extremely relevant when reading <em>Justin Falcone&#39;s</em> Medium post <a href="https://medium.com/@modernserf/node-js-is-a-salad-bar-74ec01bd4390">Node.js is a Salad Bar</a>.</p>
-<p>I&#39;ve built quite a few boilerplates in my time, for both PHP and Node.js. Sometimes these boilerplates serve as actual launching points for new sites – I built more than a dozen sites using the PrimalPHP boilerplate that I constructed when I was doing agency work – but most of the time these boilerplate projects were actually about learning a stack. In other words, they were my first and second frameworks, constructed to better help me understand the way the various parts worked together and to explore new ways of solving problems. I&#39;ve got one right now that I&#39;ve been building to learn the React ecosystem and explore methods that I do or don&#39;t see in other boilerplates.</p>
-<p>I publish these boilerplates on github not because I expect anyone to actually launch a new site off of them, but so that I can refer to them in conversations with other developers, both for seeking advice from more experienced people, and for teaching other people following in my footsteps.  When someone comes in to a chat room with a problem that I&#39;ve solved, I have a reference example that I can point them at to show them how I tackled it.</p>
-<p>Obviously, Not-All-Boilerplates are built for this reason, but I&#39;d bet that a lot of them came from that point of origin: one developer&#39;s attempt at learning a new ecosystem. Blaming boilerplates for being bad ways to start with new tools is like watching someone fall out of a tree and then blaming the tree for growing in the first place.  Maybe what we need is to teach people how to grow a tree they can climb?</p>
-<p>The issue isn&#39;t with the existence of boilerplates, its with the copy-paste mentality that you can use a set of tools without learning how they work first. The issue is with developers trying to take shortcuts to getting running websites instead of working out each part of the system individually. Justin thinks the solution to this is better tooling to build the user&#39;s site for them. He wants &quot;a higher level abstraction to work with our own frameworks&quot;, but that is just further separating the developers from the tools they&#39;re trying to learn.</p>
-<p>Justin is right that &quot;Novices need frameworks&quot;, but the solution is to start teaching them how to build their own again.</p>
+			<div class="post-content"><p>Via Reddit I found this post by Dima Grossman:</p>
+<blockquote>
+<h2 id="how-to-write-async-await-without-try-catch-blocks-in-javascript"><a href="http://blog.grossman.io/how-to-write-async-await-without-try-catch-blocks-in-javascript/">How to write async await without try-catch blocks in Javascript</a></h2>
+</blockquote>
+<p>This is a neat idea and a clever way to use dereferencing, but the example code demonstrates a couple really bad practices:</p>
+<h3 id="first-mistake-all-errors-are-not-created-equal">First Mistake: All errors are not created equal</h3>
+<pre><code class="language-js">[err, user] = <span class="hljs-keyword">await</span> to(UserModel.findById(<span class="hljs-number">1</span>));
+<span class="hljs-keyword">if</span>(err || !user) <span class="hljs-keyword">return</span> cb(<span class="hljs-string">'No user found'</span>);
+</code></pre>
+<p>The User model at least demonstrates that they haven’t fallen into the trap of throwing in the event of a record not existing (that’s another article), but how do you know that the error you got back from <code>findById(1)</code> means the user doesn’t exist? It could be that your database is down. It could be that your model has a malformed query.</p>
+<h3 id="second-mistake-throwing-out-the-baby-with-the-bath-water">Second Mistake: Throwing out the baby with the bath water</h3>
+<pre><code class="language-js">[err, savedTask] = <span class="hljs-keyword">await</span> to(TaskModel({<span class="hljs-attr">userId</span>: user.id, <span class="hljs-attr">name</span>: <span class="hljs-string">'Demo Task'</span>}));
+<span class="hljs-keyword">if</span>(err) <span class="hljs-keyword">return</span> cb(<span class="hljs-string">'Error occurred while saving task'</span>);
+</code></pre>
+<p>This code is eating the entire context of the error condition. What error occurred? Where did it occur at? Good luck debugging why your site doesn’t work when you don’t log the error message or the stack trace.</p>
+<h3 id="third-mistake-errors-should-always-be-errors">Third Mistake: Errors should always be Errors</h3>
+<pre><code class="language-js"><span class="hljs-keyword">if</span>(user.notificationsEnabled) {
+  <span class="hljs-keyword">const</span> [err] = <span class="hljs-keyword">await</span> to(NotificationService.sendNotification(user.id, <span class="hljs-string">'Task Created'</span>));
+  <span class="hljs-keyword">if</span>(err) <span class="hljs-keyword">return</span> cb(<span class="hljs-string">'Error while sending notification'</span>);
+}
+
+<span class="hljs-keyword">if</span>(savedTask.assignedUser.id !== user.id) {
+  <span class="hljs-keyword">const</span> [err, notification] = <span class="hljs-keyword">await</span> to(NotificationService.sendNotification(savedTask.assignedUser.id, <span class="hljs-string">'Task was created for you'</span>));
+  <span class="hljs-keyword">if</span>(err) <span class="hljs-keyword">return</span> cb(<span class="hljs-string">'Error while sending notification'</span>);
+}
+</code></pre>
+<p>Again, stack traces are important. You just used the same error message twice, how do you know which line triggered the problem? What if this code is 5 layers deep into the call stack of a request and you used the same message in two other models, where did your error come from? If you have to throw a new error, it should always be a <code>new Error()</code> so that you capture the stack trace.</p>
+<h3 id="fourth-mistake-you-dont-need-to-catch-everything">Fourth Mistake: You don’t need to catch everything.</h3>
+<p>The reason promises bubble errors is so that you never lose the original error. Having to process each error response individually is one of the largest flaws of error-first callbacks. Inevitably someone will forget to put an <code>if (err) cb(err)</code> somewhere and things blow up in strange and confusing ways.</p>
+<p>You don’t need to be changing every error into a new error. Most of the time you <em>want</em> the original errors to be passed up the call stack so that you can log them properly. You would only be checking for errors if the code you’re calling throws an error on common conditions, and in those cases you should be checking to make sure the error is that specific kind and re-throwing any that aren’t.</p>
+<p>For example, most http libs (eg, <code>superagent</code> or <code>request</code>) will throw an error if a response comes back with a non-200 status code. You may want to capture 404 errors to process non-existing entities, but any other error would indicate a flaw either in your application code or in the service itself, and that needs to be logged.</p>
+<pre><code class="language-js"><span class="hljs-keyword">try</span> {
+  result = request.get(someurl);
+} <span class="hljs-keyword">catch</span> (err) {
+  <span class="hljs-keyword">if</span> (err.status === <span class="hljs-number">404</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+  }
+  <span class="hljs-keyword">throw</span> err;
+}
+</code></pre>
+<p>This will ensure that, if your service request isn’t working, the failure causes the application to respond with a 500 error instead of a 400 or 404, and the cause of the error gets recorded by your error handler logging (you do have error handler logging, right?).</p>
+<h3 id="the-right-way">The right way</h3>
+<p>I sympathize with the author’s desire to not have to fill their code with <code>try..catch</code> blocks. They’re ugly and kind of cumbersome to work with.  We’ve also had several years of being told not to use <code>try..catch</code> in Node because it triggers a V8 de-optimization.</p>
+<p>So instead, here’s a better way to write the author’s example.</p>
+<pre><code class="language-js"><span class="hljs-comment">// The base function is receiving a callback and thus doesn't need to be async.</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asyncTask</span>(<span class="hljs-params">cb</span>) </span>{
+  <span class="hljs-built_in">Promise</span>.resolve().then(<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> UserModel.findById(<span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span>(!user) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'No user found'</span>);
+
+    <span class="hljs-keyword">const</span> savedTask = <span class="hljs-keyword">await</span> TaskModel({<span class="hljs-attr">userId</span>: user.id, <span class="hljs-attr">name</span>: <span class="hljs-string">'Demo Task'</span>});
+
+    <span class="hljs-keyword">if</span>(user.notificationsEnabled) {
+      <span class="hljs-comment">// These notifications can be ran in parallel, no reason to await both individually</span>
+      <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
+        NotificationService.sendNotification(user.id, <span class="hljs-string">'Task Created'</span>),
+        NotificationService.sendNotification(savedTask.assignedUser.id, <span class="hljs-string">'Task was created for you'</span>)
+      ])
+    }
+
+    <span class="hljs-keyword">return</span> savedTask;
+  }).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> cb(<span class="hljs-literal">null</span>, result), cb);
+  <span class="hljs-comment">// Callback handling has now been removed from the central control flow, your async logic doesn't need to know about the cb.</span>
+}
+</code></pre>
 </div>
 		</article>
 </div>
@@ -72,6 +122,7 @@
 							<h3 class="panel-title">Previous Posts</h3>
 						</div>
 						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
 							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
 							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
 							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
@@ -79,9 +130,9 @@
 							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
 							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
 							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
-							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 						</ul>
 						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
 							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
 							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
 							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
@@ -129,7 +180,7 @@
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 05/16/2016 at 10:40:55 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 12/20/2016 at 11:48:58 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
