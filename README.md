@@ -1,3 +1,3 @@
-#Gulp.js generator source for chipersoft.com
+# Gulp.js generator source for chipersoft.com
 
-##Hosted by GitHub Pages
+## Hosted by GitHub Pages

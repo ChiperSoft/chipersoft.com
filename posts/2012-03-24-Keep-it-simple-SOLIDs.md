@@ -24,7 +24,7 @@ The example I'm currently thinking of is [a post made yesterday by Freek Lijten]
 
 I get it, the idea is the separate unique functionality, but there's some serious problems here.  
 
-###Problem 1: Longer Implementation
+### Problem 1: Longer Implementation
 
 The entire reason the concept of an Active Record was created was to save time in implementation.  Active Records make it so that you don't have to write extra code to preserve something, you just call `$data->save()` and be done with it.  Under Freek's example, the following:
 
@@ -48,20 +48,20 @@ You've now written almost 30% more code and am taking three times as much memory
 
 What am I more likely to be doing, modifying the classes, or using them?  Where is the bulk of my time going to be?  For most developers, that time will be spent in the glue, linking classes together.  Creating classes is fun, but lets never forget that we need to use them.
 
-###Problem 2: Pick a paradigm
+### Problem 2: Pick a paradigm
 
 As I see it, you're either doing OOP, or you're doing Functional Programming.  Freek's example is, to me, functional programming trying to disguise itself as OOP.  The whole point of having a member function on an object is to alter the state of that object.  Both `BikeComparator` and `BikeRepository` are stateless objects, they take up memory and add disk I/O purely for the sake of organizing code.  Why are we creating this hybrid of OOP and FP?
 
 Furthermore, if you're going to use this functional approach, what do you even need the Bike class for in the first place?  Just use an array!
 
 
-###Problem 3: The Steak Sandwich is now a Steak with Side Dishes
+### Problem 3: The Steak Sandwich is now a Steak with Side Dishes
 
 What Freek has created is no longer an Active Record, it's three completely different systems that are dependent on one another, but the only connection between them is the word "Bike" in their name.  Out of the context of their implementation each class contains no relation, in code.  One would have to rely on comments within the class files to identify how the three classes relate to one another.  
 
 What happen if three months from now a new developer takes over the project and needs to compare two Bikes, but doesn't know that `BikeComparator` exists?  Unless Bike.php has a comment somewhere telling him to look for `BikeComparator`, he's gonna assume he needs to write a new comparison function.
 
-###Problem 4: Why can't I hold all these classes?
+### Problem 4: Why can't I hold all these classes?
 
 Extending this Single Responsibility pattern even further, one would be forced to create a class for every task that might ever be associated with the Bike.  Is the bike in motion?  Do we need to turn the handle bars?  Apply the breaks?  There's three more classes you'd have to make, just to add a single function to the base object.
 

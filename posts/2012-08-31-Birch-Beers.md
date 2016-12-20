@@ -3,13 +3,13 @@ layout: post
 title: "In pursuit of the perfect Birch Beer"
 ---
 
-##First, a little story
+## First, a little story
 
 When I was growing up as a kid in Michigan, every summer my Mom and I would spend 3-6 weeks on [an island in the northern part of Lake Michigan](http://www.beaverisland.org).  It was easily the highlight of every year and an experience I sadly wont be able to duplicate for my children.  While on this island there was a particular beverage that I never found in my home town: [Sioux City Birch Beer](http://www.whiterockbeverages.com/SiouxCity.cfm).
 
 [Birch Beer](http://en.wikipedia.org/wiki/Birch_beer) is a carbonated soda beverage made from the sap of the birch tree.  It has a very similar taste to most root beers, except with a bit more bite.  It originates in Pennsylvania but is sold all over the north-eastern United States.  Different species of Birch tree produce different flavors.  Since moving to California I've not seen any type of birch beer in stores, and indeed I've found most SoCal residents have never heard of it.  
 
-##Finding a dealer
+## Finding a dealer
 
 A few months ago I watched an awesome documentary on the food network about [Galcos Soda Pop Stop](https://www.sodapopstop.com), a store in Anaheim that specializes in only carbonated beverages.  After checking out their website, sure enough, they had sioux city birch beer... and a whole bunch of other birch beers that I had never heard of.  Initially I bought an entire case of the drink from my childhood (and paid a hefty shipping fee to get them down to San Diego).  I drank it slowly, rationing my supply so I could enjoy it as much as possible.  
 
@@ -17,7 +17,7 @@ After finishing the case I was left somewhat disappointed.  Don't take me wrong,
 
 This month I decided to perform an experiment.  I ordered a single bottle of every variety of birch beer that Galcos sells (excluding diet varieties), and tried each of them one by one to see which I liked the most.
 
-##Results
+## Results
 
 Some of the flavors really didn't work for me, so I'm only going to talk about my four favorites.
 

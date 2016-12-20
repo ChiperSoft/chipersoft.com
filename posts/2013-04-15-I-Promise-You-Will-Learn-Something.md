@@ -6,7 +6,7 @@ draft: true
 
 **The example code in this file uses [when.js](https://github.com/cujojs/when), but the concepts described should apply to all implementations of the [Promises/A+](http://promises-aplus.github.io/promises-spec/) specification.**
 
-##In the beginning...
+## In the beginning...
 
 ... there was code, and it was good.  Then there were sub-procedures, and it was better.  Finally, someone came up with the idea of sub-procedures having their own scope and returning a response instead of altering external variables, and functions were born.  Be they standalone or member, first class or fixed, functions make modern programming sane.  Functions have a problem, however, in that they can't return until they finished what they're doing.
 
@@ -209,7 +209,7 @@ In the above code, Tom has added a `then` handler to Jason's promise.  If Jason 
 
 Note the function call, `when.reject()`, which we will explain below.
 
-##Obeying The Letter of the Law
+## Obeying The Letter of the Law
 
 The [Promises/A+](http://promises-aplus.github.io/promises-spec/) specification does not actually define the method of resolution/rejection, it only dictates the interface for the final promise.  Those requirements are quite simple, the promise must have a `then` function which takes two callbacks for fulfillment and rejection, and if those callbacks also return promises then it must produce a new promise.  That's pretty much it, everything beyond that is left up to the implementation of the specific promise library.
 
@@ -226,9 +226,9 @@ The resolution examples shown above are exclusive to *when.js*.  Another popular
 
 It is this author's opinion that *when.js* provides the most comprehensive and easy to use feature set of the various libraries.  So lets see some of the stuff we can do with *when.js*.
 
-##Juggling Promises
+## Juggling Promises
 
-###Pre-Resolution with `when.resolve` and `when.reject`
+### Pre-Resolution with `when.resolve` and `when.reject`
 
 > Tom's putting together a gift for his nephew and has the box all wrapped up, but he doesn't have any bows to put on the package.  "Hey, Mark owes me a couple favors, lets go see if he has any bows."  Tom walks over and knocks on the door, and Sue answers.  Tom explains his problem, and Sue nods and says "Sure, I've got a bow.  Here, take the promise box."  As Tom turns to walk away from the door, the box dings. He opens it, and the bow is already inside.
 
@@ -272,7 +272,7 @@ Sometimes, usually because of caching, a function call will already have the dat
         
     }
     
-###Parallel Promises
+### Parallel Promises
 
 Lets return to our first example of Mark and Sue baking a cake.  The first thing they need to do is gather the ingredients for the cake.  The more people working in the kitchen, the more ingredients can be retrieved at once, so we don't need to get each item in sequence.
 
@@ -310,6 +310,6 @@ Note, if a non-promise is passed in the array, `any` will resolve instantly.  `w
 
 Our recipe can take any of four types of oil, so whichever one we grab first will do the job.
 
-###And More!
+### And More!
 
 The *when.js* project repo contains a number of extension modules for doing more with promises, such as the [`when/function`](https://github.com/cujojs/when/blob/master/docs/api.md#synchronous-functions) library which lets you turn non-promise functions into promise resolvers, or [`when/pipeline`](https://github.com/cujojs/when/blob/master/docs/api.md#whenpipeline) which lets you create content sequence arrays where each resolution gets passed into the next action.

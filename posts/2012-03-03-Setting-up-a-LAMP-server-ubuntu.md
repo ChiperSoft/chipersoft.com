@@ -6,7 +6,7 @@ alias: [/view/522, /view/522/Setting_up_a_LAMP_server_with_Ubuntu_Apache_MySQL_m
 
 To properly test the LEMP configuration that I built [in the previous article built](http://chipersoft.com/view/521/Setting_up_a_LEMP_server), I need an equally built LAMP (Ubuntu, Apache, MySQL, mod_php) configuration.  These are the steps I followed to achieve that end.  Most of this is identical to setting up the other machine, and there are hundreds of guides online about how to install Apache+PHP on ubuntu, so I'm going to breeze through some of these.
 
-##Stage 1 - Installation
+## Stage 1 - Installation
 
 As before, my first step was to install Ubuntu Server 11.10 and into a virtualbox VM. This is fairly straight forward and virtualbox walks you through the process, so I'll just assume anyone reading this can figure it out.  I configured virtualbox to let this VM get an IP directly from the local network, rather than NAT my Mac's address.  This would make it easier to access the VM's server from my mac, since I could just add the virtualhost to my /etc/hosts file.  It also allows me to access the VM from any computer in the house.
 
@@ -39,7 +39,7 @@ By default the Ubuntu packages do not enable Apache's mod_rewrite module, so we 
 
     $ ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 
-##Stage 2 - Configuration
+## Stage 2 - Configuration
 
     $ mkdir -p /srv/www/primal.lamp/www
     $ mkdir -p /srv/www/primal.lamp/log
@@ -60,7 +60,7 @@ Since mod_php lets me pass my php.ini overrides directly, I don't need to alter 
     
 If all is good, going to http://primal.lamp/ should display the phpinfo output.
     
-##Stage 3 - Getting Primal Running
+## Stage 3 - Getting Primal Running
 
 Everything done above was performed as root, so /srv needs to be made accessible to my user account (chiper).
     
@@ -92,7 +92,7 @@ Now I log out of the server completely and log back in to let the group changes 
     
 (Note that I deleted the index.php file we created during setup). Connecting to http://primal.lamp/ now gives me the Primal default confirmation page.
 
-##Stage 4 - Installing phpMyAdmin
+## Stage 4 - Installing phpMyAdmin
 
     $ sudo apt-get install phpmyadmin
      
@@ -140,7 +140,7 @@ Then, at the bottom of the file I add the following lines:
 
 Save the file and load up http://primal.test/myadmin/index.php
 
-##Stage 5 - Configure Primal
+## Stage 5 - Configure Primal
 
 As with the LEMP build, I used phpMyAdmin to create a new mysql user named primal with its own database.  From there I loaded the Primal.Visitor table schema, so I had a user to test database access with.
 
@@ -156,6 +156,6 @@ From here I altered the `Connection::AddLink` call like so:
             'password'      =>'primal',
     ));
     
-##Finished
+## Finished
 
 That's it, Primal is now running on a LAMP stack.

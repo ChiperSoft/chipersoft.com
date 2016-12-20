@@ -20,7 +20,7 @@ In short, I just want to make web apps, quickly and efficiently, and under my ow
 
 The only option is to build a new language entirely.  Alas, I lack neither the experience or the knowledge to implement even a language parser, much less a JIT bytecode compiler.  That, however, doesn't keep me from designing what I believe such a language should be.  Perhaps someone who *does* have this experience will find this document and use it as a roadmap to build such a language.  I shall call this language...
 
-##W
+## W
 
 Why W?  For "Web", obviously.  Also, because it seems that every language needs a moniker with under four characters, and the letter W doesn't appear to be taken.
 
@@ -32,7 +32,7 @@ I would wager that _at least_ half of all PHP developers started with this one s
 
 This is the single most important feature that any PHP replacement **must** have.  Coding purists loath it, MVC zealots cry out in pain over it, and every poor PHP newbie who has stumbled into a discussion forum quickly finds themselves abused for it, but without it PHP would never have become the juggernaut that it is today.
 
-###W must...
+### W must...
 
 - ...be embeddable within html.
 - ...be usable alongside static assets without any other framework or configuration beyond installation of the runtime

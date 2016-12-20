@@ -4,7 +4,7 @@ title: My Ideal Tech Team
 
 This what I consider to be the perfect software development team for creating products for the web. This is a living document, edited regularly as I gain experience and discover what does and doesn't work.
 
-##People
+## People
 
 - **1 Product Manager and/or 1 Project Manager**   
   These could be two people who manage together, or one person who fills both roles. One should be the product owner with the vision for where the project needs to go. One should be responsible for keeping the team on task, resolving conflicts, and providing the engineers with everything they need to do their jobs well.

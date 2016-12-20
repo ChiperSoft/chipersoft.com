@@ -3,7 +3,7 @@ layout: post
 title: "I Don't Care About Your Culture"
 ---
 
-###*Update: March 31st, 2013*
+### *Update: March 31st, 2013*
 
 I feel that a preface for this post is in order.
 
@@ -57,7 +57,7 @@ If I become friends with my co-workers, it's because I genuinely like them as pe
 
 And lets me really truly clear here, I don't need any of those things to be a good employee, and my not wanting them doesn't make me a bad employee or a bad co-worker.  When I am on the job, I am 100% there for the company and my team, but your culture isn't going to make me stay on the job any more than I agreed to.
 
-##Why this had to be said.
+## Why this had to be said.
 
 I am sick of hearing bloggers, tweeters and commenters say that remote workers are bad for a company because they hinder company culture.  They are not part of your company culture, they do not need to be part of your culture, and odds are they don't even want to be part of your company culture.  *This is not a bad thing*. They will still be valuable to your company, they will still get their work done, and they will still make you money.
 

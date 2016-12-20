@@ -45,7 +45,7 @@ Did I miss something, or did I just prove some people wrong?
 
 ---
 
-#Update 1
+## Update 1
 
 Some points were raised about the fact that the VMs were running on the same machine as the test, even though they were virtualized.  The topic of multiple cores also came up, as the VMs in the original test were configured for single cores, so I copied the VMs over to my desktop PC and made sure that virtualbox was configured to run both VMs with all four cores and 2GB of memory.  The host machine is a Core i5-650 overclocked to 3.5GHz running Windows 7.  I continued to run the test from my Mac.
 
@@ -64,7 +64,7 @@ I've installed jmeter and will be doing some testing with that.  Will return wit
 
 ---
 
-#Update 2 - jMeter Results
+## Update 2 - jMeter Results
 
 I ran the following tests in jMeter.  All tests were done with a 5 second rampup time.
 

@@ -8,7 +8,7 @@ After reading [this interview with Chris Hartjes](http://7php.com/php-interview-
 
 Note, the I don't show the command output unless it is relevant to what is being done.  All of these commands spit out a bunch of information, so don't think that something is wrong when you see output between the commands.
 
-##Stage 1 - Installation.
+## Stage 1 - Installation.
 
 My first step was to download Ubuntu Server 11.10 and install it into a virtualbox VM. This is fairly straight forward and virtualbox walks you through the process, so I'll just assume anyone reading this can figure it out.  I configured virtualbox to let this VM get an IP directly from the local network, rather than NAT my Mac's address.  This would make it easier to access the VM's server from my mac, since I could just add the virtualhost to my /etc/hosts file.  It also allows me to access the VM from any computer in the house.
 
@@ -65,7 +65,7 @@ Now we restart PHP-FPM to load those modules.
     
 We now have our full LEMP stack installed, but it isn't really usable yet.
     
-##Stage 2 - Configuration.
+## Stage 2 - Configuration.
 
 Now we're ready to create a virtualhost. Since this will be a test of Primal, I decided to use the domain `primal.dev`.  Following Linode's recommendation I put it at `/srv/www`, and created a test page.  
 
@@ -114,7 +114,7 @@ If all is working you should see something like this at the virtualhost's domain
 ![screenshot](http://i.imgur.com/HCRb9l.png)
 
 
-##Stage 3 - Getting Primal Running
+## Stage 3 - Getting Primal Running
 
 At this point, everything we've done has been as root.  This means everything in /srv is owned by root, which means that my user account (chiper) can't write to it.  To resolve this, I like to make the folder group accessible, so lets make a new group named developers, grant it write access to the folder, and change our user account to that group.
 
@@ -190,7 +190,7 @@ I also sprinkled some other niceties that I found during my research, like redir
 
 <script src="https://gist.github.com/1935628.js?file=primal-nginx.txt"></script>
 
-##Stage 4 - Configuring PHP
+## Stage 4 - Configuring PHP
 
 I found several pages saying that one should be able to pass php ini settings via fastcgi_param in the vhost, but I was completely unsuccessful with that method for setting up site specific PHP settings.  This meant that reluctantly I had to make the changes in the php.ini file itself.
 
@@ -206,7 +206,7 @@ I made the following changes:
 
 These first two should probably be off on a production server, but we want them on for a dev box.
 
-##Stage 5 - Installing phpMyAdmin
+## Stage 5 - Installing phpMyAdmin
 
 I could install phpMyAdmin from source, but there's actually an easier way.
 
@@ -281,7 +281,7 @@ I also add the following other settings, just of personal preference:
     $cfg['Export']['method'] = 'custom-no-form';
     $cfg['Export']['sql_drop_table'] = true;
 
-##Stage 5 - Primal Database
+## Stage 5 - Primal Database
 
 In terms of security it's a bad idea to let your web app use the root account for accessing MySQL, so I hit the Permissions tab in myadmin and created a new user named `primal` with the password `primal`, gave it access from localhost only, and then selected to have myadmin create an identically named database, giving that user permission only over it. 
 

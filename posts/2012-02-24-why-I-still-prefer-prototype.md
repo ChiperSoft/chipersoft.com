@@ -10,7 +10,7 @@ This is the second draft of an essay that began as [a response on Reddit](http:/
 
 Before I start hashing out details, lets discuss the two fundamental differences between jQuery and Prototype.
 
-#Section 1 - Prototype is a Framework, jQuery is a Library.
+## Section 1 - Prototype is a Framework, jQuery is a Library.
 
 All the time I hear people refer to jQuery as a javascript framework; jQuery is **not** a framework, it is a library.  What's the difference, you ask?  Lets ask Wikipedia:
 
@@ -34,7 +34,7 @@ Is the difference clear yet?  If you were building a house, Prototype provides t
 
 "Now wait a minute" some might say, "what about jQuery Plugins?  Those meet the framework definition."  You're right, they do, but only within jQuery's own eco-system.  If jQuery is a drill, jQuery Plugins are drill bits.  No sane person is going to build an entire web app as a jQuery plugin.
 
-#Section 2 - Goals and Approaches.
+## Section 2 - Goals and Approaches.
 
 If you are fairly new to JavaScript, you may not be familiar with [Prototypal inheritance](http://en.wikipedia.org/wiki/Prototype-based_programming). The wikipedia page can do a better job explaining than I can, but one of the features of this is that any object can be extended by outside code and the definition level.  This is extremely useful in this day and age because it can be used to add new Javascript features, such as Function.bind(), onto engines that lack them (this is commonly referred to as a polyfill).
 
@@ -47,7 +47,7 @@ jQuery is built on the the polar the opposite paradigm, functional programming. 
 This is extremely important for what jQuery is built for, as its target audience is designers who will be using far more third-party code than their own.  Reducing conflicts is a high priority in that scenario, and I understand it... but for large applications, that is an extra level of abstraction that just slows things down.
 
 
-#Section 3 - Namespaces & Organization
+## Section 3 - Namespaces & Organization
 
 jQuery essentially has two namespaces, the `jQuery` object (aka `$`), and the jQuery Collection (aka `$.fn`).  Everything that jQuery provides is put into these two folders. Everything jQueryUI provides is put into these two folders.  Everything that jQuery Mobile adds is installed into these two folders.  Everything that every single jQuery Plugin adds is installed into these two folders.  Even plugin authors are encouraged, nay, required to also throw their functions into these two buckets.  This means several things:
 
@@ -64,7 +64,7 @@ Event functions are on the Event object, DOM functions are on the `Element` obje
 Where Prototype is a forest, jQuery is a single tree with only one limb and a ton of leaves.
 
 
-#Section 4 - Ambiguous Behavior
+## Section 4 - Ambiguous Behavior
 
 For the sake of brevity, jQuery loves to have functions that perform multiple tasks based on how they are called.  Lets take the base `$()` function:
 
@@ -89,7 +89,7 @@ Lets compare all this to in Prototype:
 There is no ambiguity here, every function only performs one task.  There's no wrappers, there's no abstraction, you get what you asked for.  Even `$$()` returns just a simple array (technically it's an `Enumerable`, which is a Prototype subclass of `Array`).
 
 
-#Section 5 - Ambiguous Traversal
+## Section 5 - Ambiguous Traversal
 
 Both jQuery and Prototype have functions such as `next()`, `prev()` and `parent()` for traversing through the DOM structure.  In Prototype these functions only exist on singular elements, and only return singular elements, because naturally they are related to the element they are a member of.  In jQuery, however, the collection can contain multiple Elements.  These functions will perform the action on every Element in the collection, and return a new collection with just as many elements.  
 
@@ -100,7 +100,7 @@ Now imagine this was done by co-worker in a site-wide library, and you have no i
 Personally, if I want to traverse multiple elements at once, I'll do it myself.
 
 
-#Section 6 - Ambiguous Function Names
+## Section 6 - Ambiguous Function Names
 
 - click()
 - focus()
@@ -141,7 +141,7 @@ By comparison, these are the Prototype equivalents (# indicates it is a member f
 - Element#readAttribute()
 
 
-#Section 7 - Animation and Effects
+## Section 7 - Animation and Effects
 
 Scriptaculous' Effects.js makes jQueryUI's Effects toolkit look like child's magic set.  For example, this is an animation set from the main slider on [the homepage for the company I work for](http://www.netfinity.net):
 
@@ -161,7 +161,7 @@ Yes, it's less code, but there's some key differences here.
 4. I had to duplicate a LOT of values here.
 
 
-#Section 8 - Other Nit-picks
+## Section 8 - Other Nit-picks
 
 These are all little things in jQuery that bug me, none of which merit a section of their own.
 
@@ -177,7 +177,7 @@ These are all little things in jQuery that bug me, none of which merit a section
 
 6. jQuery has no equivalent to Prototype's [Element.Layout](http://api.prototypejs.org/dom/Element/Layout/) for calculating an element's dimensions when it is `display:none` or not attached to the page.
 
-#Section 9 - Where jQuery gets it right.
+## Section 9 - Where jQuery gets it right.
 
 1. `$().appendTo` - Why the hell doesn't Prototype have this?  I even submitted a pull request to Prototype to add a similar syntax to `Element.insert()`, but the request was turned down as being inconsistent with the way insert is syntactically structured.
 
@@ -193,7 +193,7 @@ These are all little things in jQuery that bug me, none of which merit a section
 
 7. The css selector for Prototype's `Element.select()` is scoped at the element, where jQuery's `$().find()` is scoped at the root of the page.  This means that in Prototype I cannot use `select()` to match an element using on a selector further up the parent tree.
 
-#Conclusion
+## Conclusion
 
 The final nail in the coffin for me is simply that there's a lot of things Prototype can do that jQuery can't, and very little jQuery can do that Prototype doesn't support.  Prototype offers me numerous extensions to manipulating strings and arrays, jQuery just gives me $.each() and $.trim().  Prototype gives me a system for doing Classical inheritance, jQuery gives me nothing.
 

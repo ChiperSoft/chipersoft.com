@@ -8,7 +8,7 @@ You can find the complete guide at http://chipersoft.com/intro-to-backbone/
 
 ---
 
-> ###WHAT IS BACKBONE?
+> ### WHAT IS BACKBONE?
 
 > Backbone is a JavaScript library that provides various tools to assist in the organization of front-end programming code. It provides constructs for structuring your code into distinct data models, presentational views and execution controllers. This organizational pattern is referred to commonly as MVC.
 

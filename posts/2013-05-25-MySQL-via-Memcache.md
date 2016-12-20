@@ -5,7 +5,7 @@ title: "Introduction to using MySQL as a NoSQL store via Memcache"
 
 New in MySQL 5.6 is support for interacting with a table as a raw key/value store, bypassing the SQL parser and make direct reads and writes to and from tables without the overhead of domain specific language.  This direct access affords significant performance gains and makes it much easier to use MySQL as a document store.  This is accessed via an interface most PHP developers are familiar with, Memcache.
 
-###Installing MySQL 5.6 on Ubuntu 12.04 64bit
+### Installing MySQL 5.6 on Ubuntu 12.04 64bit
 
 > If you have vagrant installed you can skip over the installation step by cloning my premade vagrant/chef repo, which will get you right up to enabling the memcache plugin.
 
@@ -67,7 +67,7 @@ From inside the MySQL shell:
 
 However at this point the memcache plugin is not yet enabled.
 
-###Enabling the Memcache interface.
+### Enabling the Memcache interface.
 
 Before we can enable the interface we need to create the configuration tables that the plugin will use.  Back at the terminal:
 
@@ -144,7 +144,7 @@ Exit back out to the shell and run:
 
 Note that mysql is listening on port 11211 now. This is the memcache interface up and running.
 
-###Testing the interface.
+### Testing the interface.
 
 We could create some code here, but it's much simpler to just connect directly and issue some commands.
 
@@ -210,7 +210,7 @@ Now lets exit out of the memcache connection and get some simple PHP code workin
     telnet> quit
     Connection closed.
 
-###Connecting with PHP
+### Connecting with PHP
 
 I've installed php5-cli with the php5-memcache module, so lets make a basic bit of code.
 
@@ -241,7 +241,7 @@ And inside MySQL we can now see our new "bar" value stored.
     +-----+--------+---------+
     2 rows in set (0.00 sec)
     
-##Conclusion
+## Conclusion
 
 The feature is still young and has a few problems.  For example, data written to the memcache interface goes into a memory buffer before becoming available via the standard mysql interface.  Sometimes it would take several seconds before I could see my changes from one side appear on the other side, in both directions.  This also occurs when changing the container configuration, which is why I recommend restarting mysql after doing so.  The configuration of containers is also not very friendly, and you receive no indication why something is setup wrong, or sometimes even IF it is setup wrong, you simply can't access your data via memcache, or the memcache writes end up going into a different table.
 

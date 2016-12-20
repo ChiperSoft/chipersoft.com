@@ -6,7 +6,7 @@ alias: [/view/518, /view/518/The_Old_Republic]
 
 My wife and I have played World of Warcraft for 6 years.  This past weekend we tried out the new Star Wars MMO, The Old Republic, courtesy of my mother-in-law's unused account.  I think it's safe to say that both of us are hooked, we both bought our own copies.  Here are my observations about SWTOR, how it improves on the MMO genre over WoW, and areas it could use further improvement itself.  I'll be updating this post as I continue to play the game and find more things of note.
 
-##Improvements over WoW
+## Improvements over WoW
 
 **Looting**.
 
@@ -62,7 +62,7 @@ My wife and I have played World of Warcraft for 6 years.  This past weekend we t
 
 **Companions can sell all your gray loot** for you when you're out in the field, returning 60 seconds later.  This is awesome when your bags are full and you're no where near a vendor.
 
-##Areas that need improvement
+## Areas that need improvement
 
 SWTOR is lacking a lot of polish.  Consequently some of these may seem like little nitpicks, but they're areas that have bugged me enough to be memorable.
 
