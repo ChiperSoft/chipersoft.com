@@ -4,7 +4,7 @@ title: How not to handle your node errors.
 
 Via Reddit I found this post by Dima Grossman:
 
-> ## [How to write async await without try-catch blocks in Javascript](http://blog.grossman.io/how-to-write-async-await-without-try-catch-blocks-in-javascript/)
+> ### [How to write async await without try-catch blocks in Javascript](http://blog.grossman.io/how-to-write-async-await-without-try-catch-blocks-in-javascript/)
 
 This is a neat idea and a clever way to use dereferencing, but the example code demonstrates a couple really bad practices:
 
