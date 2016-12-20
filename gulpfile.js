@@ -38,7 +38,10 @@ function markdown () {
 	return through.obj(function (file, enc, next) {
 		var contents = md.render(file.contents.toString('utf8'));
 
+		var basename = path.basename(file.relative, path.extname(file.relative));
+
 		file.contents = new Buffer(contents);
+		file.path = file.base + basename + '.html';
 		this.push(file);
 		next();
 	})
