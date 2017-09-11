@@ -1,6 +1,5 @@
 var through = require('through2');
 
-var assign = require('lodash-node/modern/object/assign');
 var path = require('path');
 var fs = require('fs');
 var moment = require('moment');
@@ -75,7 +74,7 @@ function postContent () {
 	}
 
 	return through.obj(function (file, enc, next) {
-		var data = assign({}, {
+		var data = Object.assign({}, {
 			page: {
 				title: file.meta.title + ' :: Jarvis Badgley'
 			},
@@ -103,7 +102,7 @@ function renderPage () {
 	return through.obj(function (file, enc, next) {
 		var template = handlebars.compile(String(file.contents));
 
-		var data = assign({}, {
+		var data = Object.assign({}, {
 			page: {title: file.meta.title ? file.meta.title + ' :: Jarvis Badgley' : 'ChiperSoft, Jarvis Badgley'},
 			posts: postIndex
 		}, file.meta);
@@ -150,7 +149,7 @@ function buildPostIndex () {
 		}
 
 		if (!file.meta.draft) {
-			posts.unshift(assign({}, file.meta, {contents: String(file.contents)}));
+			posts.unshift(Object.assign({}, file.meta, {contents: String(file.contents)}));
 		}
 		next();
 	}, function flush (next) {
@@ -162,7 +161,7 @@ function buildPostIndex () {
 }
 
 var debug = through.obj(function (file, end, next) {
-	console.log(assign({}, file, {relative: file.relative}));
+	console.log(Object.assign({}, file, {relative: file.relative}));
 	this.push(file);
 	next();
 });

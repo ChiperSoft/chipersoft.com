@@ -81,18 +81,18 @@ $blah-&gt;memberProperty = 7;
 <li>Caching unchanging data loaded from an external source (such as a database or http request)</li>
 </ul>
 <p>As static properties do take up memory that is never released, it is best practice to use them sparingly and only in situations where a value must be stored for a long duration.  Static properties do not retain their contents across requests or multiple executions.</p>
-<h2 id="now-hear">Now hear <code>$this</code></h2>
+<h2 id="now-hear-this">Now hear <code>$this</code></h2>
 <p>In some languages class functions execute within the scope of the entire object, with object properties directly accessible by their names.  PHP is not one of those languages, functions execute with their own scope and must directly reference their siblings as member elements.  This is done using the <code>$this</code> variable, which is present by default in the scope of every member function.  Attempting to reference <code>$this</code> from a non-member function will result in a PHP runtime error.</p>
 <p>Line 16 of the example demonstrates the use of <code>$this</code> to interact with a member property.  Calling a member function works in an identical manner:</p>
 <pre><code>$this-&gt;exampleD();
 </code></pre>
 <p><code>$this</code> is one of four total methods for accessing the current object.</p>
-<h2 id="find-your">Find your <code>parent</code></h2>
+<h2 id="find-your-parent">Find your <code>parent</code></h2>
 <p>Lets say that we were to create a subclass of Foo named Bar, and in that class we defined a new copy of <code>memberFunction()</code>.  To access the original version of memberFunction we would make use of the <code>parent</code> keyword.  In all cases, <code>parent</code> refers to the parent class directly, and calls functions on this class are invoked with the scope of the calling class.  The syntax for performing this is:</p>
 <pre><code>parent::memberFunction();
 </code></pre>
 <p>This is true regardless of if the function is or is not static.</p>
-<h2 id="playing-with-my">Playing with my <code>self</code></h2>
+<h2 id="playing-with-my-self">Playing with my <code>self</code></h2>
 <p>The <code>self</code> keyword always refers directly to the <em>class</em> you are currently within.  <code>self</code> is used to reach static properties and functions (ex: <code>self::$staticProperty</code> or <code>self::staticFunction()</code>), or for creating a new instance of the class (<code>$o = new self();</code>).</p>
 <p>The <code>self</code> property <em>always</em> refers to the class it is used in, regardless of if the function using it was invoked as that class, or as a subclass.  This posed many problems, since it basically meant that no parent class could address a subclass’ static properties.  This was finally corrected in PHP 5.3 with the addition of Late Static Binding, which brings us to the second usage of the <code>static</code> keyword.</p>
 <h2 id="static-class-referencing">Static class referencing</h2>
@@ -183,7 +183,7 @@ $blah-&gt;memberProperty = 7;
 			</div>
 	</div>
 	<hr>
-	<footer class="container">Copyright &copy; 2010 - 2016 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 12/20/2016 at 12:06:24 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+	<footer class="container">Copyright &copy; 2010 - 2017 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 09/10/2017 at 19:04:23 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
 
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
