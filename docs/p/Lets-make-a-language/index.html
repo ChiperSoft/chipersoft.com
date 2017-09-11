@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<meta name="author" content="Jarvis Badgley">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Lets Make A Language :: Jarvis Badgley</title>
+	<link rel='alternate' type='application/atom+xml' title='Atom 0.3' href='https://chipersoft.com/atom.xml'>
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono">
+	<link rel="openid.server" href="http://openid.chipersoft.com/index.php">
+	<link rel="openid.delegate" href="http://openid.chipersoft.com/index.php">
+</head>
+<body>
+	<header class="navbar navbar-default navbar-static-top"><div class="container">
+		<img class="logo visible-xs" src="/images/dexter.png" alt="">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Jarvis Badgley</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/about.html">Who Am I</a></li>
+			<li><a href="/resume.html">Resume</a></li>
+		</ul>
+		<ul class="navbar-social">
+			<li><a href="mailto:www@chipersoft.com"              ><img src="/images/social/email.png" width="48" height="48" alt="Email"></a></li>
+			<li><a href="http://www.twitter.com/ChiperSoft"      ><img src="/images/social/twitter.png" width="48" height="48" alt="Twitter"></a></li>
+			<li><a href="http://github.com/ChiperSoft"           ><img src="/images/social/github.png" width="48" height="48" alt="Github"></a></li>
+			<li><a href="http://www.youtube.com/user/ChiperSoft" ><img src="/images/social/youtube.png" width="48" height="48" alt="Youtube"></a></li>
+			<li><a href="http://www.last.fm/user/ChiperSoft"     ><img src="/images/social/lastfm.png" width="48" height="48" alt="Last.fm"></a></li>
+			<li><a href="http://www.reddit.com/user/ChiperSoft"  ><img src="/images/social/reddit.png" width="48" height="48" alt="Reddit"></a></li>
+			<li><a href="http://news.ycombinator.com/user?id=ChiperSoft"><img src="/images/social/hackernews.png" width="48" height="48" alt="Hacker News"></a></li>
+			<li><a href="http://stackoverflow.com/users/110189/chipersoft"><img src="/images/social/stackoverflow.png" width="48" height="48" alt="StackOverflow"></a></li>
+			<li><a href="http://www.quora.com/Jarvis-Badgley"    ><img src="/images/social/quora.png" width="48" height="48" alt="Quora"></a></li>
+			<li><a href="http://www.facebook.com/ChiperSoft"     ><img src="/images/social/facebook.png" width="48" height="48" alt="Facebook"></a></li>
+			<li><a href="https://plus.google.com/111290008413204402077"><img src="/images/social/google.png" width="48" height="48" alt="Google Plus"></a></li>
+		</ul>
+	</div></header>
+	<div class="container content">
+			<div class="row">
+				<div class="col-sm-8 article-body">		<article>
+			<div class="page-header">
+				<h1 class="post-title">
+				<a href="/p/Lets-make-a-language">Lets Make A Language</a>
+					<small class="post-date">July 10th, 2012</small>
+				</h1>
+			</div>
+			<div class="post-content"><p>Jeff Atwood says that people need to stop bitching about how bad PHP is and actually product something to replace it.  Here’s the problem with that statement tho, the people who complain about PHP already think they already have a better replacement.  If you ask them what language to use instead, odds are they’ll tell you Ruby, Python, or Node.js.  If they’re Enterprise developers they’ll probably say Java or .NET.  All five of these answers completely miss the point.  They are viewing web programming from a programming perspective.</p>
+<p>Programmers are not the people who made PHP the kingpin of the web that it is today.  If your biggest problems with PHP all stem from the fact that the language doesn’t behave like the languages you learned in college, you are not PHP’s target audience.  You do not have the niche that PHP fills, and that makes you completely unqualified to create something that could replace it.</p>
+<p>My first programming language was JavaScript, it’s the language that I learned the basics of programming in.  Unlike seemingly a lot of people, I’ve never had any problems understanding how JS works.  I don’t see what the hell is so weird about prototypical inheritance (sure, classes are easier, but it’s not all <strong>that</strong>  different).  I’ve never had problems with data types or comparisons going awry.  I’ve never found navigating the DOM to be all that awful (yes, it could be a lot easier, but it’s a tree structure, it’s really not that complicated).  I’ve been making websites since 1994, and I’ve never found any of the web technologies to be confusing.</p>
+<p>My second language was AppleScript, my third language was REALbasic.  I dabbled with Pascal and FORTAN a bit in high school, and then I went to college.  I learned C, I learned Java, I learned Assembly.  I learned how arrays, linked lists, binary sorts and other rudimentary data structures are done.  I learned how network stacks and transfer protocols work.  I learned how to do GUI programming in Windows using C++.  I learned how to do GUI programming on the Mac in Objective-C.  I learned how to write servlets.  I’ve written both servers and clients for dozens of protocols in multiple languages.</p>
+<p>Then, I learned PHP, and I learned that don’t want to deal with any of that shit ever again.  I don’t want to handle memory management, juggle pointers or convert data types.  I don’t want to handle http requests or manage a daemon.  I don’t want to try to abstract my data on to a templating language that bears no similarity to the rest of my code.  I don’t want to be constrained into a pre-defined file structure, or a framework built by someone I’ve never met.  Separation of business and presentation logic is always important, but if I want to spit out some HTML from within an object, I don’t want to have to create a string and pass it to some response gateway.  If I’ve got a page that’s mostly static content wrapped in a template, I like being able to just toss in a couple includes around normal HTML.  I like being able to say <code>if ($value)</code> and not worry about if the value is undefined, an empty string, a 0, or a string containing a 0.</p>
+<p>Last year I learned Python, looked into Ruby and dabbled with CoffeeScript.  From them I learned that I hate languages with significant whitespace (tho I should have known that from my experience with Pascal).  I regularly use Node for testing API calls and writing basic maintenance scripts.  From it I learned that I hate having to manage my own event loop.</p>
+<p>In short, I just want to make web apps, quickly and efficiently, and under my own terms.  I am exactly the nitch that PHP is built to fill, and I feel like that puts me in an ideal position to design a language that could replace it; because, yes, it does need to be replaced.  I will be the first to admit that PHP has 15 years of cruft still dragging behind it, and the only way to clean it out will be to start over.  The standard toolkit wasn’t designed, it was cobbled together by bits and pieces of C code.  OOP was added half way into PHP’s lifespan, it’s taken 8 years to get it right, and there’s still things that need fixing.  None of these things can be improved without completely gutting the language, breaking all backwards compatibility, and under the current regime that will never happen.</p>
+<p>The only option is to build a new language entirely.  Alas, I lack neither the experience or the knowledge to implement even a language parser, much less a JIT bytecode compiler.  That, however, doesn’t keep me from designing what I believe such a language should be.  Perhaps someone who <em>does</em> have this experience will find this document and use it as a roadmap to build such a language.  I shall call this language…</p>
+<h2 id="w">W</h2>
+<p>Why W?  For “Web”, obviously.  Also, because it seems that every language needs a moniker with under four characters, and the letter W doesn’t appear to be taken.</p>
+<p>First lets start with the basics, the very foundation.  What has made PHP the single most popular language for server side development?  Some people will tell you it’s that it’s extremely easy to deploy.  This is not a cause, it is an effect, it is the result of the runtime blending so well with Apache, and there being so many hosting companies supporting it.  This is also used as a reason, but again we are looking at effect instead of causation. If you go back 15 years ago PHP was barely getting started, the most popular languages for server side applications were Perl, Java and C.  The reason we have so many PHP hosts today is because there are so many PHP developers who need hosting.  So why are there so many PHP developers?</p>
+<p>It all starts with a simple command: <code>&lt;?php include 'header.html'; ?&gt;</code>.  You’ve got a static website, every single page on the site needs to have the same header and footer HTML, and it gets really frustrating copying and pasting all that boilerplate to every single page, especially if you need to alter it after a dozen or more pages have been made.  Tools were invented to help with this sort of thing – Dreamweaver has an excellent templating system that handles the automatic insertion and updating of templates, for example – but these tools cannot match the simplicity of a single line at the top and bottom of the page.</p>
+<p>I would wager that <em>at least</em> half of all PHP developers started with this one simple task, of automatically including a chunk of HTML inline with a chunk of other HTML.  They didn’t have to create a full application stack, they didn’t have to move their code into a cgi-bin folder, they probably didn’t even have to change any server configuration.  All they had to do was change the filename from <code>.html</code> to <code>.php</code>, and suddenly their lives were significantly easier.  Next they added a <code>date()</code> call to the footer to make sure the copyright was current.  After that they built a basic POST form submit that handled contact emails.  They started performing primitive CMS tasks by reading in from static data files.  Eventually they found some example code for how to connect to a database and created a basic news feed.</p>
+<p>This is the single most important feature that any PHP replacement <strong>must</strong> have.  Coding purists loath it, MVC zealots cry out in pain over it, and every poor PHP newbie who has stumbled into a discussion forum quickly finds themselves abused for it, but without it PHP would never have become the juggernaut that it is today.</p>
+<h3 id="w-must">W must…</h3>
+<ul>
+<li>…be embeddable within html.</li>
+<li>…be usable alongside static assets without any other framework or configuration beyond installation of the runtime</li>
+<li>…be pluggable into the existing major web servers (Apache, nginx, lighttp, IIS)</li>
+<li>…be able to include entire chunks of html or code directly into the execution thread</li>
+</ul>
+<p>Engine</p>
+<ul>
+<li>Pages executed as code, same as PHP.  Runs as FastCGI, using an FPM.</li>
+<li>Configuration file is json.  Any page can load in a new config to be merged on top of existing config settings, but it must be loaded at the start of the request.</li>
+<li>Must have a standard toolkit that is as complete as PHPs</li>
+<li>Needs autoloading</li>
+<li>Should be event driven, but that eventing should be handled at the runtime level, not forced upon the developer.  There is nothing wrong with halting the current execution thread while an I/O operation completes.  The majority of my I/O operations will be collecting data to output, so I don’t have anything to do until those operations are done, anyway.  Give me a way to fire off chunks of code outside of the current execution stack and keep my I/O functions</li>
+</ul>
+<p>Syntax:</p>
+<ul>
+<li>No significant whitespace, it doesn’t work when embedded in html</li>
+<li>Uses prototypical inheritance, but has class keyword to allow usage in a classical manner</li>
+<li>Object wrapped literals (strings, numbers, arrays), same as JS.</li>
+<li>Period denotes member reference, same as JS</li>
+<li>Fixed point decimal type built in (default over floats?)</li>
+<li>Semi-colons required</li>
+<li>Code contained inside <? ?> blocks, same as PHP.  May be omitted if certain file extension.</li>
+</ul>
+<p>Functions</p>
+<ul>
+<li>Brackets ({}) always create a function from the code contained inside, but every function is an object.  If js object notation is used the only action taken is to assign values to the function object.</li>
+<li>Scoping and variable initialization follow JavaScript rules.</li>
+<li>Parens before the function for identifying parameters are optional</li>
+<li>Parameters list supports default values, separated by equals.  Example: <code>(foo = 1, bar = 2)</code></li>
+<li>Functions can be invoked in order or with named parameters.  Example: <code>myFunc(foo:20)</code></li>
+<li>Keywords before the braces determine how and when the function is invoked.  If no keyword, or is an assignment, function is invoked immediately.</li>
+<li><code>var foo = {return blah;};</code> is invoked instantly and the return assigned to foo.</li>
+<li><code>function [Name]</code> or <code>&lt;=</code> identifies that the function should not be immediately invoked, but rather assigned.  If no assignment operator is defined with the former syntax, function is assigned to current scope container using the provided name, which is used for the <code>this</code> keyword within that function.  If no name is provided, or the later syntax is used, a syntax error occurs.</li>
+<li><code>namespace Name</code> executes the function immediately, as the defined scope.  The name is relative to the root namespace, unless it begins with the <code>space</code> keyword, which identifies as a child of the current namespace.</li>
+<li><code>if ()</code> keyword only calls the function if the contents of the parens are true</li>
+<li><code>select ()</code> calls the function, assigning the value within the parens to a hidden var only accessed by the <code>case</code> keyword</li>
+<li><code>after</code> identifies the function as a background action to be executed after the request/main execution completes, passing the values in the parens.</li>
+<li><code>defer</code> identifies the function to be called at the end of the event loop.</li>
+<li><code>for ()</code>, <code>while ()</code> and <code>do ()</code> all loop as expected.</li>
+<li>All function keywords can be applied to a stored function.  Example: <code>select (myVar) myFunction;</code></li>
+<li><code>class NameA [extends NameB][ implements NameC]</code> identifies the function as a prototype and assigns it to the current namespace as the passed name.  The addition of the <code>extends</code> keyword automatically assigns the prototype chain.  The addition of the implements keyword tells the engine to throw an exception if the new function does not contain the values defined by the following object name.</li>
+<li><code>private</code>, <code>protected</code>, <code>public</code> and <code>const</code> keywords substituted for <code>var</code> define the variable as a member of the containing function, with the respective access rules and bring it into local scope.</li>
+<li><code>this</code> keyword defines current member assignment, <code>space</code> keyword identifies current explicit namespace</li>
+<li><code>new</code> keyword executes the passed function as a new scope.  If a constructor is defined within that scope, it is executed as well.</li>
+</ul>
+<p>Strings</p>
+<ul>
+<li>Uses python’s string indexing (ie string_var[-4, 2] for substrings)</li>
+<li>Unique operator for string concatenation, recommend two character ($ or @?)</li>
+<li>‘’ for string literals, “” for string templating using {variable} syntax.</li>
+</ul>
+</div>
+		</article>
+</div>
+				<aside class="col-sm-4 col-md-3 col-md-offset-1 article-sidebar">
+					<img class="logo hidden-xs" src="/images/dexter.png" alt="">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Previous Posts</h3>
+						</div>
+						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
+							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
+							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
+							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
+							<li><a href="/p/shutting-down-mashli">Shutting Down Mash.li</a> <span>February 11th, 2015</span></li>
+							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
+							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
+							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
+						</ul>
+						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
+							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
+							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
+							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
+							<li><a href="/p/toothbrushing">How changing what bathroom we kept the toothbrush in made me better at oral hygine</a> <span>January 4th, 2014</span></li>
+							<li><a href="/p/phonelines">Landline Abandonment</a> <span>December 3rd, 2013</span></li>
+							<li><a href="/p/MySQL-via-Memcache">Introduction to using MySQL as a NoSQL store via Memcache</a> <span>May 25th, 2013</span></li>
+							<li><a href="/p/JurassicPark">In which I rave about Jurassic Park</a> <span>April 13th, 2013</span></li>
+							<li><a href="/p/I-Dont-Care-About-Your-Culture">I Don&#x27;t Care About Your Culture</a> <span>March 29th, 2013</span></li>
+							<li><a href="/p/Birch-Beers">In pursuit of the perfect Birch Beer</a> <span>August 31st, 2012</span></li>
+							<li><a href="/p/Lets-make-a-language">Lets Make A Language</a> <span>July 10th, 2012</span></li>
+							<li><a href="/p/TwitterMostFollowed">TwitterMostFollowed</a> <span>June 15th, 2012</span></li>
+							<li><a href="/p/PHP-many-meanings-of-static">PHP, The many meanings of static.</a> <span>April 19th, 2012</span></li>
+							<li><a href="/p/Keep-it-simple-SOLIDs">Keep it simple, SOLIDs!</a> <span>March 24th, 2012</span></li>
+							<li><a href="/p/Nested-PHP-Output-Buffers">Nested PHP Output Buffers, or buffers within buffers</a> <span>March 23rd, 2012</span></li>
+							<li><a href="/p/PHP-on-nginx-vs-apache">PHP on Nginx vs Apache.</a> <span>March 4th, 2012</span></li>
+							<li><a href="/p/Setting-up-a-LAMP-server-ubuntu">Setting up a LAMP server with Ubuntu, Apache, MySQL, mod_php, phpMyAdmin and PrimalPHP</a> <span>March 3rd, 2012</span></li>
+							<li><a href="/p/Setting-up-a-LEMP-server-ubuntu">Setting up a LEMP server with Ubuntu, Nginx, MySQL, PHP-FPM, phpMyAdmin and PrimalPHP</a> <span>March 2nd, 2012</span></li>
+							<li><a href="/p/why-I-still-prefer-prototype">Why I STILL prefer Prototype over jQuery</a> <span>February 24th, 2012</span></li>
+							<li><a href="/p/HTTP">HTTP</a> <span>February 24th, 2012</span></li>
+							<li><a href="/p/Testing-iPad-web-app-layout">Testing iPad Web App Layouts</a> <span>February 22nd, 2012</span></li>
+							<li><a href="/p/The-Old-Republic">The Old Republic</a> <span>January 16th, 2012</span></li>
+							<li><a href="/p/In-the-Wake-of-the-Dark">In the Wake of the Dark</a> <span>September 9th, 2011</span></li>
+							<li><a href="/p/Testing-websites-in-IE9-on-mac">Testing websites in IE7 / IE8 / IE9 on a Mac</a> <span>August 19th, 2011</span></li>
+							<li><a href="/p/on-source-control">Source Control</a> <span>August 4th, 2011</span></li>
+							<li><a href="/p/on-world-of-warcraft-and-breaks-taken">On World of Warcraft... and breaks taken.</a> <span>July 24th, 2011</span></li>
+							<li><a href="/p/on-code-commenting">On Code Commenting, Documentation, and Modularization</a> <span>May 27th, 2011</span></li>
+							<li><a href="/p/pinscroll">PinScroll - Easy document content marking on the scrollbar</a> <span>August 20th, 2010</span></li>
+							<li><a href="/p/reddit-superhide">Reddit SuperHide Safari Extension</a> <span>June 14th, 2010</span></li>
+							<li><a href="/p/redditchecker">RedditChecker Safari Extension</a> <span>June 9th, 2010</span></li>
+						</ul>
+						<a href="#more-links" data-toggle="collapse" data-target="#more-links" class="more-toggle">View More</a>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Latest Projects</h3>
+						</div>
+						<ul class="panel-body project-links">
+							<li><a href="http://queryizejs.com">Queryize</a><span>A no-frills chainable interface for building MySQL queries programmatically.</span></li>
+							<li><a href="https://github.com/ChiperSoft/InterviewThis">InterviewThis</a><span>An open source list of developer questions to ask prospective employers during interviews</span></li>
+							<li><a href="https://kalendaejs.com">Kalendae</a><span>A framework agnostic javascript date picker that just works.</span></li>
+						</ul>
+					</div>
+				</aside>
+			</div>
+	</div>
+	<hr>
+	<footer class="container">Copyright &copy; 2010 - 2017 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 09/10/2017 at 19:07:01 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-4767790-2', 'chipersoft.com');
+	  ga('send', 'pageview');
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/php.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/javascript.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" />
+	<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

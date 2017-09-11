@@ -1,0 +1,369 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<meta name="author" content="Jarvis Badgley">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Setting up a LEMP server with Ubuntu, Nginx, MySQL, PHP-FPM, phpMyAdmin and PrimalPHP :: Jarvis Badgley</title>
+	<link rel='alternate' type='application/atom+xml' title='Atom 0.3' href='https://chipersoft.com/atom.xml'>
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono">
+	<link rel="openid.server" href="http://openid.chipersoft.com/index.php">
+	<link rel="openid.delegate" href="http://openid.chipersoft.com/index.php">
+</head>
+<body>
+	<header class="navbar navbar-default navbar-static-top"><div class="container">
+		<img class="logo visible-xs" src="/images/dexter.png" alt="">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Jarvis Badgley</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/about.html">Who Am I</a></li>
+			<li><a href="/resume.html">Resume</a></li>
+		</ul>
+		<ul class="navbar-social">
+			<li><a href="mailto:www@chipersoft.com"              ><img src="/images/social/email.png" width="48" height="48" alt="Email"></a></li>
+			<li><a href="http://www.twitter.com/ChiperSoft"      ><img src="/images/social/twitter.png" width="48" height="48" alt="Twitter"></a></li>
+			<li><a href="http://github.com/ChiperSoft"           ><img src="/images/social/github.png" width="48" height="48" alt="Github"></a></li>
+			<li><a href="http://www.youtube.com/user/ChiperSoft" ><img src="/images/social/youtube.png" width="48" height="48" alt="Youtube"></a></li>
+			<li><a href="http://www.last.fm/user/ChiperSoft"     ><img src="/images/social/lastfm.png" width="48" height="48" alt="Last.fm"></a></li>
+			<li><a href="http://www.reddit.com/user/ChiperSoft"  ><img src="/images/social/reddit.png" width="48" height="48" alt="Reddit"></a></li>
+			<li><a href="http://news.ycombinator.com/user?id=ChiperSoft"><img src="/images/social/hackernews.png" width="48" height="48" alt="Hacker News"></a></li>
+			<li><a href="http://stackoverflow.com/users/110189/chipersoft"><img src="/images/social/stackoverflow.png" width="48" height="48" alt="StackOverflow"></a></li>
+			<li><a href="http://www.quora.com/Jarvis-Badgley"    ><img src="/images/social/quora.png" width="48" height="48" alt="Quora"></a></li>
+			<li><a href="http://www.facebook.com/ChiperSoft"     ><img src="/images/social/facebook.png" width="48" height="48" alt="Facebook"></a></li>
+			<li><a href="https://plus.google.com/111290008413204402077"><img src="/images/social/google.png" width="48" height="48" alt="Google Plus"></a></li>
+		</ul>
+	</div></header>
+	<div class="container content">
+			<div class="row">
+				<div class="col-sm-8 article-body">		<article>
+			<div class="page-header">
+				<h1 class="post-title">
+				<a href="/p/Setting-up-a-LEMP-server-ubuntu">Setting up a LEMP server with Ubuntu, Nginx, MySQL, PHP-FPM, phpMyAdmin and PrimalPHP</a>
+					<small class="post-date">March 2nd, 2012</small>
+				</h1>
+			</div>
+			<div class="post-content"><p>After reading <a href="http://7php.com/php-interview-chris-hartjes/">this interview with Chris Hartjes</a> and placing <a href="http://www.quora.com/What-are-the-advantages-of-using-PHP-FPM-+-Nginx-over-Apache-and-mod_php">this Quora question</a>, I decided I wanted to try out getting my <a href="http://www.primalphp.com">Primal</a> framework running on a LEMP stack.  Lots of people have heard the term LAMP, but LEMP is relatively new.  It stands for Linux + Nginx + MySQL + PHP-FPM (nginx is pronounced “engine-x”).  This post is my chronicle of the steps involved with this process.</p>
+<p>Note, the I don’t show the command output unless it is relevant to what is being done.  All of these commands spit out a bunch of information, so don’t think that something is wrong when you see output between the commands.</p>
+<h2 id="stage-1-installation">Stage 1 - Installation.</h2>
+<p>My first step was to download Ubuntu Server 11.10 and install it into a virtualbox VM. This is fairly straight forward and virtualbox walks you through the process, so I’ll just assume anyone reading this can figure it out.  I configured virtualbox to let this VM get an IP directly from the local network, rather than NAT my Mac’s address.  This would make it easier to access the VM’s server from my mac, since I could just add the virtualhost to my /etc/hosts file.  It also allows me to access the VM from any computer in the house.</p>
+<p>Once the install was done I dug up a few articles on the install process and set to work.  I started with <a href="http://library.linode.com/lemp-guides/ubuntu-11.10-oneiric">Linode’s guide for configuring a LEMP stack on 11.10</a> but realized shortly into it that they were using a standard fastcgi setup and not PHP-FPM.  Another google search later and I landed on <a href="http://www.giantflyingsaucer.com/blog/?p=2140">Giant Flying Saucer’s guide on setting up Nginx with PHP-FPM in Ubuntu 10.10</a>.  I also discovered <a href="https://nealpoole.com/blog/2011/04/setting-up-php-fastcgi-and-nginx-dont-trust-the-tutorials-check-your-configuration/">Neal Poole’s post</a> about security risks with the configurations in many tutorials.  Armed with this information I set to work.</p>
+<p>Everything that has to be performed must be done with administrator privileges.  Many guides tell you to use <code>su</code>, but by default Ubuntu 11.10 does not configure a root account password, so <code>su</code> doesn’t work.  Instead I started with:</p>
+<pre><code>$ sudo bash
+</code></pre>
+<p>Before we start installing it’s good to make sure all our package definitions are current and the installed software is up-to-date:</p>
+<pre><code>$ apt-get update
+$ apt-get upgrade
+</code></pre>
+<p>Now we install nginx.</p>
+<pre><code>$ apt-get install nginx
+</code></pre>
+<p>At most of these steps it will prompt for confirmation of the install, press <code>Y</code> and hit enter.</p>
+<p>Once that’s completed run the following to make sure it is working:</p>
+<pre><code>$ /etc/init.d/nginx start
+Starting nginx: nginx.
+</code></pre>
+<p>At this point you can test that the server is working by pointing your browser and the virtual machine’s IP address.  I opted to just use <code>curl</code> from the command line, but <code>curl</code> isn’t installed by default, so I installed it.</p>
+<pre><code>$ apt-get install curl
+$ curl http://localhost/
+</code></pre>
+<p>You should get a very basic empty page with a single H1 tag on it that says “Welcome to nginx!”</p>
+<p>Now we install MySQL.</p>
+<pre><code>$ apt-get install mysql-server mysql-client
+</code></pre>
+<p>This will prompt you to define a password for the mysql root account.  If you are installing this on a public facing box this is pretty much mandatory, but I’m installing it on a local only VM and didn’t want to be bothered with a password, so I just hit enter.  Doing so will make the install process prompt you three times, just hit enter each time.  When the install finishes run the following:</p>
+<pre><code>$ mysql_secure_installation
+</code></pre>
+<p>Just follow the prompts and read what it asks you.  This will once again confirm your mysql root password, offer to disable anonymous users, remove the test tables, and a few other niceties.</p>
+<p>Since PHP is a dependency of PHP-FPM, we can just perform the following to install PHP:</p>
+<pre><code>$ apt-get install php5-fpm
+</code></pre>
+<p>Next we install the PHP MySQL module.  I also had a few other PHP modules that I wanted installed.</p>
+<pre><code>$ apt-get install php5-mysql php5-suhosin php-pear php5-curl php5-gd php5-imagick php5-mcrypt php5-memcache php5-xdebug php-apc
+</code></pre>
+<p>Now we restart PHP-FPM to load those modules.</p>
+<pre><code>$ /etc/init.d/php-fpm restart
+</code></pre>
+<p>We now have our full LEMP stack installed, but it isn’t really usable yet.</p>
+<h2 id="stage-2-configuration">Stage 2 - Configuration.</h2>
+<p>Now we’re ready to create a virtualhost. Since this will be a test of Primal, I decided to use the domain <code>primal.dev</code>.  Following Linode’s recommendation I put it at <code>/srv/www</code>, and created a test page.</p>
+<pre><code>$ mkdir -p /srv/www/primal.dev/www
+$ mkdir -p /srv/www/primal.dev/log
+$ echo '&lt;?php phpinfo() ?&gt;' &gt; /src/www/primal.dev/www/index.php
+</code></pre>
+<p>I also added <code>primal.dev</code> to my Mac’s <code>/etc/hosts</code> file, pointing at the VM’s IP address, so that I could load the site in Safari at the correct domain.</p>
+<p>Now we create our virtualhost file.</p>
+<pre><code>$ pico /etc/nginx/sites-available/primal.dev
+</code></pre>
+<p>Into this file I placed the following:</p>
+<pre><code>server {
+    listen 80;
+    server_name www.primal.dev primal.dev;
+    access_log /srv/www/primal.dev/log/access.log;
+    error_log /srv/www/primal.dev/log/error.log;
+    root /srv/www/primal.dev/www/;
+    index  index.html index.htm index.php;
+
+    # route all requests for a PHP file into fastcgi
+    location ~ \.php$ {
+        include /etc/nginx/fastcgi_params;
+        try_files     $uri =404;
+        fastcgi_pass  127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
+</code></pre>
+<p>One thing I want to draw attention to here that differs from the guides I linked.  Note the ending slash on the <code>root</code> directive.  When I first set this up I couldn’t get any pages to load, the error log kept reporting a 404.  It finally came down to that missing slash, once I added it everything started working.</p>
+<p>Another variation here is the use of <code>$document_root</code> on the <code>fastcgi_param</code> attribute.  Most guides tell you to put the full path to your files here, but as long as you have the root directive defined you can just use <code>$document_root</code>.</p>
+<p>Finally, the try_files directive will force nginx to only execute php scripts that actually exist, as per the flaw that Neal Poole describes in his post.</p>
+<p>Restart nginx and go to the site.</p>
+<pre><code>$ /etc/init.d/nginx restart
+</code></pre>
+<p>If all is working you should see something like this at the virtualhost’s domain:</p>
+<p><img src="http://i.imgur.com/HCRb9l.png" alt="screenshot"></p>
+<h2 id="stage-3-getting-primal-running">Stage 3 - Getting Primal Running</h2>
+<p>At this point, everything we’ve done has been as root.  This means everything in /srv is owned by root, which means that my user account (chiper) can’t write to it.  To resolve this, I like to make the folder group accessible, so lets make a new group named developers, grant it write access to the folder, and change our user account to that group.</p>
+<pre><code>$ groupadd developer
+$ chown -R :developer /srv
+$ chmod -R g+w /srv
+$ usermod -g developer chiper
+</code></pre>
+<p>Since I’m currently logged in as chiper, this change wont take affect for my active shell.  I closed the ssh session and re-logged into the server to let the changes take effect.</p>
+<p>Now I can FTP into the server to upload my site files into my new virtualhost and delete the phpinfo index.php file.  I uploaded the compiled Primal collection as a zip, so first i needed to install unzip, and then extract the file.</p>
+<pre><code>$ sudo apt-get install unzip
+$ cd /srv/www/primal.dev/www/
+$ unzip Primal.Compiled.zip
+$ ls -la
+total 116
+drwxrwxr-x 8 root   developer  4096 2012-02-27 21:25 .
+drwxrwxr-x 4 root   developer  4096 2012-02-27 18:33 ..
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 actions
+drwxr-xr-x 4 chiper developer  4096 2012-02-27 20:43 classes
+-rw-r--r-- 1 chiper developer   361 2012-01-22 14:27 config.php
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 css
+-rw-r--r-- 1 chiper developer   258 2011-11-03 13:41 favicon.png
+-rw-r--r-- 1 chiper developer  1388 2012-01-22 14:27 .htaccess
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 js
+-rw-r--r-- 1 chiper developer  1118 2011-11-18 12:29 LICENSE
+-rw-r--r-- 1 chiper developer  1429 2012-01-25 16:25 main.php
+-rw-r--r-- 1 chiper developer 55863 2012-02-27 21:25 Primal.Compiled.zip
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 21:25 readme
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 views
+</code></pre>
+<p>At this point, because no index file exists, connecting to the domain gives a 403 forbidden error.  On Apache, the mod_rewrite directing inside my .htaccess file would forward the request to main.php.  Nginx doesn’t support .htaccess files, so we have to add a rewrite directive to the vhost config.  Since I don’t need it, I deleted the .htaccess file.</p>
+<pre><code>$ rm .htaccess
+$ sudo pico /etc/nginx/sites-available/primal.dev
+</code></pre>
+<p>Getting the routing to work took a long time to figure out.  Most guides for doing url rewriting are written for php apps that take the request path as an argument on index.php.  Primal doesn’t work that way, it gets the request path from PHP’s server vars, and all requests for files that don’t exist are redirected to <code>main.php</code>.  Since none of the copy &amp; paste methods would apply I pretty much had to learn how rewriting works before I could put together a solution.</p>
+<p>First we route the root request to main.php.</p>
+<pre><code>location = / {
+    rewrite ^ /main.php last;
+}
+</code></pre>
+<p>Next we handle any requests to any files that don’t exist (<code>!-e</code>) to main.php.</p>
+<pre><code>location / {
+    if (!-e $request_filename) {
+        rewrite ^ /main.php last;
+    }
+}
+</code></pre>
+<p>We also need to secure Primal’s code folders from web requests.</p>
+<pre><code>location ~ /(cache|classes|views|actions) {
+    rewrite ^ /main.php last;
+}
+</code></pre>
+<p>Finally, there needs to be a slight alteration to the PHP FastCGI declaration, changing the try_files directive to use main.php for anything that doesn’t exist.  From what I’ve read, this directive doesn’t work if your FastCGI engine is not running locally, but I am running locally, and I assume that anyone using that kind of distributed setup knows how to correct this.</p>
+<pre><code>location ~ \.php$ {
+    try_files $uri $uri/ $uri/index.php /main.php;
+    include /etc/nginx/fastcgi_params;
+    fastcgi_pass  127.0.0.1:9000;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+}
+</code></pre>
+<p>I also sprinkled some other niceties that I found during my research, like redirecting to www.primal.dev, preventing logging of robots.txt and favicon.png files, and blocking requests to hidden files.</p>
+<h3 id="the-final-result">The final result</h3>
+<script src="https://gist.github.com/1935628.js?file=primal-nginx.txt"></script>
+<h2 id="stage-4-configuring-php">Stage 4 - Configuring PHP</h2>
+<p>I found several pages saying that one should be able to pass php ini settings via fastcgi_param in the vhost, but I was completely unsuccessful with that method for setting up site specific PHP settings.  This meant that reluctantly I had to make the changes in the php.ini file itself.</p>
+<pre><code>$ sudo pico /etc/php5/fpm/php.ini
+</code></pre>
+<p>I made the following changes:</p>
+<pre><code>display_errors = On
+html_errors = On
+post_max_size = 250M
+upload_max_filesize = 250M
+memory_limit 250M
+</code></pre>
+<p>These first two should probably be off on a production server, but we want them on for a dev box.</p>
+<h2 id="stage-5-installing-phpmyadmin">Stage 5 - Installing phpMyAdmin</h2>
+<p>I could install phpMyAdmin from source, but there’s actually an easier way.</p>
+<pre><code>$ sudo apt-get install phpmyadmin
+</code></pre>
+<ol>
+<li>The installer will prompt you to choose a web server to configure it for.  The package does not list nginx as an option, so go ahead and hit the tab key to select OK without choosing a server.</li>
+<li>It will then prompt you to let it configure itself for the local mysql install.  I went ahead and chose to let it configure.</li>
+<li>Next it prompted me for the mysql password, which is blank.</li>
+<li>Then it asked for a default password for phpmyadmin to use to connect to MySQL.  I just left it blank and let it generate a random password.</li>
+</ol>
+<p>The package installs phpMyAdmin into <code>/usr/share/phpmyadmin/</code>, and puts all the configuration files into <code>/etc/phpmyadmin</code>.</p>
+<p>There’s three ways you can make phpMyAdmin accessible in nginx.</p>
+<ol>
+<li>Give it a dedicated vhost domain.</li>
+<li>Add a path alias to an existing vhost</li>
+<li>Symlink <code>/usr/share/phpmyadmin</code> into your hosting directory.</li>
+</ol>
+<p>I went with option 3.</p>
+<pre><code>$ ln -s /usr/share/phpmyadmin/ /srv/www/primal.dev/www/myadmin
+</code></pre>
+<p><img src="http://i.imgur.com/nuycAl.png" alt="screenshot"></p>
+<p>I <strong>hate</strong> the pmahomme theme that is now the default setting in phpMyAdmin, so the first thing I do is crack open the config and change it back to the original.</p>
+<pre><code>$ sudo pico /etc/phpmyadmin/config.inc.php
+</code></pre>
+<p>Added the following to the end of the file:</p>
+<pre><code>$cfg['ThemeDefault'] = 'original';
+</code></pre>
+<p>Note, you’ll have to completely quit Safari for this change to take affect.  I also had to uncomment the following line to get phpMyAdmin to work with my passwordless root account.</p>
+<pre><code>$cfg['Servers'][$i]['AllowNoPassword'] = TRUE;
+</code></pre>
+<p>Once the settings file is saved I can now login to the sql server.  phpMyAdmin will continue to warn you that your password is still blank, but it can be ignored since this isn’t a public server.</p>
+<p>During installation I specified the php5-suhosin package.  This is a package that modifies PHP to try and reduce some security vulnerabilities, like stack overflows and such.  Suhosin does not play well with phpMyAdmin, so at the moment myadmin is displaying a warning telling me that I need to <a href="http://www.primal.dev/myadmin/Documentation.html#faq1_38">alter some suhosin settings</a>.</p>
+<pre><code>$ sudo pico /etc/php5/conf.d/suhosin.ini
+</code></pre>
+<p>Uncomment and alter the following lines:</p>
+<pre><code>suhosin.get.max_value_length = 1024
+suhosin.post.max_array_index_length = 256
+suhosin.post.max_totalname_length = 8192
+suhosin.post.max_vars = 2048
+suhosin.request.max_array_index_length = 256
+suhosin.request.max_totalname_length = 8192
+suhosin.request.max_vars = 2048
+suhosin.sql.bailout_on_error = off
+</code></pre>
+<p>Save it and restart PHP-FPM</p>
+<pre><code>$ sudo /etc/init.d/php5-fpm restart
+</code></pre>
+<p>Note, however, that these changes don’t actually get rid of the error message, so we go back into <code>config.inc.php</code> and add the following to the end:</p>
+<pre><code>$cfg['SuhosinDisableWarning'] = true;
+</code></pre>
+<p>I also add the following other settings, just of personal preference:</p>
+<pre><code>$cfg['AjaxEnable'] = false;
+$cfg['LongtextDoubleTextarea'] = false;
+$cfg['EditInWindow'] = false;
+$cfg['LeftDisplayLogo'] = false;
+$cfg['MaxRows'] = 50;
+$cfg['PropertiesIconic'] = true;
+$cfg['DefaultTabTable'] = 'tbl_properties_structure.php';
+$cfg['LeftDefaultTabTable'] = 'sql.php';
+$cfg['Export']['method'] = 'custom-no-form';
+$cfg['Export']['sql_drop_table'] = true;
+</code></pre>
+<h2 id="stage-5-primal-database">Stage 5 - Primal Database</h2>
+<p>In terms of security it’s a bad idea to let your web app use the root account for accessing MySQL, so I hit the Permissions tab in myadmin and created a new user named <code>primal</code> with the password <code>primal</code>, gave it access from localhost only, and then selected to have myadmin create an identically named database, giving that user permission only over it.</p>
+<p><img src="http://i.imgur.com/slmkVl.png" alt="screenshot"></p>
+<p>Once that was done I imported the users table schema from <a href="https://github.com/ChiperSoft/Primal.Visitor">Primal.Visitor</a> so I would have something to test with.</p>
+<p>To configure a database setup in Primal you have to add a call to Primal\Database\Connection in your <code>config.php</code> file.  The compiled version of Primal includes this file with a default to use root@localhost, but we want to change this.</p>
+<pre><code>$ pico /srv/www/primal.dev/www/config.php
+</code></pre>
+<p>Alter the <code>Connection::AddLink</code> call like so:</p>
+<pre><code>Connection::AddLink(array(
+        'method'        =&gt;Connection::METHOD_MYSQL,
+        'database'      =&gt;'primal',
+        'host'          =&gt;'localhost',
+        'username'      =&gt;'primal',
+        'password'      =&gt;'primal',
+));
+</code></pre>
+<p>Now we visit <code>/login</code> and enter the default admin credentials of admin/admin.  If all is correct, there will be no errors.  Visiting <code>/current</code> displays a var_dump of the current logged in user.</p>
+<p>That’s it, we now have a running copy of Primal on nginx.</p>
+</div>
+		</article>
+</div>
+				<aside class="col-sm-4 col-md-3 col-md-offset-1 article-sidebar">
+					<img class="logo hidden-xs" src="/images/dexter.png" alt="">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Previous Posts</h3>
+						</div>
+						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
+							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
+							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
+							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
+							<li><a href="/p/shutting-down-mashli">Shutting Down Mash.li</a> <span>February 11th, 2015</span></li>
+							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
+							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
+							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
+						</ul>
+						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
+							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
+							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
+							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
+							<li><a href="/p/toothbrushing">How changing what bathroom we kept the toothbrush in made me better at oral hygine</a> <span>January 4th, 2014</span></li>
+							<li><a href="/p/phonelines">Landline Abandonment</a> <span>December 3rd, 2013</span></li>
+							<li><a href="/p/MySQL-via-Memcache">Introduction to using MySQL as a NoSQL store via Memcache</a> <span>May 25th, 2013</span></li>
+							<li><a href="/p/JurassicPark">In which I rave about Jurassic Park</a> <span>April 13th, 2013</span></li>
+							<li><a href="/p/I-Dont-Care-About-Your-Culture">I Don&#x27;t Care About Your Culture</a> <span>March 29th, 2013</span></li>
+							<li><a href="/p/Birch-Beers">In pursuit of the perfect Birch Beer</a> <span>August 31st, 2012</span></li>
+							<li><a href="/p/Lets-make-a-language">Lets Make A Language</a> <span>July 10th, 2012</span></li>
+							<li><a href="/p/TwitterMostFollowed">TwitterMostFollowed</a> <span>June 15th, 2012</span></li>
+							<li><a href="/p/PHP-many-meanings-of-static">PHP, The many meanings of static.</a> <span>April 19th, 2012</span></li>
+							<li><a href="/p/Keep-it-simple-SOLIDs">Keep it simple, SOLIDs!</a> <span>March 24th, 2012</span></li>
+							<li><a href="/p/Nested-PHP-Output-Buffers">Nested PHP Output Buffers, or buffers within buffers</a> <span>March 23rd, 2012</span></li>
+							<li><a href="/p/PHP-on-nginx-vs-apache">PHP on Nginx vs Apache.</a> <span>March 4th, 2012</span></li>
+							<li><a href="/p/Setting-up-a-LAMP-server-ubuntu">Setting up a LAMP server with Ubuntu, Apache, MySQL, mod_php, phpMyAdmin and PrimalPHP</a> <span>March 3rd, 2012</span></li>
+							<li><a href="/p/Setting-up-a-LEMP-server-ubuntu">Setting up a LEMP server with Ubuntu, Nginx, MySQL, PHP-FPM, phpMyAdmin and PrimalPHP</a> <span>March 2nd, 2012</span></li>
+							<li><a href="/p/why-I-still-prefer-prototype">Why I STILL prefer Prototype over jQuery</a> <span>February 24th, 2012</span></li>
+							<li><a href="/p/HTTP">HTTP</a> <span>February 24th, 2012</span></li>
+							<li><a href="/p/Testing-iPad-web-app-layout">Testing iPad Web App Layouts</a> <span>February 22nd, 2012</span></li>
+							<li><a href="/p/The-Old-Republic">The Old Republic</a> <span>January 16th, 2012</span></li>
+							<li><a href="/p/In-the-Wake-of-the-Dark">In the Wake of the Dark</a> <span>September 9th, 2011</span></li>
+							<li><a href="/p/Testing-websites-in-IE9-on-mac">Testing websites in IE7 / IE8 / IE9 on a Mac</a> <span>August 19th, 2011</span></li>
+							<li><a href="/p/on-source-control">Source Control</a> <span>August 4th, 2011</span></li>
+							<li><a href="/p/on-world-of-warcraft-and-breaks-taken">On World of Warcraft... and breaks taken.</a> <span>July 24th, 2011</span></li>
+							<li><a href="/p/on-code-commenting">On Code Commenting, Documentation, and Modularization</a> <span>May 27th, 2011</span></li>
+							<li><a href="/p/pinscroll">PinScroll - Easy document content marking on the scrollbar</a> <span>August 20th, 2010</span></li>
+							<li><a href="/p/reddit-superhide">Reddit SuperHide Safari Extension</a> <span>June 14th, 2010</span></li>
+							<li><a href="/p/redditchecker">RedditChecker Safari Extension</a> <span>June 9th, 2010</span></li>
+						</ul>
+						<a href="#more-links" data-toggle="collapse" data-target="#more-links" class="more-toggle">View More</a>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Latest Projects</h3>
+						</div>
+						<ul class="panel-body project-links">
+							<li><a href="http://queryizejs.com">Queryize</a><span>A no-frills chainable interface for building MySQL queries programmatically.</span></li>
+							<li><a href="https://github.com/ChiperSoft/InterviewThis">InterviewThis</a><span>An open source list of developer questions to ask prospective employers during interviews</span></li>
+							<li><a href="https://kalendaejs.com">Kalendae</a><span>A framework agnostic javascript date picker that just works.</span></li>
+						</ul>
+					</div>
+				</aside>
+			</div>
+	</div>
+	<hr>
+	<footer class="container">Copyright &copy; 2010 - 2017 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 09/10/2017 at 19:07:01 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-4767790-2', 'chipersoft.com');
+	  ga('send', 'pageview');
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/php.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/javascript.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" />
+	<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

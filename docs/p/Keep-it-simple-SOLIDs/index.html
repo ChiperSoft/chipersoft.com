@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<meta name="author" content="Jarvis Badgley">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Keep it simple, SOLIDs! :: Jarvis Badgley</title>
+	<link rel='alternate' type='application/atom+xml' title='Atom 0.3' href='https://chipersoft.com/atom.xml'>
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono">
+	<link rel="openid.server" href="http://openid.chipersoft.com/index.php">
+	<link rel="openid.delegate" href="http://openid.chipersoft.com/index.php">
+</head>
+<body>
+	<header class="navbar navbar-default navbar-static-top"><div class="container">
+		<img class="logo visible-xs" src="/images/dexter.png" alt="">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Jarvis Badgley</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/about.html">Who Am I</a></li>
+			<li><a href="/resume.html">Resume</a></li>
+		</ul>
+		<ul class="navbar-social">
+			<li><a href="mailto:www@chipersoft.com"              ><img src="/images/social/email.png" width="48" height="48" alt="Email"></a></li>
+			<li><a href="http://www.twitter.com/ChiperSoft"      ><img src="/images/social/twitter.png" width="48" height="48" alt="Twitter"></a></li>
+			<li><a href="http://github.com/ChiperSoft"           ><img src="/images/social/github.png" width="48" height="48" alt="Github"></a></li>
+			<li><a href="http://www.youtube.com/user/ChiperSoft" ><img src="/images/social/youtube.png" width="48" height="48" alt="Youtube"></a></li>
+			<li><a href="http://www.last.fm/user/ChiperSoft"     ><img src="/images/social/lastfm.png" width="48" height="48" alt="Last.fm"></a></li>
+			<li><a href="http://www.reddit.com/user/ChiperSoft"  ><img src="/images/social/reddit.png" width="48" height="48" alt="Reddit"></a></li>
+			<li><a href="http://news.ycombinator.com/user?id=ChiperSoft"><img src="/images/social/hackernews.png" width="48" height="48" alt="Hacker News"></a></li>
+			<li><a href="http://stackoverflow.com/users/110189/chipersoft"><img src="/images/social/stackoverflow.png" width="48" height="48" alt="StackOverflow"></a></li>
+			<li><a href="http://www.quora.com/Jarvis-Badgley"    ><img src="/images/social/quora.png" width="48" height="48" alt="Quora"></a></li>
+			<li><a href="http://www.facebook.com/ChiperSoft"     ><img src="/images/social/facebook.png" width="48" height="48" alt="Facebook"></a></li>
+			<li><a href="https://plus.google.com/111290008413204402077"><img src="/images/social/google.png" width="48" height="48" alt="Google Plus"></a></li>
+		</ul>
+	</div></header>
+	<div class="container content">
+			<div class="row">
+				<div class="col-sm-8 article-body">		<article>
+			<div class="page-header">
+				<h1 class="post-title">
+				<a href="/p/Keep-it-simple-SOLIDs">Keep it simple, SOLIDs!</a>
+					<small class="post-date">March 24th, 2012</small>
+				</h1>
+			</div>
+			<div class="post-content"><p>There’s been a lot of attention in the PHP blogosphere lately about class design; a lot of focus on improving the structure of classes to facilitate testing and easier maintenance.  This is good, people should be paying attention to how they build their classes; I know just as well as anyone that nothing is worse than going back to an old project to add new functionality and realizing that your class structure simply wont facilitate it.</p>
+<p>One of the buzzwords that I’ve seen tossed around lately is SOLID:</p>
+<ol>
+<li><strong>S</strong>ingle responsibility</li>
+<li><strong>O</strong>pen-closed Principle</li>
+<li><strong>L</strong>iskov Substitution</li>
+<li><strong>I</strong>nterface Segregation</li>
+<li><strong>D</strong>ependency Inversion</li>
+</ol>
+<p>Much like MVC, SOLID defines a set of rules and guidelines for code design which help to keep things more organized.  And, just like MVC, the principles that SOLID teaches are excellent things to know, everyone should be educated on them and they should be kept forefront in ones mind while developing.  However, just like with MVC, sometimes I think people focus so much on the ideals and academic elements of these concepts, that they forget that ideal code isn’t, ironically, always ideal.</p>
+<p>The example I’m currently thinking of is <a href="http://www.freeklijten.nl/home/2012/03/23/SOLID-The-S-is-for-Single-responsibility">a post made yesterday by Freek Lijten</a>, where he explains how the first tenet of SOLID is applied.  He takes the concept of an Active Record – a data model capable of saving and recalling its state to and from the database – and shows how, under the SOLID guidelines, it should be split up into three separate disparate classes.</p>
+<ol>
+<li>One to hold the state</li>
+<li>One to compare the state</li>
+<li>One to save and load the state.</li>
+</ol>
+<p>I get it, the idea is the separate unique functionality, but there’s some serious problems here.</p>
+<h3 id="problem-1-longer-implementation">Problem 1: Longer Implementation</h3>
+<p>The entire reason the concept of an Active Record was created was to save time in implementation.  Active Records make it so that you don’t have to write extra code to preserve something, you just call <code>$data-&gt;save()</code> and be done with it.  Under Freek’s example, the following:</p>
+<pre><code>$a = new Bike(2);
+$b = new Bike(4);
+if (!$a-&gt;isEqual($b)) {
+    $a-&gt;save();
+}
+</code></pre>
+<p>Becomes:</p>
+<pre><code>$a = new Bike(2);
+$b = new Bike(4);
+$comp = new BikeComparator();
+if (!$comp-&gt;BikeComparator($a, $b) {
+    $repo = new BikeRepository();
+    $repo-&gt;save($a);
+}
+</code></pre>
+<p>You’ve now written almost 30% more code and am taking three times as much memory to perform the same task as before.  On top of this, the code is now more complex to read.  You’ve taken logic that should have been part of the class, and shifted it into the implementation, all in the name of making the classes easier to maintain.  Well what good is maintainable classes when you’ve gotta do more to use the classes?</p>
+<p>What am I more likely to be doing, modifying the classes, or using them?  Where is the bulk of my time going to be?  For most developers, that time will be spent in the glue, linking classes together.  Creating classes is fun, but lets never forget that we need to use them.</p>
+<h3 id="problem-2-pick-a-paradigm">Problem 2: Pick a paradigm</h3>
+<p>As I see it, you’re either doing OOP, or you’re doing Functional Programming.  Freek’s example is, to me, functional programming trying to disguise itself as OOP.  The whole point of having a member function on an object is to alter the state of that object.  Both <code>BikeComparator</code> and <code>BikeRepository</code> are stateless objects, they take up memory and add disk I/O purely for the sake of organizing code.  Why are we creating this hybrid of OOP and FP?</p>
+<p>Furthermore, if you’re going to use this functional approach, what do you even need the Bike class for in the first place?  Just use an array!</p>
+<h3 id="problem-3-the-steak-sandwich-is-now-a-steak-with-side-dishes">Problem 3: The Steak Sandwich is now a Steak with Side Dishes</h3>
+<p>What Freek has created is no longer an Active Record, it’s three completely different systems that are dependent on one another, but the only connection between them is the word “Bike” in their name.  Out of the context of their implementation each class contains no relation, in code.  One would have to rely on comments within the class files to identify how the three classes relate to one another.</p>
+<p>What happen if three months from now a new developer takes over the project and needs to compare two Bikes, but doesn’t know that <code>BikeComparator</code> exists?  Unless Bike.php has a comment somewhere telling him to look for <code>BikeComparator</code>, he’s gonna assume he needs to write a new comparison function.</p>
+<h3 id="problem-4-why-cant-i-hold-all-these-classes">Problem 4: Why can’t I hold all these classes?</h3>
+<p>Extending this Single Responsibility pattern even further, one would be forced to create a class for every task that might ever be associated with the Bike.  Is the bike in motion?  Do we need to turn the handle bars?  Apply the breaks?  There’s three more classes you’d have to make, just to add a single function to the base object.</p>
+<p>Why are we even using OOP when every task gets a new object?</p>
+<p>##So what?</p>
+<p>Some will probably say I’m nitpicking, that I’m over-analyzing an example.  Well, sure I probably am, but examples are what new developers use to comprehend the concepts they’re being told, and teaching restraint is just as important as teaching the initial application.  This is the sort of thing that results in the MVC zealots who tear into people on public forums because they didn’t put their business logic in a separate file from presentation code, or because they use linear includes instead of wrapping everything in a class.</p>
+<p>A few months ago someone posted a password hashing library to Reddit.  This library contained no fewer than 12 classes, each in their own individual file, for a task that can be accomplished with <a href="https://github.com/ChiperSoft/Primal.Visitor/blob/master/classes/Primal/SaltedHash.php">less than fifty lines of code</a>.  When I asked the author why he made such a simple task into something so overly complicated, he said that’s just the way they write code where he works.</p>
+<blockquote>
+<p>Maybe I’ve been spending too much time around Enterprise devs.</p>
+</blockquote>
+<p>His project was the perfect example of what people who strictly follow SOLID produce, code that has become less maintainable, simply because nobody knows where the functionality they need to change is at, and less useful because nobody knows what part of the codebase does what they need.</p>
+<p>But, hey, what do I know, I’ve only been doing this for nine years.</p>
+</div>
+		</article>
+</div>
+				<aside class="col-sm-4 col-md-3 col-md-offset-1 article-sidebar">
+					<img class="logo hidden-xs" src="/images/dexter.png" alt="">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Previous Posts</h3>
+						</div>
+						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
+							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
+							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
+							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
+							<li><a href="/p/shutting-down-mashli">Shutting Down Mash.li</a> <span>February 11th, 2015</span></li>
+							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
+							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
+							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
+						</ul>
+						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
+							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
+							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
+							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
+							<li><a href="/p/toothbrushing">How changing what bathroom we kept the toothbrush in made me better at oral hygine</a> <span>January 4th, 2014</span></li>
+							<li><a href="/p/phonelines">Landline Abandonment</a> <span>December 3rd, 2013</span></li>
+							<li><a href="/p/MySQL-via-Memcache">Introduction to using MySQL as a NoSQL store via Memcache</a> <span>May 25th, 2013</span></li>
+							<li><a href="/p/JurassicPark">In which I rave about Jurassic Park</a> <span>April 13th, 2013</span></li>
+							<li><a href="/p/I-Dont-Care-About-Your-Culture">I Don&#x27;t Care About Your Culture</a> <span>March 29th, 2013</span></li>
+							<li><a href="/p/Birch-Beers">In pursuit of the perfect Birch Beer</a> <span>August 31st, 2012</span></li>
+							<li><a href="/p/Lets-make-a-language">Lets Make A Language</a> <span>July 10th, 2012</span></li>
+							<li><a href="/p/TwitterMostFollowed">TwitterMostFollowed</a> <span>June 15th, 2012</span></li>
+							<li><a href="/p/PHP-many-meanings-of-static">PHP, The many meanings of static.</a> <span>April 19th, 2012</span></li>
+							<li><a href="/p/Keep-it-simple-SOLIDs">Keep it simple, SOLIDs!</a> <span>March 24th, 2012</span></li>
+							<li><a href="/p/Nested-PHP-Output-Buffers">Nested PHP Output Buffers, or buffers within buffers</a> <span>March 23rd, 2012</span></li>
+							<li><a href="/p/PHP-on-nginx-vs-apache">PHP on Nginx vs Apache.</a> <span>March 4th, 2012</span></li>
+							<li><a href="/p/Setting-up-a-LAMP-server-ubuntu">Setting up a LAMP server with Ubuntu, Apache, MySQL, mod_php, phpMyAdmin and PrimalPHP</a> <span>March 3rd, 2012</span></li>
+							<li><a href="/p/Setting-up-a-LEMP-server-ubuntu">Setting up a LEMP server with Ubuntu, Nginx, MySQL, PHP-FPM, phpMyAdmin and PrimalPHP</a> <span>March 2nd, 2012</span></li>
+							<li><a href="/p/why-I-still-prefer-prototype">Why I STILL prefer Prototype over jQuery</a> <span>February 24th, 2012</span></li>
+							<li><a href="/p/HTTP">HTTP</a> <span>February 24th, 2012</span></li>
+							<li><a href="/p/Testing-iPad-web-app-layout">Testing iPad Web App Layouts</a> <span>February 22nd, 2012</span></li>
+							<li><a href="/p/The-Old-Republic">The Old Republic</a> <span>January 16th, 2012</span></li>
+							<li><a href="/p/In-the-Wake-of-the-Dark">In the Wake of the Dark</a> <span>September 9th, 2011</span></li>
+							<li><a href="/p/Testing-websites-in-IE9-on-mac">Testing websites in IE7 / IE8 / IE9 on a Mac</a> <span>August 19th, 2011</span></li>
+							<li><a href="/p/on-source-control">Source Control</a> <span>August 4th, 2011</span></li>
+							<li><a href="/p/on-world-of-warcraft-and-breaks-taken">On World of Warcraft... and breaks taken.</a> <span>July 24th, 2011</span></li>
+							<li><a href="/p/on-code-commenting">On Code Commenting, Documentation, and Modularization</a> <span>May 27th, 2011</span></li>
+							<li><a href="/p/pinscroll">PinScroll - Easy document content marking on the scrollbar</a> <span>August 20th, 2010</span></li>
+							<li><a href="/p/reddit-superhide">Reddit SuperHide Safari Extension</a> <span>June 14th, 2010</span></li>
+							<li><a href="/p/redditchecker">RedditChecker Safari Extension</a> <span>June 9th, 2010</span></li>
+						</ul>
+						<a href="#more-links" data-toggle="collapse" data-target="#more-links" class="more-toggle">View More</a>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Latest Projects</h3>
+						</div>
+						<ul class="panel-body project-links">
+							<li><a href="http://queryizejs.com">Queryize</a><span>A no-frills chainable interface for building MySQL queries programmatically.</span></li>
+							<li><a href="https://github.com/ChiperSoft/InterviewThis">InterviewThis</a><span>An open source list of developer questions to ask prospective employers during interviews</span></li>
+							<li><a href="https://kalendaejs.com">Kalendae</a><span>A framework agnostic javascript date picker that just works.</span></li>
+						</ul>
+					</div>
+				</aside>
+			</div>
+	</div>
+	<hr>
+	<footer class="container">Copyright &copy; 2010 - 2017 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 09/10/2017 at 19:07:01 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-4767790-2', 'chipersoft.com');
+	  ga('send', 'pageview');
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/php.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/javascript.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" />
+	<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

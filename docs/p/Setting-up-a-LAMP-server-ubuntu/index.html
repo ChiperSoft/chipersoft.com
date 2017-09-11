@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<meta name="author" content="Jarvis Badgley">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Setting up a LAMP server with Ubuntu, Apache, MySQL, mod_php, phpMyAdmin and PrimalPHP :: Jarvis Badgley</title>
+	<link rel='alternate' type='application/atom+xml' title='Atom 0.3' href='https://chipersoft.com/atom.xml'>
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono">
+	<link rel="openid.server" href="http://openid.chipersoft.com/index.php">
+	<link rel="openid.delegate" href="http://openid.chipersoft.com/index.php">
+</head>
+<body>
+	<header class="navbar navbar-default navbar-static-top"><div class="container">
+		<img class="logo visible-xs" src="/images/dexter.png" alt="">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Jarvis Badgley</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/about.html">Who Am I</a></li>
+			<li><a href="/resume.html">Resume</a></li>
+		</ul>
+		<ul class="navbar-social">
+			<li><a href="mailto:www@chipersoft.com"              ><img src="/images/social/email.png" width="48" height="48" alt="Email"></a></li>
+			<li><a href="http://www.twitter.com/ChiperSoft"      ><img src="/images/social/twitter.png" width="48" height="48" alt="Twitter"></a></li>
+			<li><a href="http://github.com/ChiperSoft"           ><img src="/images/social/github.png" width="48" height="48" alt="Github"></a></li>
+			<li><a href="http://www.youtube.com/user/ChiperSoft" ><img src="/images/social/youtube.png" width="48" height="48" alt="Youtube"></a></li>
+			<li><a href="http://www.last.fm/user/ChiperSoft"     ><img src="/images/social/lastfm.png" width="48" height="48" alt="Last.fm"></a></li>
+			<li><a href="http://www.reddit.com/user/ChiperSoft"  ><img src="/images/social/reddit.png" width="48" height="48" alt="Reddit"></a></li>
+			<li><a href="http://news.ycombinator.com/user?id=ChiperSoft"><img src="/images/social/hackernews.png" width="48" height="48" alt="Hacker News"></a></li>
+			<li><a href="http://stackoverflow.com/users/110189/chipersoft"><img src="/images/social/stackoverflow.png" width="48" height="48" alt="StackOverflow"></a></li>
+			<li><a href="http://www.quora.com/Jarvis-Badgley"    ><img src="/images/social/quora.png" width="48" height="48" alt="Quora"></a></li>
+			<li><a href="http://www.facebook.com/ChiperSoft"     ><img src="/images/social/facebook.png" width="48" height="48" alt="Facebook"></a></li>
+			<li><a href="https://plus.google.com/111290008413204402077"><img src="/images/social/google.png" width="48" height="48" alt="Google Plus"></a></li>
+		</ul>
+	</div></header>
+	<div class="container content">
+			<div class="row">
+				<div class="col-sm-8 article-body">		<article>
+			<div class="page-header">
+				<h1 class="post-title">
+				<a href="/p/Setting-up-a-LAMP-server-ubuntu">Setting up a LAMP server with Ubuntu, Apache, MySQL, mod_php, phpMyAdmin and PrimalPHP</a>
+					<small class="post-date">March 3rd, 2012</small>
+				</h1>
+			</div>
+			<div class="post-content"><p>To properly test the LEMP configuration that I built <a href="http://chipersoft.com/view/521/Setting_up_a_LEMP_server">in the previous article built</a>, I need an equally built LAMP (Ubuntu, Apache, MySQL, mod_php) configuration.  These are the steps I followed to achieve that end.  Most of this is identical to setting up the other machine, and there are hundreds of guides online about how to install Apache+PHP on ubuntu, so I’m going to breeze through some of these.</p>
+<h2 id="stage-1-installation">Stage 1 - Installation</h2>
+<p>As before, my first step was to install Ubuntu Server 11.10 and into a virtualbox VM. This is fairly straight forward and virtualbox walks you through the process, so I’ll just assume anyone reading this can figure it out.  I configured virtualbox to let this VM get an IP directly from the local network, rather than NAT my Mac’s address.  This would make it easier to access the VM’s server from my mac, since I could just add the virtualhost to my /etc/hosts file.  It also allows me to access the VM from any computer in the house.</p>
+<p>Everything that has to be performed must be done with administrator privileges.  Many guides tell you to use <code>su</code>, but by default Ubuntu 11.10 does not configure a root account password, so <code>su</code> doesn’t work.  Instead I started with:</p>
+<pre><code>$ sudo bash
+</code></pre>
+<p>Before we start installing it’s good to make sure all our package definitions are current and the installed software is up-to-date:</p>
+<pre><code>$ apt-get update
+$ apt-get upgrade
+</code></pre>
+<p>Once that’s finished I installed a few utilities I knew I would be needing in the process, and then set to installing Apache, MySQL, PHP, and any php modules that I needed, following any relevant prompts as they came up.</p>
+<pre><code>$ apt-get install curl unzip
+$ apt-get install apache2
+$ apt-get install mysql-server mysql-client
+$ mysql_secure_installation
+$ apt-get install php5 php5-mysql php5-suhosin php-pear php5-curl php5-gd php5-imagick php5-mcrypt php5-memcache php5-xdebug php-apc
+</code></pre>
+<p>I then used curl to verify that the server was working</p>
+<pre><code>$ curl http://localhost/
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;
+&lt;p&gt;This is the default web page for this server.&lt;/p&gt;
+&lt;p&gt;The web server software is running but no content has been added, yet.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;
+</code></pre>
+<p>By default the Ubuntu packages do not enable Apache’s mod_rewrite module, so we have to do that.</p>
+<pre><code>$ ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
+</code></pre>
+<h2 id="stage-2-configuration">Stage 2 - Configuration</h2>
+<pre><code>$ mkdir -p /srv/www/primal.lamp/www
+$ mkdir -p /srv/www/primal.lamp/log
+$ echo '&lt;?php phpinfo() ?&gt;' &gt; /srv/www/primal.lamp/www/index.php
+$ pico /etc/nginx/sites-available/primal.lamp
+</code></pre>
+<p>Into this configuration file I pasted the following:</p>
+<script src="https://gist.github.com/1968422.js"></script>
+<p>File saved, I now have to enable it.</p>
+<pre><code>$ ln -s /etc/apache2/sites-available/primal.lamp /etc/apache2/sites-enabled/primal.lamp
+</code></pre>
+<p>Since mod_php lets me pass my php.ini overrides directly, I don’t need to alter the php.ini file, so we’re ready restart Apache and start serving files.</p>
+<pre><code>$ /etc/init.d/apache2 restart.
+</code></pre>
+<p>If all is good, going to <a href="http://primal.lamp/">http://primal.lamp/</a> should display the phpinfo output.</p>
+<h2 id="stage-3-getting-primal-running">Stage 3 - Getting Primal Running</h2>
+<p>Everything done above was performed as root, so /srv needs to be made accessible to my user account (chiper).</p>
+<pre><code>$ groupadd developer
+$ chown -R :developer /srv
+$ chmod -R g+w /srv
+$ usermod -g developer chiper
+</code></pre>
+<p>Now I log out of the server completely and log back in to let the group changes take affect.  I then FTP’d the compiled Primal collection into the hosting directory and use unzip to extract it.</p>
+<pre><code>$ cd /srv/www/primal.lamp/www/
+$ unzip Primal.Compiled.zip
+$ ls -la
+total 116
+drwxrwxr-x 8 root   developer  4096 2012-02-27 21:25 .
+drwxrwxr-x 4 root   developer  4096 2012-02-27 18:33 ..
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 actions
+drwxr-xr-x 4 chiper developer  4096 2012-02-27 20:43 classes
+-rw-r--r-- 1 chiper developer   361 2012-01-22 14:27 config.php
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 css
+-rw-r--r-- 1 chiper developer   258 2011-11-03 13:41 favicon.png
+-rw-r--r-- 1 chiper developer  1388 2012-01-22 14:27 .htaccess
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 js
+-rw-r--r-- 1 chiper developer  1118 2011-11-18 12:29 LICENSE
+-rw-r--r-- 1 chiper developer  1429 2012-01-25 16:25 main.php
+-rw-r--r-- 1 chiper developer 55863 2012-02-27 21:25 Primal.Compiled.zip
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 21:25 readme
+drwxr-xr-x 2 chiper developer  4096 2012-02-27 20:43 views
+</code></pre>
+<p>(Note that I deleted the index.php file we created during setup). Connecting to <a href="http://primal.lamp/">http://primal.lamp/</a> now gives me the Primal default confirmation page.</p>
+<h2 id="stage-4-installing-phpmyadmin">Stage 4 - Installing phpMyAdmin</h2>
+<pre><code>$ sudo apt-get install phpmyadmin
+</code></pre>
+<p>Follow the prompts. Do NOT choose the apache2 auto-configure.  When finished, symlink the system level install into our host directory.</p>
+<pre><code>$ ln -s /usr/share/phpmyadmin/ /srv/www/primal.lamp/www/myadmin
+</code></pre>
+<p>Now we need to alter suhosin to be compatible with phpMyAdmin</p>
+<pre><code>$ sudo pico /etc/php5/conf.d/suhosin.ini
+</code></pre>
+<p>Uncomment and alter the following lines:</p>
+<pre><code>suhosin.get.max_value_length = 1024
+suhosin.post.max_array_index_length = 256
+suhosin.post.max_totalname_length = 8192
+suhosin.post.max_vars = 2048
+suhosin.request.max_array_index_length = 256
+suhosin.request.max_totalname_length = 8192
+suhosin.request.max_vars = 2048
+suhosin.sql.bailout_on_error = off
+</code></pre>
+<p>You may need to restart Apache for this to take affect.</p>
+<p>Now I apply my own phpMyAdmin preferences.</p>
+<pre><code>$ sudo pico /etc/phpmyadmin/config.inc.php
+</code></pre>
+<p>Since I used a blank password for my mysql root, I need to enable support for it by uncommenting the following:</p>
+<pre><code>$cfg['Servers'][$i]['AllowNoPassword'] = TRUE;
+</code></pre>
+<p>Then, at the bottom of the file I add the following lines:</p>
+<pre><code>$cfg['SuhosinDisableWarning'] = true;   //disable the suhosin warning, since we've fixed it.
+$cfg['ThemeDefault'] = 'original';      //get rid of that ugly-ass pmahomme theme.
+$cfg['AjaxEnable'] = false;             //disable ajax requests, since they don't give any browser status while running
+$cfg['LongtextDoubleTextarea'] = false; //don't need HUGE text areas on longtext fields.
+$cfg['MaxRows'] = 50;                   //change the default row display count
+$cfg['PropertiesIconic'] = true;        //icon only row action links
+$cfg['DefaultTabTable'] = 'tbl_properties_structure.php'; // action for clicking table name is to edit the structure
+$cfg['LeftDefaultTabTable'] = 'sql.php'; //action for clicking the mini-icon is to browse
+$cfg['Export']['method'] = 'custom-no-form'; //disable the &quot;quick&quot; export feature.
+$cfg['Export']['sql_drop_table'] = true; //add DROP TABLE IF EXISTS to SQL table structure exports
+</code></pre>
+<p>Save the file and load up <a href="http://primal.test/myadmin/index.php">http://primal.test/myadmin/index.php</a></p>
+<h2 id="stage-5-configure-primal">Stage 5 - Configure Primal</h2>
+<p>As with the LEMP build, I used phpMyAdmin to create a new mysql user named primal with its own database.  From there I loaded the Primal.Visitor table schema, so I had a user to test database access with.</p>
+<pre><code>$ pico /srv/www/primal.dev/www/config.php
+</code></pre>
+<p>From here I altered the <code>Connection::AddLink</code> call like so:</p>
+<pre><code>Connection::AddLink(array(
+        'method'        =&gt;Connection::METHOD_MYSQL,
+        'database'      =&gt;'primal',
+        'host'          =&gt;'localhost',
+        'username'      =&gt;'primal',
+        'password'      =&gt;'primal',
+));
+</code></pre>
+<h2 id="finished">Finished</h2>
+<p>That’s it, Primal is now running on a LAMP stack.</p>
+</div>
+		</article>
+</div>
+				<aside class="col-sm-4 col-md-3 col-md-offset-1 article-sidebar">
+					<img class="logo hidden-xs" src="/images/dexter.png" alt="">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Previous Posts</h3>
+						</div>
+						<ul class="panel-body article-links">
+							<li><a href="/p/how-not-to-handle-errors">How not to handle your node errors.</a> <span>December 20th, 2016</span></li>
+							<li><a href="/p/node-is-a-salad-bar">Node IS a Salad Bar, so why are you eating veggie medley?</a> <span>May 16th, 2016</span></li>
+							<li><a href="/p/twitter-isnt-made-for-us">Twitter Isn&#x27;t Made For Us</a> <span>February 6th, 2016</span></li>
+							<li><a href="/p/ideal-team">My Ideal Tech Team</a> <span>May 1st, 2015</span></li>
+							<li><a href="/p/shutting-down-mashli">Shutting Down Mash.li</a> <span>February 11th, 2015</span></li>
+							<li><a href="/p/inheritance">You Don&#x27;t Know Inheritance</a> <span>September 11th, 2014</span></li>
+							<li><a href="/p/profound-pratchett">The Profoundness of Terry Pratchett</a> <span>August 24th, 2014</span></li>
+							<li><a href="/p/Deathspirals">Death spirals.</a> <span>June 2nd, 2014</span></li>
+						</ul>
+						<ul class="panel-body article-links collapse" id="more-links">
+							<li><a href="/p/backbonejs">An introduction to Backbone.js, as annotated source code.</a> <span>May 23rd, 2014</span></li>
+							<li><a href="/p/Bigotry">On bigotry, Brandon Eich, and keeping one&#x27;s mouth shut.</a> <span>April 3rd, 2014</span></li>
+							<li><a href="/p/tool-weilding-workmen">The tool wielding workmen of Software Development</a> <span>March 4th, 2014</span></li>
+							<li><a href="/p/public-education">On public education.</a> <span>February 14th, 2014</span></li>
+							<li><a href="/p/toothbrushing">How changing what bathroom we kept the toothbrush in made me better at oral hygine</a> <span>January 4th, 2014</span></li>
+							<li><a href="/p/phonelines">Landline Abandonment</a> <span>December 3rd, 2013</span></li>
+							<li><a href="/p/MySQL-via-Memcache">Introduction to using MySQL as a NoSQL store via Memcache</a> <span>May 25th, 2013</span></li>
+							<li><a href="/p/JurassicPark">In which I rave about Jurassic Park</a> <span>April 13th, 2013</span></li>
+							<li><a href="/p/I-Dont-Care-About-Your-Culture">I Don&#x27;t Care About Your Culture</a> <span>March 29th, 2013</span></li>
+							<li><a href="/p/Birch-Beers">In pursuit of the perfect Birch Beer</a> <span>August 31st, 2012</span></li>
+							<li><a href="/p/Lets-make-a-language">Lets Make A Language</a> <span>July 10th, 2012</span></li>
+							<li><a href="/p/TwitterMostFollowed">TwitterMostFollowed</a> <span>June 15th, 2012</span></li>
+							<li><a href="/p/PHP-many-meanings-of-static">PHP, The many meanings of static.</a> <span>April 19th, 2012</span></li>
+							<li><a href="/p/Keep-it-simple-SOLIDs">Keep it simple, SOLIDs!</a> <span>March 24th, 2012</span></li>
+							<li><a href="/p/Nested-PHP-Output-Buffers">Nested PHP Output Buffers, or buffers within buffers</a> <span>March 23rd, 2012</span></li>
+							<li><a href="/p/PHP-on-nginx-vs-apache">PHP on Nginx vs Apache.</a> <span>March 4th, 2012</span></li>
+							<li><a href="/p/Setting-up-a-LAMP-server-ubuntu">Setting up a LAMP server with Ubuntu, Apache, MySQL, mod_php, phpMyAdmin and PrimalPHP</a> <span>March 3rd, 2012</span></li>
+							<li><a href="/p/Setting-up-a-LEMP-server-ubuntu">Setting up a LEMP server with Ubuntu, Nginx, MySQL, PHP-FPM, phpMyAdmin and PrimalPHP</a> <span>March 2nd, 2012</span></li>
+							<li><a href="/p/why-I-still-prefer-prototype">Why I STILL prefer Prototype over jQuery</a> <span>February 24th, 2012</span></li>
+							<li><a href="/p/HTTP">HTTP</a> <span>February 24th, 2012</span></li>
+							<li><a href="/p/Testing-iPad-web-app-layout">Testing iPad Web App Layouts</a> <span>February 22nd, 2012</span></li>
+							<li><a href="/p/The-Old-Republic">The Old Republic</a> <span>January 16th, 2012</span></li>
+							<li><a href="/p/In-the-Wake-of-the-Dark">In the Wake of the Dark</a> <span>September 9th, 2011</span></li>
+							<li><a href="/p/Testing-websites-in-IE9-on-mac">Testing websites in IE7 / IE8 / IE9 on a Mac</a> <span>August 19th, 2011</span></li>
+							<li><a href="/p/on-source-control">Source Control</a> <span>August 4th, 2011</span></li>
+							<li><a href="/p/on-world-of-warcraft-and-breaks-taken">On World of Warcraft... and breaks taken.</a> <span>July 24th, 2011</span></li>
+							<li><a href="/p/on-code-commenting">On Code Commenting, Documentation, and Modularization</a> <span>May 27th, 2011</span></li>
+							<li><a href="/p/pinscroll">PinScroll - Easy document content marking on the scrollbar</a> <span>August 20th, 2010</span></li>
+							<li><a href="/p/reddit-superhide">Reddit SuperHide Safari Extension</a> <span>June 14th, 2010</span></li>
+							<li><a href="/p/redditchecker">RedditChecker Safari Extension</a> <span>June 9th, 2010</span></li>
+						</ul>
+						<a href="#more-links" data-toggle="collapse" data-target="#more-links" class="more-toggle">View More</a>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Latest Projects</h3>
+						</div>
+						<ul class="panel-body project-links">
+							<li><a href="http://queryizejs.com">Queryize</a><span>A no-frills chainable interface for building MySQL queries programmatically.</span></li>
+							<li><a href="https://github.com/ChiperSoft/InterviewThis">InterviewThis</a><span>An open source list of developer questions to ask prospective employers during interviews</span></li>
+							<li><a href="https://kalendaejs.com">Kalendae</a><span>A framework agnostic javascript date picker that just works.</span></li>
+						</ul>
+					</div>
+				</aside>
+			</div>
+	</div>
+	<hr>
+	<footer class="container">Copyright &copy; 2010 - 2017 Jarvis Badgley<br><a href="https://github.com/ChiperSoft/chipersoft.com">Generated</a> on 09/10/2017 at 19:07:01 and <a href="https://github.com/ChiperSoft/chipersoft.github.com">hosted by Github Pages</a></footer>
+
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-4767790-2', 'chipersoft.com');
+	  ga('send', 'pageview');
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/php.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/javascript.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" />
+	<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

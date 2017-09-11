@@ -167,7 +167,7 @@ var debug = through.obj(function (file, end, next) {
 });
 
 gulp.task('clean', function() {
-	return gulp.src('build', {read: false})
+	return gulp.src('docs', {read: false})
 		.pipe(clean());
 });
 
@@ -207,7 +207,7 @@ gulp.task('rss', ['index-posts'], function (cb) {
 		});
 	});
 
-	fs.writeFile(__dirname + '/build/atom.xml', feed.xml(), cb);
+	fs.writeFile(__dirname + '/docs/atom.xml', feed.xml(), cb);
 });
 
 gulp.task('pages', ['pages-hbs', 'pages-md']);
@@ -218,7 +218,7 @@ gulp.task('pages-hbs', ['index-posts', 'hbs-partials'], function () {
 			property: 'meta'
 		}))
 		.pipe(renderPage())
-		.pipe(gulp.dest('build'));
+		.pipe(gulp.dest('docs'));
 });
 
 gulp.task('pages-md', ['index-posts', 'hbs-partials'], function () {
@@ -237,7 +237,7 @@ gulp.task('pages-md', ['index-posts', 'hbs-partials'], function () {
 			next();
 		}))
 		.pipe(renderPage())
-		.pipe(gulp.dest('build'));
+		.pipe(gulp.dest('docs'));
 });
 
 gulp.task('posts', ['index-posts', 'hbs-partials'], function () {
@@ -248,7 +248,7 @@ gulp.task('posts', ['index-posts', 'hbs-partials'], function () {
 		.pipe(markdown())
 		.pipe(postMetadata())
 		.pipe(postContent())
-		.pipe(gulp.dest('build'));
+		.pipe(gulp.dest('docs'));
 });
 
 gulp.task('aliases', function () {
@@ -258,21 +258,21 @@ gulp.task('aliases', function () {
 		}))
 		.pipe(postMetadata())
 		.pipe(postAliases())
-		.pipe(gulp.dest('build'));
+		.pipe(gulp.dest('docs'));
 });
 
 
 
 gulp.task('files', function () {
 	gulp.src('./files/**/*')
-		.pipe(gulp.dest('build'));
+		.pipe(gulp.dest('docs'));
 });
 
 gulp.task('less', function () {
 	gulp.src('./less/main.less')
 		.pipe(less())
 		.pipe(minifyCSS())
-		.pipe(gulp.dest('build/css'));
+		.pipe(gulp.dest('docs/css'));
 });
 
 
@@ -291,8 +291,8 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('build', ['less', 'index-posts', 'rss', 'pages', 'posts', 'aliases', 'files']);
+gulp.task('docs', ['less', 'index-posts', 'rss', 'pages', 'posts', 'aliases', 'files']);
 
 gulp.task('default', ['clean'], function (cb) {
-	gulp.start('build', function () {cb();});
+	gulp.start('docs', function () {cb();});
 });
